@@ -41,6 +41,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""763d53eb-8c6c-4ea2-acf1-ac5bbd2ff257"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -76,6 +84,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""MosuePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5c8d124-6a96-48f1-ab13-c61144970c19"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Hold(duration=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -87,6 +106,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Go = m_Player.FindAction("Go", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_MosuePosition = m_Player.FindAction("MosuePosition", throwIfNotFound: true);
+        m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,6 +159,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Go;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_MosuePosition;
+    private readonly InputAction m_Player_Drop;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -146,6 +167,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Go => m_Wrapper.m_Player_Go;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @MosuePosition => m_Wrapper.m_Player_MosuePosition;
+        public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -164,6 +186,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MosuePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMosuePosition;
                 @MosuePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMosuePosition;
                 @MosuePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMosuePosition;
+                @Drop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
+                @Drop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
+                @Drop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -177,6 +202,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MosuePosition.started += instance.OnMosuePosition;
                 @MosuePosition.performed += instance.OnMosuePosition;
                 @MosuePosition.canceled += instance.OnMosuePosition;
+                @Drop.started += instance.OnDrop;
+                @Drop.performed += instance.OnDrop;
+                @Drop.canceled += instance.OnDrop;
             }
         }
     }
@@ -186,5 +214,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnGo(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnMosuePosition(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
     }
 }
