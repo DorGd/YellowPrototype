@@ -9,7 +9,15 @@ public class Controller : MonoBehaviour
     private Camera _cam;
     private PlayerAI _ai;
     public LayerMask movementMask;
-
+    
+    
+    [Header("Interactable variables")]
+    public LayerMask interactableMas; 
+    public float viewRadius = 7f;
+    private Interactable _interact; 
+    [HideInInspector]
+    public List<Transform> visibleInteractable = new List<Transform>();
+    
     private void Awake()
     {
         _playerControls = new PlayerControls();
@@ -25,6 +33,13 @@ public class Controller : MonoBehaviour
     private void OnDisable()
     {
         _playerControls.Disable();
+    }
+    
+    // visualize the radius of interaction
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, viewRadius);
     }
 
     
@@ -55,11 +70,57 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f))
             {
-                // Look for IInteract interface
-                // and if so do something (open options ui / focus / interact() 
-
+                Interactable interactable = hit.collider.GetComponent<Interactable>();
+                
+                if (interactable != null)
+                {
+                    HandleInteraction(interactable, hit.collider);
+                }
             }
         }
+        
+        // stop the interaction after it accured 
+        else if (_interact != null && _interact.interacted)
+        { 
+            RemoveInteract();
+        }
+    }
 
+    void setInteract(Interactable newInteract)
+    {
+        if (newInteract != _interact)
+        {
+            if (_interact != null)
+                _interact.OnDeInteraction();
+            
+            _interact = newInteract; 
+            _ai.FollowInteractable(newInteract);
+        }
+        
+        newInteract.OnInteraction(transform);
+    }
+
+    void RemoveInteract()
+    {
+        if (_interact != null)
+            _interact.OnDeInteraction();
+        
+        _ai.StopFollowingInteractable();
+        _interact = null; 
+    }
+    
+    void HandleInteraction(Interactable interactable, Collider hitCollider)
+    {
+        // check if the object is close enough to access
+        Collider[] interactablesInViewRadius =
+            Physics.OverlapSphere(transform.position, viewRadius, interactableMas);
+
+        for (int i = 0; i < interactablesInViewRadius.Length; i++)
+        {
+            if (hitCollider == interactablesInViewRadius[i])
+            {
+                setInteract(interactable);
+            }
+        }
     }
 }
