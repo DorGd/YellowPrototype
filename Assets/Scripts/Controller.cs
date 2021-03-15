@@ -9,15 +9,9 @@ public class Controller : MonoBehaviour
     private Camera _cam;
     private PlayerAI _ai;
     public LayerMask movementMask;
-    
-    
-    [Header("Interactable variables")]
-    public LayerMask interactableMas; 
-    public float viewRadius = 7f;
-    private Interactable _interact; 
-    [HideInInspector]
-    public List<Transform> visibleInteractable = new List<Transform>();
-    
+
+    public LayerMask obstructionMask;
+
     private void Awake()
     {
         _playerControls = new PlayerControls();
@@ -55,7 +49,12 @@ public class Controller : MonoBehaviour
             Vector2 mousePos = _playerControls.Player.MosuePosition.ReadValue<Vector2>();
             RaycastHit hit;
             Ray ray = _cam.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(ray, out hit, 100f, movementMask))
+            if (Physics.Raycast(ray, out hit, 100f, obstructionMask))
+            {
+                return;
+
+            }
+            else if (Physics.Raycast(ray, out hit, 100f, movementMask))
             {
                 // Move player to hit point
                 _ai.MoveToPoint(hit.point);
