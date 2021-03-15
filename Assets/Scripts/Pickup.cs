@@ -14,7 +14,7 @@ public class Pickup : Interactable
     void PickUp()
     {
         Debug.Log("Pickup");
-        Inventory.instance.AddItem(this.gameObject);
+        GameManager.Instance.inventory.AddItem(this.gameObject);
         
         // TODO need to implement if the object is held in the players hand or in the inventory
         gameObject.SetActive(false);
