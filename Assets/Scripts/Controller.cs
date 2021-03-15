@@ -9,6 +9,7 @@ public class Controller : MonoBehaviour
     private Camera _cam;
     private PlayerAI _ai;
     public LayerMask movementMask;
+
     public LayerMask obstructionMask;
 
     private void Awake()
@@ -26,6 +27,13 @@ public class Controller : MonoBehaviour
     private void OnDisable()
     {
         _playerControls.Disable();
+    }
+    
+    // visualize the radius of interaction
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, viewRadius);
     }
 
     
@@ -61,11 +69,30 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f))
             {
-                // Look for IInteract interface
-                // and if so do something (open options ui / focus / interact() 
-
+                Interactable interactable = hit.collider.GetComponent<Interactable>();
+                
+                if (interactable != null)
+                {
+                    HandleInteraction(interactable, hit.collider);
+                }
             }
         }
+    }
 
+    
+    void HandleInteraction(Interactable interactable, Collider hitCollider)
+    {
+        // check if the object is close enough to access
+        Collider[] interactablesInViewRadius =
+            Physics.OverlapSphere(transform.position, viewRadius, interactableMas);
+
+        for (int i = 0; i < interactablesInViewRadius.Length; i++)
+        {
+            if (hitCollider == interactablesInViewRadius[i])
+            {
+                // TODO need to add option for multiple interaction options
+                interactable.Interact();
+            }
+        }
     }
 }
