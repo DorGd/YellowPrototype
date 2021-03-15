@@ -184,6 +184,12 @@ MonoBehaviour:
   movementMask:
     serializedVersion: 2
     m_Bits: 8
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 128
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &5122551217940291246
 MonoBehaviour:
   m_ObjectHideFlags: 0
