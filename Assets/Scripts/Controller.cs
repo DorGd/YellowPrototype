@@ -16,6 +16,7 @@ public class Controller : MonoBehaviour
 
     public Canvas rightClickCanvas;
 
+
     private void Awake()
     {
         _playerControls = new PlayerControls();
@@ -34,6 +35,13 @@ public class Controller : MonoBehaviour
     private void OnDisable()
     {
         _playerControls.Disable();
+    }
+    
+    // visualize the radius of interaction
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, viewRadius);
     }
 
     
@@ -74,7 +82,8 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f, _rightMouseMask))
             {
-              
+                // Need to add distance check
+                
                 //Interactable item = hit.transform.gameobject.GetComponenet<Interactable>();
                 //Actions[] events = item.calcInteractions();
                 //for (int i = 0; i < events.Length ; i++)
@@ -91,7 +100,6 @@ public class Controller : MonoBehaviour
                 
             }
         }
-
     }
 
     private bool IsMouseOverUI()
