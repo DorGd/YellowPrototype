@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,9 @@ public class FieldOfView : MonoBehaviour
 
     public float viewAngle;
     public float viewDistance;
+	public Vector3 fieldOrigin;
 
-	public int fieldResolution;
+	public float fieldResolution;
 	public float edgeDstThreshold;
 	public int edgeAccuracy;
 
@@ -70,7 +72,7 @@ public class FieldOfView : MonoBehaviour
     void Update()
     {
 		DrawField();
-        if (inField(GameObject.FindGameObjectWithTag("Player").transform))
+        if (inField(GameObject.FindGameObjectWithTag("Player")))
         {
             Debug.Log("in");
         }
@@ -147,10 +149,10 @@ public class FieldOfView : MonoBehaviour
 		Vector3[] vertices = new Vector3[vertexCount];
 		int[] triangles = new int[(vertexCount - 2) * 3];
 
-		vertices[0] = Vector3.zero;
+		vertices[0] = fieldOrigin;
 		for (int i = 0; i < vertexCount - 1; i++)
 		{
-			vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+			vertices[i + 1] = transform.InverseTransformPoint(fieldOrigin + viewPoints[i]);
 
 			if (i < vertexCount - 2)
 			{
@@ -197,15 +199,16 @@ public class FieldOfView : MonoBehaviour
 	}
 
 	// Retruns true if viewTarget (transform) is in the field of view
-	public bool inField(Transform viewTarget)
+	public bool inField(GameObject viewTarget)
     {
-        if (Vector3.Distance(transform.position, viewTarget.position) < viewDistance) // in distance
+		Vector3 targetPos = viewTarget.transform.position;
+        if (Vector3.Distance(transform.position, targetPos) < viewDistance) // in distance
         {
-            Vector3 targetDir = (viewTarget.position - transform.position).normalized;
+            Vector3 targetDir = (targetPos - transform.position).normalized;
             float angleToTarget = Vector3.Angle(transform.forward, targetDir);
             if (angleToTarget < viewAngle / 2f) // in angle 
             {
-                return !Physics.Linecast(transform.position, viewTarget.position, blockMask); // isn't blocked
+                return !Physics.Linecast(transform.position, targetPos, blockMask); // isn't blocked
             }
         }
         return false;
