@@ -78,36 +78,8 @@ public class Controller : MonoBehaviour
                 }
             }
         }
-        
-        // stop the interaction after it accured 
-        else if (_interact != null && _interact.interacted)
-        { 
-            RemoveInteract();
-        }
     }
 
-    void setInteract(Interactable newInteract)
-    {
-        if (newInteract != _interact)
-        {
-            if (_interact != null)
-                _interact.OnDeInteraction();
-            
-            _interact = newInteract; 
-            _ai.FollowInteractable(newInteract);
-        }
-        
-        newInteract.OnInteraction(transform);
-    }
-
-    void RemoveInteract()
-    {
-        if (_interact != null)
-            _interact.OnDeInteraction();
-        
-        _ai.StopFollowingInteractable();
-        _interact = null; 
-    }
     
     void HandleInteraction(Interactable interactable, Collider hitCollider)
     {
@@ -119,7 +91,8 @@ public class Controller : MonoBehaviour
         {
             if (hitCollider == interactablesInViewRadius[i])
             {
-                setInteract(interactable);
+                // TODO need to add option for multiple interaction options
+                interactable.Interact();
             }
         }
     }
