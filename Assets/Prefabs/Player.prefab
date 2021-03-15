@@ -212,6 +212,10 @@ MonoBehaviour:
   movementMask:
     serializedVersion: 2
     m_Bits: 8
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 128
+
   obstructionMask:
     serializedVersion: 2
     m_Bits: 64
