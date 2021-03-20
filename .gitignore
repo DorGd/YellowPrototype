@@ -68,3 +68,10 @@ Assets/Scenes/Dor.unity
 Assets/Scenes/Dor.unity.meta
 ProjectSettings/Packages/com.unity.probuilder/Settings.json
 UserSettings/EditorUserSettings.asset
+Assets/Scenes/Dor/NavMesh.asset
+Assets/Scenes/Dor/NavMesh.asset.meta
+Assets/Scenes/Keren/KerenPrototype.unity.meta
+Assets/Scenes/Keren.meta
+Assets/Scenes/Dor.meta
+Assets/Scripts/DummyScripts/EnemyManagerDummy.cs
+Assets/Scripts/DummyScripts/EnemyManagerDummy.cs.meta
