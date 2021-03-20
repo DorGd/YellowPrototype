@@ -6,8 +6,17 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public Inventory inventory;
-    //public Clock clock;
+
+    private Inventory _inventory;
+    private Clock _clock;
+    public Inventory Inventory
+    {
+        get { return _inventory; }
+    }
+    public  Clock Clock 
+    { 
+        get { return _clock; } 
+    }
     
     //Constructor
     public static GameManager Instance
@@ -32,6 +41,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
             DontDestroyOnLoad(this);
+        }
+        else
+        {
+            _clock = GetComponent<Clock>();
+            _inventory = GetComponent<Inventory>();
         }
     }
 
