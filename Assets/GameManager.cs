@@ -6,12 +6,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    //private Inventory _inventory;
+
+
+    private Inventory _inventory;
     private Clock _clock;
-    /*public Inventory Inventory
+    public Inventory Inventory
     {
         get { return _inventory; }
-    }*/
+    }
+
     public  Clock Clock 
     { 
         get { return _clock; } 
