@@ -8,6 +8,7 @@ public class Patrol : MonoBehaviour
     public Transform[] points;
     private int destPoint = 0;
     private NavMeshAgent agent;
+    private bool _patroling = false;
 
 
     void Start()
@@ -42,7 +43,22 @@ public class Patrol : MonoBehaviour
     {
         // Choose the next destination point when the agent gets
         // close to the current one.
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        if (!agent.pathPending && agent.remainingDistance < 0.5f && _patroling)
             GotoNextPoint();
+    }
+
+    public void StartPatrol()
+    {
+        _patroling = true;
+    }
+
+    public void StopPatrol()
+    {
+        _patroling = false;
+    }
+
+    public void ChangeRoute(Transform[] newPoints)
+    {
+        points = newPoints;
     }
 }
