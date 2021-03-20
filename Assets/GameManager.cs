@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        inventory = new GameObject().AddComponent<Inventory>();
+        inventory = gameObject.AddComponent<Inventory>();
         inventory.SetMainInventory();
     }
 }

@@ -3,10 +3,10 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public bool isMainInventory = false; // is this the main player inventory 
-    public GameObject handItem = null; // the current item in the player hand- if it's the main inventory 
-    public GameObject[] inventoryItems = new GameObject[10];
+    public IInteractable handItem = null; // the current item in the player hand- if it's the main inventory 
+    public IInteractable[] inventoryItems = new IInteractable[10];
     private int _inventoryCount = 0; 
-    public void AddItem(GameObject newGM)
+    public void AddItem(IInteractable newItem)
     {
         if (_inventoryCount == inventoryItems.Length)
         {
@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
         if (isMainInventory && handItem == null)
         {
             // add the item to the hand of the player
-            handItem = newGM; 
+            handItem = newItem; 
         }
 
         for (int i = 0; i < inventoryItems.Length; i++)
@@ -25,7 +25,7 @@ public class Inventory : MonoBehaviour
             if (inventoryItems[i] == null)
             {
                 // add to the free space
-                inventoryItems[i] = newGM;
+                inventoryItems[i] = newItem;
                 _inventoryCount += 1; 
                 
             }
@@ -33,7 +33,8 @@ public class Inventory : MonoBehaviour
     }
 
     // TODO need to think what this function gets 
-    public void RemoveItem(GameObject itemToRemove)
+    // TODO change to interactable
+    public void RemoveItem(IInteractable itemToRemove)
     {
         bool isInHand = false; 
         
@@ -50,7 +51,7 @@ public class Inventory : MonoBehaviour
                 if (!isInHand) 
                 {
                     // the item goes back to where it was found
-                    inventoryItems[i].SetActive(true); 
+                    inventoryItems[i].gameObject.SetActive(true); 
                 }
                 
                 inventoryItems[i] = null;
@@ -59,7 +60,7 @@ public class Inventory : MonoBehaviour
     }
 
     // TODO need to think what this function gets 
-    public bool IsInInventory(GameObject itemToCheck)
+    public bool IsInInventory(IInteractable itemToCheck)
     {
         for (int i = 0; i < inventoryItems.Length; i++)
         {
