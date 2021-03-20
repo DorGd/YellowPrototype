@@ -209,16 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831092fd5e7a56e4eaf3ae30feaec6d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementMask:
-    serializedVersion: 2
-    m_Bits: 8
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 128
-
-  obstructionMask:
-    serializedVersion: 2
-    m_Bits: 64
+  rightClickCanvas: {fileID: 0}
 --- !u!114 &5122551217940291246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +231,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5122551217940291236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65472c5f863c1de47b32bff7954fe1f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 615d8a72a18f18f40a5fda86aa896f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

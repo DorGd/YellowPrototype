@@ -66,4 +66,9 @@ public class Clock : MonoBehaviour
         }
         
     }
+
+    public int GetHour()
+    {
+        return Convert.ToInt32(timeText.text.Substring(0, 2));
+    }
 }

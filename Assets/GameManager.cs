@@ -7,16 +7,19 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
 
+
     private Inventory _inventory;
     private Clock _clock;
-    public Inventory Inventory
+    /*public Inventory Inventory
     {
         get { return _inventory; }
-    }
+    }*/
     public  Clock Clock 
     { 
         get { return _clock; } 
     }
+    
+    public Inventory inventory;
     
     //Constructor
     public static GameManager Instance
@@ -45,7 +48,7 @@ public class GameManager : MonoBehaviour
         else
         {
             _clock = GetComponent<Clock>();
-            _inventory = GetComponent<Inventory>();
+            inventory = GetComponent<Inventory>();
         }
     }
 
