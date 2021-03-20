@@ -1,43 +1,76 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-
-    public static Inventory instance;
-    private void Awake()
+    public bool isMainInventory = false; // is this the main player inventory 
+    public GameObject handItem = null; // the current item in the player hand- if it's the main inventory 
+    public GameObject[] inventoryItems = new GameObject[10];
+    private int _inventoryCount = 0; 
+    public void AddItem(GameObject newItem)
     {
-        instance = this;
-    }
-
-    // need to be hand item 
-    public GameObject currentItemGM = null; 
-
-    // TODO list of inventory items- add the currnt one also 
-    
-    
-    // TODO add search function 
-    public void AddItem(GameObject newGM)
-    {
-        
-        // if there is an item already - put it down and put a new one
-        if (currentItemGM != null)
+        if (_inventoryCount == inventoryItems.Length)
         {
-            RemoveItem(); 
+            // no place to add more
+            return; 
         }
         
-        currentItemGM = newGM;
+        if (isMainInventory && handItem == null)
+        {
+            // add the item to the hand of the player
+            handItem = newItem; 
+        }
+
+        for (int i = 0; i < inventoryItems.Length; i++)
+        {
+            if (inventoryItems[i] == null)
+            {
+                // add to the free space
+                inventoryItems[i] = newItem;
+                _inventoryCount += 1;
+                break;
+            }
+        }
     }
 
-    public void RemoveItem()
+    public void RemoveItem(GameObject itemToRemove)
     {
-        // place the item next to the player
-        if (currentItemGM != null)
+        bool isInHand = false; 
+        
+        if (isMainInventory && handItem == itemToRemove)
         {
-            currentItemGM.SetActive(true); // the item is back to where we found it
-            currentItemGM = null;    
+            handItem = null;
+            isInHand = true; 
         }
+
+        for (int i = 0; i < inventoryItems.Length; i++)
+        {
+            if (inventoryItems[i] != null && inventoryItems[i] == itemToRemove)
+            {
+                if (!isInHand) 
+                {
+                    // the item goes back to where it was found
+                    inventoryItems[i].gameObject.SetActive(true); 
+                }
+                
+                inventoryItems[i] = null;
+            }
+        }
+    }
+
+    public bool IsInInventory(GameObject itemToCheck)
+    {
+        for (int i = 0; i < inventoryItems.Length; i++)
+        {
+            if (inventoryItems[i] == itemToCheck)
+            {
+                return true; 
+            }
+        }
+        return false; 
+    }
+
+    public void SetMainInventory()
+    {
+        isMainInventory = true; 
     }
 }

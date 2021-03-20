@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+
     private Inventory _inventory;
     private Clock _clock;
     public Inventory Inventory
@@ -47,5 +49,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    private void Start()
+    {
+        inventory = gameObject.AddComponent<Inventory>();
+        inventory.SetMainInventory();
+    }
 }

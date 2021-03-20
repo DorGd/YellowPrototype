@@ -82,24 +82,47 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f, _rightMouseMask))
             {
-                // Need to add distance check
-                
-                //Interactable item = hit.transform.gameobject.GetComponenet<Interactable>();
-                //Actions[] events = item.calcInteractions();
-                //for (int i = 0; i < events.Length ; i++)
-                //{
-                //    Button btn = _buttons[i];
-                //    Text txt = btn.GetComponentInChildren<Text>();
-                //    txt.text = events[i].Method.Name
-                //    btn.onClick.RemoveAllListeners();
-                //    btn.onClick += events[i];
+                // TODO Need to add distance check
 
-                //}
-                rightClickCanvas.transform.position = hit.point;
-                rightClickCanvas.enabled = true;
+                IInteractable item = hit.transform.gameObject.GetComponent<IInteractable>();
                 
+               if (item != null)
+                {
+                    Action[] events = item.CalcInteractions();
+                    
+                    // empty the buttons
+                    Button btn1 = _buttons[0];
+                    Button btn2 = _buttons[1];
+                    btn1.onClick.RemoveAllListeners();
+                    btn2.onClick.RemoveAllListeners();
+                    Text txt1 = btn1.GetComponentInChildren<Text>();
+                    Text txt2 = btn2.GetComponentInChildren<Text>();
+                    txt1.text = "";
+                    txt2.text = "";
+
+                    if (events.Length >= 1) // first method
+                    {
+                        txt1.text = events[0].Method.Name;
+                        btn1.onClick.RemoveAllListeners();
+                        btn1.onClick.AddListener(delegate { events[0](); });
+                    }
+                    if (events.Length == 2) // second method
+                    {
+                        txt2.text = events[1].Method.Name;
+                        btn2.onClick.RemoveAllListeners();
+                        btn2.onClick.AddListener(delegate { events[1](); });
+                    }
+                    
+                    rightClickCanvas.transform.position = hit.point;
+                    rightClickCanvas.enabled = true;
+                }
             }
         }
+    }
+
+    private void foo(int i)
+    {
+        Debug.Log("plzzz" + i);
     }
 
     private bool IsMouseOverUI()
