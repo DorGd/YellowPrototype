@@ -3,10 +3,10 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public bool isMainInventory = false; // is this the main player inventory 
-    public IInteractable handItem = null; // the current item in the player hand- if it's the main inventory 
-    public IInteractable[] inventoryItems = new IInteractable[10];
+    public GameObject handItem = null; // the current item in the player hand- if it's the main inventory 
+    public GameObject[] inventoryItems = new GameObject[10];
     private int _inventoryCount = 0; 
-    public void AddItem(IInteractable newItem)
+    public void AddItem(GameObject newItem)
     {
         if (_inventoryCount == inventoryItems.Length)
         {
@@ -26,15 +26,13 @@ public class Inventory : MonoBehaviour
             {
                 // add to the free space
                 inventoryItems[i] = newItem;
-                _inventoryCount += 1; 
-                
+                _inventoryCount += 1;
+                break;
             }
         }
     }
 
-    // TODO need to think what this function gets 
-    // TODO change to interactable
-    public void RemoveItem(IInteractable itemToRemove)
+    public void RemoveItem(GameObject itemToRemove)
     {
         bool isInHand = false; 
         
@@ -59,8 +57,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // TODO need to think what this function gets 
-    public bool IsInInventory(IInteractable itemToCheck)
+    public bool IsInInventory(GameObject itemToCheck)
     {
         for (int i = 0; i < inventoryItems.Length; i++)
         {
@@ -69,7 +66,6 @@ public class Inventory : MonoBehaviour
                 return true; 
             }
         }
-
         return false; 
     }
 
