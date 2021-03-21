@@ -12,6 +12,7 @@ public class helmet : MonoBehaviour, IInteractable
     {
         Debug.Log("Wear");
         
+        // TODO need to make the helmet appear on the player head
         GameManager.Instance.inventory.AddItem(this.gameObject, false);
         gameObject.SetActive(false);
     }

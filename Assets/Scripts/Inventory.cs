@@ -34,25 +34,19 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(GameObject itemToRemove)
     {
-        bool isInHand = false; 
-        
         if (isMainInventory && handItem == itemToRemove)
         {
             handItem = null;
-            isInHand = true; 
         }
 
         for (int i = 0; i < inventoryItems.Length; i++)
         {
+
             if (inventoryItems[i] != null && inventoryItems[i] == itemToRemove)
             {
-                if (!isInHand) 
-                {
-                    // the item goes back to where it was found
-                    inventoryItems[i].gameObject.SetActive(true); 
-                }
-                
+                inventoryItems[i].gameObject.SetActive(true);
                 inventoryItems[i] = null;
+                _inventoryCount--; 
             }
         }
     }
@@ -61,8 +55,11 @@ public class Inventory : MonoBehaviour
     {
         if (inHand) // looking for the item in the hnd of the player
         {
+            Debug.Log("looking fro wrench in hand");
             if (handItem == itemToCheck)
             {
+                Debug.Log("is in hand");
+
                 return true; // the item is in hand
             }
 
@@ -87,5 +84,15 @@ public class Inventory : MonoBehaviour
     public GameObject GetHandItem()
     {
         return handItem; 
+    }
+
+    public bool IsFull()
+    {
+        if (_inventoryCount == inventoryItems.Length)
+        {
+            return true; 
+        }
+
+        return false; 
     }
 }

@@ -13,6 +13,7 @@ public class Vent : MonoBehaviour, IInteractable
         {
             return new Action[] {Open};
         }
+        
         return new Action[] {};
     }
     
