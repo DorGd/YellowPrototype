@@ -6,13 +6,13 @@ using UnityEngine;
 public class FieldOfView : MonoBehaviour
 {
 
-    public float viewAngle;
-    public float viewDistance;
+    public float viewAngle = 45f;
+    public float viewDistance = 10f;
 	public Vector3 fieldOrigin;
 
-	public float fieldResolution;
-	public float edgeDstThreshold;
-	public int edgeAccuracy;
+	public float fieldResolution = 0.5f;
+	public float edgeDstThreshold = 0.5f;
+	public int edgeAccuracy = 4;
 
     public LayerMask blockMask;
 
@@ -72,10 +72,6 @@ public class FieldOfView : MonoBehaviour
     void Update()
     {
 		DrawField();
-        if (inField(GameObject.FindGameObjectWithTag("Player")))
-        {
-            Debug.Log("in");
-        }
     }
 
 	/*

@@ -10,6 +10,10 @@ public class Patrol : MonoBehaviour
     private NavMeshAgent agent;
     private bool _patroling = false;
 
+    /**public Patrol(Transform[] path)
+    {
+        points = path;
+    }*/
 
     void Start()
     {
