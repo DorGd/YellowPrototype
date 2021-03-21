@@ -6,7 +6,7 @@ public class Inventory : MonoBehaviour
     public GameObject handItem = null; // the current item in the player hand- if it's the main inventory 
     public GameObject[] inventoryItems = new GameObject[10];
     private int _inventoryCount = 0; 
-    public void AddItem(GameObject newItem)
+    public void AddItem(GameObject newItem, bool toHand)
     {
         if (_inventoryCount == inventoryItems.Length)
         {
@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
             return; 
         }
         
-        if (isMainInventory && handItem == null)
+        if (isMainInventory && handItem == null && toHand)
         {
             // add the item to the hand of the player
             handItem = newItem; 
@@ -34,31 +34,38 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(GameObject itemToRemove)
     {
-        bool isInHand = false; 
-        
         if (isMainInventory && handItem == itemToRemove)
         {
             handItem = null;
-            isInHand = true; 
         }
 
         for (int i = 0; i < inventoryItems.Length; i++)
         {
+
             if (inventoryItems[i] != null && inventoryItems[i] == itemToRemove)
             {
-                if (!isInHand) 
-                {
-                    // the item goes back to where it was found
-                    inventoryItems[i].gameObject.SetActive(true); 
-                }
-                
+                inventoryItems[i].gameObject.SetActive(true);
                 inventoryItems[i] = null;
+                _inventoryCount--; 
             }
         }
     }
 
-    public bool IsInInventory(GameObject itemToCheck)
+    public bool IsInInventory(GameObject itemToCheck, bool inHand)
     {
+        if (inHand) // looking for the item in the hnd of the player
+        {
+            Debug.Log("looking fro wrench in hand");
+            if (handItem == itemToCheck)
+            {
+                Debug.Log("is in hand");
+
+                return true; // the item is in hand
+            }
+
+            return false;  // the item is not in hand
+        }
+        
         for (int i = 0; i < inventoryItems.Length; i++)
         {
             if (inventoryItems[i] == itemToCheck)
@@ -72,5 +79,20 @@ public class Inventory : MonoBehaviour
     public void SetMainInventory()
     {
         isMainInventory = true; 
+    }
+    
+    public GameObject GetHandItem()
+    {
+        return handItem; 
+    }
+
+    public bool IsFull()
+    {
+        if (_inventoryCount == inventoryItems.Length)
+        {
+            return true; 
+        }
+
+        return false; 
     }
 }
