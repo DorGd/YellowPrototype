@@ -24,7 +24,10 @@ public class GameManager : MonoBehaviour
     
     public Inventory inventory;
     public Transform objects;
-    
+    public GameObject diningRoom;
+    public GameObject miningFacility;
+    public GameObject room;
+
     //Constructor
     public static GameManager Instance
     {
@@ -67,6 +70,10 @@ public class GameManager : MonoBehaviour
         objectsOriginalPositions.TryGetValue(item, out pos);
         if (pos != Vector3.zero)
         {
+            if (item.name.Equals("SecurityBadge"))
+            {
+                GameObject.FindGameObjectWithTag("Player").transform.Find("Badge").gameObject.SetActive(false);
+            }
             item.transform.position = pos;
             item.SetActive(true);
             if (_inventory.IsInInventory(item, false))
@@ -91,15 +98,15 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void ResetDay()
     {
         GameObject.FindGameObjectWithTag("Player").transform.position = playerStartPos;
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAI>().MoveToPoint(playerStartPos);
-        GameObject.Find("Dining Room")?.SetActive(false);
-        GameObject.Find("Mining Facility")?.SetActive(false);
+        diningRoom.SetActive(false);
+        miningFacility.SetActive(false);
+        room.SetActive(true);
         Clock.ResetDay();
     }
 

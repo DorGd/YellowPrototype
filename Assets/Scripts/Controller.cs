@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour
     private Button[] _buttons;
 
     public Canvas rightClickCanvas;
-
+    public GameObject securityBadge;
 
     private void Awake()
     {
@@ -87,21 +87,34 @@ public class Controller : MonoBehaviour
                     case "Obstruction":
                         return;
                     case "Ground":
+                        Button btn1 = _buttons[0];
+                        Button btn2 = _buttons[1];
+                        btn1.onClick.RemoveAllListeners();
+                        btn2.onClick.RemoveAllListeners();
+                        Text txt1 = btn1.GetComponentInChildren<Text>();
+                        Text txt2 = btn2.GetComponentInChildren<Text>();
                         if (GameManager.Instance.Inventory.GetHandItem() != null)
                         {
-                            Button btn1 = _buttons[0];
-                            Button btn2 = _buttons[1];
-                            btn1.onClick.RemoveAllListeners();
-                            btn2.onClick.RemoveAllListeners();
-                            Text txt1 = btn1.GetComponentInChildren<Text>();
-                            Text txt2 = btn2.GetComponentInChildren<Text>();
                             txt1.text = "Drop";
-                            txt2.text = "";
                             btn1.onClick.AddListener(delegate { DropHandItem(); });
                             btn1.onClick.AddListener(delegate { DisableRightClickCanvas(); });
-                            rightClickCanvas.transform.position = hit.point;
-                            rightClickCanvas.enabled = true;
                         }
+                        else
+                        {
+                            txt1.text = "";
+                        }
+                        if (GameManager.Instance.Inventory.IsInInventory(securityBadge, false))
+                        {
+                            txt2.text = "Drop Badge";
+                            btn2.onClick.AddListener(delegate { DropBadge(); });
+                            btn2.onClick.AddListener(delegate { DisableRightClickCanvas(); });
+                        }
+                        else
+                        {
+                            txt2.text = "";
+                        }
+                        rightClickCanvas.transform.position = hit.point;
+                        rightClickCanvas.enabled = true;
                         return;
                 }
                 // TODO Need to add distance check
@@ -142,6 +155,14 @@ public class Controller : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void DropBadge()
+    {
+        GameManager.Instance.Inventory.RemoveItem(securityBadge);
+        securityBadge.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.up;
+        securityBadge.SetActive(true);
+        GameObject.FindGameObjectWithTag("Player").transform.Find("Badge").gameObject.SetActive(false);
     }
 
     private void DropHandItem()
