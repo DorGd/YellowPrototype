@@ -7,7 +7,7 @@ public class Clock : MonoBehaviour
 {
     public event Action TickEvent;
     public event Action ResetEvent;
-    private const float REAL_SECONDS_PER_INGAME_DAY = 60f * 8f;
+    private const float REAL_SECONDS_PER_INGAME_DAY = 60f * 13f;
     private bool firstTickInFrame = true;
     private bool firstTickEver = true;
 
