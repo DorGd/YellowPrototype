@@ -14,6 +14,5 @@ public class MasterKey : MonoBehaviour, IInteractable, IHideable
         Debug.Log("Pickup");
         
         GameManager.Instance.inventory.AddItem(this.gameObject, true);
-        gameObject.SetActive(false);
     }
 }

@@ -5,14 +5,17 @@ public class Vent : MonoBehaviour, IInteractable
 {
     
     public bool open = false;
-    public GameObject wrench; 
+    public GameObject[] wrenches; 
     
     public Action[] CalcInteractions()
     {
-        if (!open && GameManager.Instance.inventory.IsInInventory(wrench, true))
+        foreach (GameObject item in GameManager.Instance.inventory.inventoryItems)
         {
-            return new Action[] {Open};
-        }
+            if (!open && item != null && item.name.StartsWith("Wrench"))
+            {
+                return new Action[] { Open };
+            }
+        }        
         
         return new Action[] {};
     }
@@ -20,6 +23,7 @@ public class Vent : MonoBehaviour, IInteractable
     public void Open()
     {
         Debug.Log("Open");
-        open = true; 
+        open = true;
+        gameObject.SetActive(false);
     }
 }

@@ -17,7 +17,30 @@ public class Inventory : MonoBehaviour
         if (isMainInventory && handItem == null && toHand)
         {
             // add the item to the hand of the player
-            handItem = newItem; 
+            handItem = newItem;
+            MeshRenderer meshRenderer = newItem.GetComponentInChildren<MeshRenderer>();
+            Vector3 scale = meshRenderer.transform.lossyScale;
+            Transform handItemTransform = GameObject.FindGameObjectWithTag("Player").transform.Find("GFX").Find("HandItem");
+            handItemTransform.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            handItemTransform.gameObject.GetComponent<MeshRenderer>().material = meshRenderer.material;
+            handItemTransform.localScale = new Vector3(scale.x, scale.y / 2.4f, scale.z);
+            newItem.SetActive(false);
+        }
+
+        else if (isMainInventory && handItem != null && toHand)
+        {
+            handItem.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.up;
+            RemoveItem(handItem);
+            if (newItem == null)
+                return;
+            handItem = newItem;
+            MeshRenderer meshRenderer = newItem.GetComponentInChildren<MeshRenderer>();
+            Vector3 scale = meshRenderer.transform.lossyScale;
+            Transform handItemTransform = GameObject.FindGameObjectWithTag("Player").transform.Find("GFX").Find("HandItem");
+            handItemTransform.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            handItemTransform.gameObject.GetComponent<MeshRenderer>().material = meshRenderer.material;
+            handItemTransform.localScale = new Vector3(scale.x, scale.y / 2.4f, scale.z);
+            newItem.SetActive(false);
         }
 
         for (int i = 0; i < inventoryItems.Length; i++)
@@ -37,6 +60,8 @@ public class Inventory : MonoBehaviour
         if (isMainInventory && handItem == itemToRemove)
         {
             handItem = null;
+            Transform handItemTransform = GameObject.FindGameObjectWithTag("Player").transform.Find("GFX").Find("HandItem");
+            handItemTransform.gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
 
         for (int i = 0; i < inventoryItems.Length; i++)
@@ -44,7 +69,10 @@ public class Inventory : MonoBehaviour
 
             if (inventoryItems[i] != null && inventoryItems[i] == itemToRemove)
             {
-                inventoryItems[i].gameObject.SetActive(true);
+                if (isMainInventory)
+                {
+                    inventoryItems[i].gameObject.SetActive(true);
+                }
                 inventoryItems[i] = null;
                 _inventoryCount--; 
             }

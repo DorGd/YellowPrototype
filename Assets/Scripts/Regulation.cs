@@ -31,8 +31,12 @@ public class Regulation : MonoBehaviour
     };
 
     public Severity punishment;
+    public bool punishedByLocation;
     public GameObject[] requiredEquipment;
     public GameObject[] forbiddenEquipment;
+    public Transform spawnPosition;
+    public delegate void TestDelegate(); // This defines what type of method you're going to call.
+    public TestDelegate m_methodToCall;
 
     public Severity GetSeverity()
     {
@@ -41,10 +45,20 @@ public class Regulation : MonoBehaviour
 
     public bool isValid(GameObject[] equipment)
     {
+        if (punishedByLocation)
+        {
+            return false;
+        }
         foreach (GameObject eq in equipment)
         {
+            if (eq == null)
+            {
+                continue;
+            }
             foreach (GameObject feq in forbiddenEquipment) {
-                if (feq.Equals(eq))
+                if (feq == null)
+                    continue;
+                if (feq.Equals(eq) || eq.gameObject.name.StartsWith(feq.gameObject.name))
                 {
                     return false;
                 }
@@ -55,9 +69,11 @@ public class Regulation : MonoBehaviour
         foreach (GameObject req in requiredEquipment)
         {
             reqFlag = false;
-            foreach (GameObject eq in requiredEquipment)
+            foreach (GameObject eq in equipment)
             {
-                if (req.Equals(eq))
+                if (eq == null)
+                    continue;
+                if (req.Equals(eq) || eq.gameObject.name.StartsWith(req.gameObject.name))
                 {
                     reqFlag = true;
                     break;

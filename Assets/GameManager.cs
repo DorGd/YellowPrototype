@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     private Inventory _inventory;
     private Clock _clock;
+    private Dictionary<GameObject, Vector3> objectsOriginalPositions = new Dictionary<GameObject, Vector3>();
+    private Vector3 playerStartPos;
     public Inventory Inventory
     {
         get { return _inventory; }
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
     }
     
     public Inventory inventory;
+    public Transform objects;
     
     //Constructor
     public static GameManager Instance
@@ -41,6 +44,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        playerStartPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+        foreach( Transform child in objects)
+        {
+            objectsOriginalPositions.Add(child.gameObject, child.position);
+        }
         if (_instance != null)
         {
             Destroy(this);
@@ -53,9 +61,52 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Confiscate(GameObject item)
+    {
+        Vector3 pos = Vector3.zero;
+        objectsOriginalPositions.TryGetValue(item, out pos);
+        if (pos != Vector3.zero)
+        {
+            item.transform.position = pos;
+            item.SetActive(true);
+            if (_inventory.IsInInventory(item, false))
+            {
+                _inventory.RemoveItem(item);
+                Inventory insideInventory = item.GetComponent<Inventory>();
+                if (insideInventory != null)
+                {
+                    foreach (GameObject insideItem in insideInventory.inventoryItems)
+                    {
+                        objectsOriginalPositions.TryGetValue(insideItem, out pos);
+                        if (pos != Vector3.zero)
+                        {
+                            item.transform.position = pos;
+                            item.SetActive(true);
+                            if (_inventory.IsInInventory(item, false))
+                            {
+                                _inventory.RemoveItem(item);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    public void ResetDay()
+    {
+        GameObject.FindGameObjectWithTag("Player").transform.position = playerStartPos;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAI>().MoveToPoint(playerStartPos);
+        GameObject.Find("Dining Room")?.SetActive(false);
+        GameObject.Find("Mining Facility")?.SetActive(false);
+        Clock.ResetDay();
+    }
+
     private void Start()
     {
         inventory = gameObject.AddComponent<Inventory>();
         inventory.SetMainInventory();
+        _inventory = inventory;
     }
 }

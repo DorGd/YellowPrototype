@@ -20,6 +20,9 @@ public class helmetPlace : MonoBehaviour, IInteractable
         Debug.Log("Place");
         
         // TODO need to make the helmet disappear from player head
-        GameManager.Instance.inventory.RemoveItem(helmet); 
+        GameManager.Instance.inventory.RemoveItem(helmet);
+        GameObject.FindGameObjectWithTag("Player").transform.Find("helmet").gameObject.SetActive(false);
+        gameObject.SetActive(false);
+        helmet.SetActive(true);
     }
 }

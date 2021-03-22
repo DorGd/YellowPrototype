@@ -23,7 +23,7 @@ public class Controller : MonoBehaviour
         _ai = GetComponent<PlayerAI>();
         _cam = Camera.main;
         _leftMouseMask = LayerMask.GetMask("Ground", "Obstruction");
-        _rightMouseMask = LayerMask.GetMask("Interactable");
+        _rightMouseMask = LayerMask.GetMask("Interactable", "Obstruction", "Ground");
         _buttons = rightClickCanvas.GetComponentsInChildren<Button>(true);
     }
 
@@ -82,6 +82,28 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f, _rightMouseMask))
             {
+                switch (LayerMask.LayerToName(hit.transform.gameObject.layer))
+                {
+                    case "Obstruction":
+                        return;
+                    case "Ground":
+                        if (GameManager.Instance.Inventory.GetHandItem() != null)
+                        {
+                            Button btn1 = _buttons[0];
+                            Button btn2 = _buttons[1];
+                            btn1.onClick.RemoveAllListeners();
+                            btn2.onClick.RemoveAllListeners();
+                            Text txt1 = btn1.GetComponentInChildren<Text>();
+                            Text txt2 = btn2.GetComponentInChildren<Text>();
+                            txt1.text = "Drop";
+                            txt2.text = "";
+                            btn1.onClick.AddListener(delegate { DropHandItem(); });
+                            btn1.onClick.AddListener(delegate { DisableRightClickCanvas(); });
+                            rightClickCanvas.transform.position = hit.point;
+                            rightClickCanvas.enabled = true;
+                        }
+                        return;
+                }
                 // TODO Need to add distance check
 
                 IInteractable item = hit.transform.gameObject.GetComponent<IInteractable>();
@@ -105,19 +127,31 @@ public class Controller : MonoBehaviour
                         txt1.text = events[0].Method.Name;
                         btn1.onClick.RemoveAllListeners();
                         btn1.onClick.AddListener(delegate { events[0](); });
+                        btn1.onClick.AddListener(delegate { DisableRightClickCanvas(); });
                     }
                     if (events.Length == 2) // second method
                     {
                         txt2.text = events[1].Method.Name;
                         btn2.onClick.RemoveAllListeners();
                         btn2.onClick.AddListener(delegate { events[1](); });
+                        btn2.onClick.AddListener(delegate { DisableRightClickCanvas(); });
                     }
-                    
+
                     rightClickCanvas.transform.position = hit.point;
                     rightClickCanvas.enabled = true;
                 }
             }
         }
+    }
+
+    private void DropHandItem()
+    {
+        GameManager.Instance.Inventory.AddItem(null, true);
+    }
+
+    private void DisableRightClickCanvas()
+    {
+        rightClickCanvas.enabled = false;
     }
 
     private void foo(int i)
