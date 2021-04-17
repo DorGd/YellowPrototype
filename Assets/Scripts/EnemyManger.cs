@@ -63,6 +63,7 @@ public class EnemyManger : MonoBehaviour
         GameManager instance = GameManager.Instance;
         Inventory inventory = instance.Inventory;
         GameObject[] inventoryItems = inventory.inventoryItems;
+        paradigms[curr].action.Invoke();
         foreach (Regulation reg in paradigms[curr].regulations)
         {
             if (!reg.isValid(inventoryItems))
