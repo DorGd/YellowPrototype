@@ -40,6 +40,7 @@ public class EnemyManger : MonoBehaviour
     void Update()
     {
         if (_field.inField(GameObject.FindGameObjectWithTag("Player")))
+
         {
             foreach (var reg in _paradigms[curr].regulations)
             {
