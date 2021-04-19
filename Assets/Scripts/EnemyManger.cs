@@ -52,7 +52,7 @@ public class EnemyManger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (field.inField(GameObject.FindGameObjectWithTag("Player")))
+        if (field.InField())
         {
             checkRegulation();
         }

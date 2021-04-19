@@ -11,9 +11,6 @@ public class SpeechManager : MonoBehaviour
     public Image bubbleImage;
     public TextMeshProUGUI speechTextBox;
 
-    MeshFilter speechTailMeshFilter;
-    private Mesh tailMesh;
-
     [Header("Button")]
     public GameObject advanceButton;
     public TextMeshProUGUI buttonText;
@@ -30,20 +27,20 @@ public class SpeechManager : MonoBehaviour
     void Start()
     {
         isAvailable = true;
-        tailMesh = new Mesh();
-        tailMesh.name = "Field Mesh";
-        speechTailMeshFilter.mesh = tailMesh;
         speechSource = null;
         sentenceIndex = 0;
-        advanceButton.SetActive(false);
+        if (advanceButton)
+        {
+            advanceButton.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        if (!isAvailable && speechSource != null)
-        {
-            DrawTail();
-        }
+        //if (!isAvailable && speechSource != null)
+        //{
+        //    DrawTail();
+        //}
     }
 
     public void startSpeech(GameObject speaker, string[] stentences)
@@ -118,7 +115,6 @@ public class SpeechManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(scaleDelay);
         Time.timeScale = 1f;
         isAvailable = true;
-        tailMesh.Clear();
         speechSource = null;
         currentSentences = null;
         sentenceIndex = 0;
@@ -127,9 +123,9 @@ public class SpeechManager : MonoBehaviour
         speechCanvas.SetActive(false);
     }
 
-    private void DrawTail()
-    {
-        //Vector3 tailStart = bubbleImage.rectTransform
-        //tailMesh.vertices = [speechSource.transform.position, ];
-    }
+    //private void DrawTail()
+    //{
+    //    //Vector3 tailStart = bubbleImage.rectTransform
+    //    //tailMesh.vertices = [speechSource.transform.position, ];
+    //}
 }

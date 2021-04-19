@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class FieldOfView : MonoBehaviour
 
 	public MeshFilter fieldMeshFilter;
 	Mesh fieldMesh;
+
+	private bool fieldContains;
+
+	public UnityEvent onEnterField;
+	public UnityEvent onExitField;
+
 
 	/*
 	 * Contains information about a raycast. 
@@ -71,6 +78,16 @@ public class FieldOfView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (InField() && !fieldContains)
+		{
+			onEnterField.Invoke();
+			fieldContains = true;
+		}
+		else if (fieldContains)
+		{
+			onEnterField.Invoke();
+			fieldContains = false;
+		}
 		DrawField();
     }
 
@@ -195,9 +212,10 @@ public class FieldOfView : MonoBehaviour
 	}
 
 	// Retruns true if viewTarget (transform) is in the field of view
-	public bool inField(GameObject viewTarget)
+	public bool InField()
     {
-		Vector3 targetPos = viewTarget.transform.position;
+		
+		Vector3 targetPos = GameObject.FindGameObjectWithTag("Player").transform.position; //GameManger.Instance().PlayerTransform().position;
         if (Vector3.Distance(transform.position, targetPos) < viewDistance) // in distance
         {
             Vector3 targetDir = (targetPos - transform.position).normalized;
