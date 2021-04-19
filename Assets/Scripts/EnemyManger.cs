@@ -1,47 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManger : MonoBehaviour
 {
 
-    private Paradigm[] paradigms;
-    private int curr;
-    private FieldOfView field;
+    [SerializeField]
+    private Paradigm[] _paradigms;
 
-    // Start is called before the first frame update
+    private int curr;
+    private FieldOfView _field;
+    private PlayerAI _ai;
+    public PlayerAI Ai
+    {
+        get { return _ai; }
+    }
+
     void Start()
     {
-        paradigms = GetComponent<InitRoutine>().Init();
-        field = GetComponent<FieldOfView>();
-        GameManager.Instance.Clock.TickEvent += updateParadigm;
+        //_paradigms = GetComponent<InitRoutine>().Init();
+        _field = GetComponent<FieldOfView>();
+        _ai = GetComponent<PlayerAI>();
+        GameManager.Instance.Clock.TickEvent += UpdateParadigm;
 
+        // Find the current paradigm
         int time = GameManager.Instance.Clock.GetHour();
-        for (int i = 0; i < paradigms.Length; i++)
+        for (int i = 0; i < _paradigms.Length; i++)
         {
-            curr = i;
-            if (paradigms[curr].startTime <= time && time <= paradigms[curr].endTime)
+            if (_paradigms[i].startTime <= time && time <= _paradigms[i].endTime)
             {
+                curr = i;
                 break;
             }
         }
-        GetComponent<Patrol>().ChangeRoute(paradigms[curr].patrolPath);
-        GetComponent<Patrol>().StartPatrol();
+        //_paradigms[curr].action.Act(this);
+        //GetComponent<Patrol>().ChangeRoute(_paradigms[curr].patrolPath);
+        //GetComponent<Patrol>().StartPatrol();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (field.inField(GameObject.FindGameObjectWithTag("Player")))
+        if (_field.inField(GameObject.FindGameObjectWithTag("Player")))
         {
-            checkRegulation();
+            Debug.Log("I SEE YOU!");
+            //checkRegulation();
         }
     }
 
     void checkRegulation()
     {
         GameObject[] inventory = GameManager.Instance.Inventory.inventoryItems;
-        foreach (Regulation reg in paradigms[curr].regulations)
+        foreach (Regulation reg in _paradigms[curr].regulations)
         {
             if (reg.isValid(inventory))
             {
@@ -51,14 +59,17 @@ public class EnemyManger : MonoBehaviour
         }
     }
 
-    void updateParadigm()
+    void UpdateParadigm()
     {
         int time = GameManager.Instance.Clock.GetHour();
-        if (paradigms[curr].endTime <= time || time < paradigms[curr].startTime)
+        if (_paradigms[curr].startTime == time)
         {
-            curr = (curr + 1) % paradigms.Length;
-            GetComponent<Patrol>().ChangeRoute(paradigms[curr].patrolPath);
-            GetComponent<Patrol>().StartPatrol();
+            _paradigms[curr].action.Act(this);
+            curr = (curr + 1) % _paradigms.Length;
+            //GetComponent<Patrol>().ChangeRoute(_paradigms[curr].patrolPath);
+            //GetComponent<Patrol>().StartPatrol();
         }
     }
+
+
 }

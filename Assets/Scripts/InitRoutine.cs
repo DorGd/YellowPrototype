@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,7 @@ public class PathList
 
 public class InitRoutine : MonoBehaviour
 {
-    public UnityEvent[] Events;
+    public Action[] Events;
     public int[] StartTimes;
     public int[] EndTimes;
     public PathList patrolPaths;
@@ -35,10 +36,10 @@ public class InitRoutine : MonoBehaviour
         int maxIdx = Mathf.Min(arr);
 
         Paradigm[] paradigms = new Paradigm[maxIdx];
-        for (int i = 0; i < maxIdx; i++)
-        {
-            paradigms[i] = new Paradigm(Events[i], StartTimes[i], EndTimes[i], patrolPaths.getPath(i), regulations.getRegulations(i));
-        }
+        //for (int i = 0; i < maxIdx; i++)
+        //{
+        //    paradigms[i] = new Paradigm(Events[i], StartTimes[i], EndTimes[i], patrolPaths.getPath(i), regulations.getRegulations(i));
+        //}
 
         return paradigms;
     }

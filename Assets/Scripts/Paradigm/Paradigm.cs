@@ -2,20 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Paradigm 
+[CreateAssetMenu(fileName = "Paradigm", menuName = "Paradigm/Empty Paradigm", order = 1)]
+public class Paradigm : ScriptableObject
 {
-    public UnityEvent action;
+    public EnemyAction action;
     public int startTime;
     public int endTime;
     public Transform[] patrolPath;
     public Regulation[] regulations;
 
-    public Paradigm(UnityEvent _event, int _startTime, int _endTime , Transform[] _patrolPath, Regulation[] _regulations)
+    public Paradigm(EnemyAction _action, int _startTime, int _endTime , Regulation[] _regulations)
     {
-        action = _event;
+        action = _action;
         startTime = _startTime;
         endTime = _endTime;
-        patrolPath = _patrolPath;
         regulations = _regulations;
     }
 }
