@@ -8,6 +8,13 @@ using UnityEngine.AI;
 public class PlayerAI : MonoBehaviour
 {
     private NavMeshAgent _agent;
+    public Transform[] WayPoints;
+    private bool _patroling = false;
+    public bool Patroling
+    {
+        get { return _patroling; }
+        set { _patroling = value; }
+    }
 
     // Start is called before the first frame update
     void Start()

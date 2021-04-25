@@ -1,64 +1,71 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManger : MonoBehaviour
 {
 
-    private Paradigm[] paradigms;
-    private int curr;
-    private FieldOfView field;
+    [SerializeField]
+    private ParadigmSO[] _paradigms;
 
-    // Start is called before the first frame update
+    private int curr;
+    private FieldOfView _field;
+    private PlayerAI _ai;
+
+    public PlayerAI Ai
+    {
+        get { return _ai; }
+    }
+
+    
+
     void Start()
     {
-        paradigms = GetComponent<InitRoutine>().Init();
-        field = GetComponent<FieldOfView>();
-        GameManager.Instance.Clock.TickEvent += updateParadigm;
+        _field = GetComponent<FieldOfView>();
+        _ai = GetComponent<PlayerAI>();
+        GameManager.Instance.Clock.TickEvent += UpdateParadigm;
 
+        // Find the current paradigm
         int time = GameManager.Instance.Clock.GetHour();
-        for (int i = 0; i < paradigms.Length; i++)
+        for (int i = 0; i < _paradigms.Length; i++)
         {
-            curr = i;
-            if (paradigms[curr].startTime <= time && time <= paradigms[curr].endTime)
+            if (_paradigms[i].startTime <= time && time <= _paradigms[i].endTime)
             {
+                curr = (i - 1) % _paradigms.Length;
                 break;
             }
         }
-        GetComponent<Patrol>().ChangeRoute(paradigms[curr].patrolPath);
-        GetComponent<Patrol>().StartPatrol();
+        UpdateParadigm();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (field.inField(GameObject.FindGameObjectWithTag("Player")))
+        if (_field.inField(GameObject.FindGameObjectWithTag("Player")))
         {
-            checkRegulation();
-        }
-    }
-
-    void checkRegulation()
-    {
-        GameObject[] inventory = GameManager.Instance.Inventory.inventoryItems;
-        foreach (Regulation reg in paradigms[curr].regulations)
-        {
-            if (reg.isValid(inventory))
+            foreach (var reg in _paradigms[curr].regulations)
             {
-                Debug.Log(reg.GetSeverity());
-                break;
+                if(!reg.CheckRegulation()) reg.sanction.Apply();
             }
         }
     }
 
-    void updateParadigm()
+    void UpdateParadigm()
     {
         int time = GameManager.Instance.Clock.GetHour();
-        if (paradigms[curr].endTime <= time || time < paradigms[curr].startTime)
+        if (_paradigms[(curr + 1) % _paradigms.Length].startTime == time)
         {
-            curr = (curr + 1) % paradigms.Length;
-            GetComponent<Patrol>().ChangeRoute(paradigms[curr].patrolPath);
-            GetComponent<Patrol>().StartPatrol();
+            curr = (curr + 1) % _paradigms.Length;
+            // Stop patroling Action if activated
+            _ai.Patroling = false;                                          
+            // Takes paradigm new path if not null
+            if (_paradigms[curr].patrolPath != null)
+            {
+                _ai.WayPoints = _paradigms[curr].patrolPath.Points;
+            }
+
+            _paradigms[curr].action.Act(this);
+
         }
     }
+
+
 }

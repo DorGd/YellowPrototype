@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
 
     private Inventory _inventory;
     private Clock _clock;
-    public Inventory Inventory
+    private Transform _playerTransform;
+    public Inventory inventory
     {
         get { return _inventory; }
     }
@@ -19,8 +20,12 @@ public class GameManager : MonoBehaviour
     { 
         get { return _clock; } 
     }
-    
-    public Inventory inventory;
+
+    public Transform PlayerTransform
+    {
+        get { return _playerTransform; }
+    }
+
     
     //Constructor
     public static GameManager Instance
@@ -49,13 +54,10 @@ public class GameManager : MonoBehaviour
         else
         {
             _clock = GetComponent<Clock>();
-            inventory = GetComponent<Inventory>();
+            _inventory = GetComponent<Inventory>();
+            _inventory.SetMainInventory();
+            _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
         }
     }
 
-    private void Start()
-    {
-        inventory = gameObject.AddComponent<Inventory>();
-        inventory.SetMainInventory();
-    }
 }
