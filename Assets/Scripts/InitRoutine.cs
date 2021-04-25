@@ -30,12 +30,12 @@ public class InitRoutine : MonoBehaviour
     public PathList patrolPaths;
     public RegulationsList regulations;
     
-    public Paradigm[] Init()
+    public ParadigmSO[] Init()
     {
         int[] arr = new int[] { Events.Length, StartTimes.Length, EndTimes.Length };
         int maxIdx = Mathf.Min(arr);
 
-        Paradigm[] paradigms = new Paradigm[maxIdx];
+        ParadigmSO[] paradigms = new ParadigmSO[maxIdx];
         //for (int i = 0; i < maxIdx; i++)
         //{
         //    paradigms[i] = new Paradigm(Events[i], StartTimes[i], EndTimes[i], patrolPaths.getPath(i), regulations.getRegulations(i));

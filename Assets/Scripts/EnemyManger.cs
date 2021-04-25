@@ -4,7 +4,7 @@ public class EnemyManger : MonoBehaviour
 {
 
     [SerializeField]
-    private Paradigm[] _paradigms;
+    private ParadigmSO[] _paradigms;
 
     private int curr;
     private FieldOfView _field;
@@ -41,7 +41,6 @@ public class EnemyManger : MonoBehaviour
     {
         if (_field.inField(GameObject.FindGameObjectWithTag("Player")))
         {
-            Debug.Log("I SEE YOU!");
             //checkRegulation();
         }
     }
@@ -49,7 +48,7 @@ public class EnemyManger : MonoBehaviour
     void checkRegulation()
     {
         GameObject[] inventory = GameManager.Instance.Inventory.inventoryItems;
-        foreach (Regulation reg in _paradigms[curr].regulations)
+        foreach (HeldItemsRegulation reg in _paradigms[curr].regulations)
         {
             if (reg.isValid(inventory))
             {
@@ -66,8 +65,6 @@ public class EnemyManger : MonoBehaviour
         {
             _paradigms[curr].action.Act(this);
             curr = (curr + 1) % _paradigms.Length;
-            //GetComponent<Patrol>().ChangeRoute(_paradigms[curr].patrolPath);
-            //GetComponent<Patrol>().StartPatrol();
         }
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Paradigm/Actions/Chase")]
-public class Chase : EnemyAction
+public class Chase : ActionSO
 {
     public override void Act(EnemyManger enemy)
     {
