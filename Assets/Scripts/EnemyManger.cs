@@ -9,14 +9,16 @@ public class EnemyManger : MonoBehaviour
     private int curr;
     private FieldOfView _field;
     private PlayerAI _ai;
+
     public PlayerAI Ai
     {
         get { return _ai; }
     }
 
+    
+
     void Start()
     {
-        //_paradigms = GetComponent<InitRoutine>().Init();
         _field = GetComponent<FieldOfView>();
         _ai = GetComponent<PlayerAI>();
         GameManager.Instance.Clock.TickEvent += UpdateParadigm;
@@ -27,33 +29,21 @@ public class EnemyManger : MonoBehaviour
         {
             if (_paradigms[i].startTime <= time && time <= _paradigms[i].endTime)
             {
-                curr = i;
+                curr = (i - 1) % _paradigms.Length;
                 break;
             }
         }
-        //_paradigms[curr].action.Act(this);
-        //GetComponent<Patrol>().ChangeRoute(_paradigms[curr].patrolPath);
-        //GetComponent<Patrol>().StartPatrol();
+        UpdateParadigm();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_field.inField(GameObject.FindGameObjectWithTag("Player")))
         {
-            //checkRegulation();
-        }
-    }
-
-    void checkRegulation()
-    {
-        GameObject[] inventory = GameManager.Instance.Inventory.inventoryItems;
-        foreach (HeldItemsRegulation reg in _paradigms[curr].regulations)
-        {
-            if (reg.isValid(inventory))
+            foreach (var reg in _paradigms[curr].regulations)
             {
-                Debug.Log(reg.GetSeverity());
-                break;
+                if(!reg.CheckRegulation()) reg.sanction.Apply();
             }
         }
     }
@@ -61,10 +51,19 @@ public class EnemyManger : MonoBehaviour
     void UpdateParadigm()
     {
         int time = GameManager.Instance.Clock.GetHour();
-        if (_paradigms[curr].startTime == time)
+        if (_paradigms[(curr + 1) % _paradigms.Length].startTime == time)
         {
-            _paradigms[curr].action.Act(this);
             curr = (curr + 1) % _paradigms.Length;
+            // Stop patroling Action if activated
+            _ai.Patroling = false;                                          
+            // Takes paradigm new path if not null
+            if (_paradigms[curr].patrolPath != null)
+            {
+                _ai.WayPoints = _paradigms[curr].patrolPath.Points;
+            }
+
+            _paradigms[curr].action.Act(this);
+
         }
     }
 

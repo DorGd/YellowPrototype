@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Paradigm/Regulations/Held Items")]
 public class HeldItemsRegulation : RegulationSO
 {
     // TODO change to GameObject to Collectable
@@ -10,10 +11,23 @@ public class HeldItemsRegulation : RegulationSO
 
     public override bool CheckRegulation()
     {
-        foreach (GameObject eq in GameManager.Instance.Inventory.inventoryItems)
+        if (GameManager.Instance.inventory.IsEmpty())
         {
-            foreach (GameObject feq in _forbiddenEquipment) {
-                if (feq.Equals(eq))
+            if (_requiredEquipment.Length == 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        for (int i = 0; i < GameManager.Instance.inventory.Count; ++i)
+        {
+            // TODO change to collectable
+            GameObject eq = GameManager.Instance.inventory.inventoryItems[i];
+            foreach (GameObject feq in _forbiddenEquipment)
+            {
+                // TODO change to collectable type
+                if (feq.name.Equals(eq.name))
                 {
                     return false;
                 }

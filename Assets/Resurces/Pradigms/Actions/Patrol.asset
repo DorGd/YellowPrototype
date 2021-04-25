@@ -9,11 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Paradigm
+  m_Script: {fileID: 11500000, guid: c33be3a7859a4154abdc23e1a81b9809, type: 3}
+  m_Name: Patrol
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: 162107c5f01adfa48899ba7813859a09, type: 2}
-  startTime: 1
-  endTime: 2
-  patrolPath: []
-  regulations: []

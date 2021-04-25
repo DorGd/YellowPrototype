@@ -8,10 +8,10 @@ public class ParadigmSO : ScriptableObject
     public ActionSO action;
     public int startTime;
     public int endTime;
-    public Transform[] patrolPath;
-    public HeldItemsRegulation[] regulations;
+    public Path patrolPath;
+    public RegulationSO[] regulations;
 
-    public ParadigmSO(ActionSO _action, int _startTime, int _endTime , HeldItemsRegulation[] _regulations)
+    public ParadigmSO(ActionSO _action, int _startTime, int _endTime , RegulationSO[] _regulations)
     {
         action = _action;
         startTime = _startTime;

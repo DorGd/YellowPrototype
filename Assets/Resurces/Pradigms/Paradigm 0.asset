@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
+  m_Name: Paradigm 0
+  m_EditorClassIdentifier: 
+  action: {fileID: 11400000, guid: 6ab98f6db36d0ad42a12419894c4e009, type: 2}
+  startTime: 0
+  endTime: 1
+  patrolPath: {fileID: 6203409048080163424, guid: b237ddb33cf217c4aafcce1646d0cde1, type: 3}
+  regulations: []

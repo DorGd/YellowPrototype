@@ -5,7 +5,12 @@ public class Inventory : MonoBehaviour
     public bool isMainInventory = false; // is this the main player inventory 
     public GameObject handItem = null; // the current item in the player hand- if it's the main inventory 
     public GameObject[] inventoryItems = new GameObject[10];
-    private int _inventoryCount = 0; 
+    private int _inventoryCount = 0;
+    public int Count 
+    {
+        get { return _inventoryCount; } 
+    }
+
     public void AddItem(GameObject newItem, bool toHand)
     {
         if (_inventoryCount == inventoryItems.Length)
@@ -94,5 +99,15 @@ public class Inventory : MonoBehaviour
         }
 
         return false; 
+    }
+
+    public bool IsEmpty()
+    {
+        if (_inventoryCount == 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
