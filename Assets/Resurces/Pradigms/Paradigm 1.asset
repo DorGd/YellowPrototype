@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
   m_Name: Paradigm 1
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: 162107c5f01adfa48899ba7813859a09, type: 2}
+  action: {fileID: 11400000, guid: db5238b5da707cd409b84fa01be13b36, type: 2}
   startTime: 1
   endTime: 2
-  patrolPath:
-  - {fileID: 0}
-  - {fileID: 0}
+  patrolPath: {fileID: 0}
   regulations:
-  - {fileID: 11400000, guid: cceeac96254f9da458714b660f2a0eef, type: 2}
+  - {fileID: 11400000, guid: 81770a169bfbfb64d9c19cd41b41db00, type: 2}

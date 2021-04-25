@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Paradigm 0
+  m_Name: Paradigm
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: 6ab98f6db36d0ad42a12419894c4e009, type: 2}
+  action: {fileID: 11400000, guid: 9c180b8506a66d046adbb4bc4371068f, type: 2}
   startTime: 0
   endTime: 1
   patrolPath: {fileID: 6203409048080163424, guid: b237ddb33cf217c4aafcce1646d0cde1, type: 3}
