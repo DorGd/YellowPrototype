@@ -1,19 +1,22 @@
 using System;
 using UnityEngine;
 
-public class MasterKey : MonoBehaviour, IInteractable, IHideable
+public class MasterKey : Interactable, IHideable
 {
-    
-    public Action[] CalcInteractions()
+    ItemType CurrItemType = ItemType.MasterKey; 
+
+    public override Action[] CalcInteractions()
     {
         return new Action[] {PickUp};
     }
     
+    /**
+     * Pick the item to the inventory
+     */
     public void PickUp()
     {
         Debug.Log("Pickup");
         
-        GameManager.Instance.inventory.AddItem(this.gameObject, true);
-        gameObject.SetActive(false);
+        GameManager.Instance.inventory.AddItem(this, true);
     }
 }

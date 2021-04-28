@@ -1,13 +1,15 @@
 using System;
 using UnityEngine;
 
-public class helmetPlace : MonoBehaviour, IInteractable
+public class HelmetPlace : Interactable
 {
-    public GameObject helmet;
+    ItemType CurrItemType = ItemType.HelmetPlace; 
 
-    public Action[] CalcInteractions()
+    public Interactable helmet;
+
+    public override Action[] CalcInteractions()
     {
-        if (GameManager.Instance.inventory.IsInInventory(helmet, false))
+        if (GameManager.Instance.inventory.IsInInventory(ItemType.Helmet, false))
         {
             return new Action[] {Place};
         }
@@ -15,11 +17,14 @@ public class helmetPlace : MonoBehaviour, IInteractable
         return new Action[] {};
     }
     
+    /**
+     * place the helmet back down
+     * TODO need to add this option
+     */
     public void Place()
     {
         Debug.Log("Place");
         
-        // TODO need to make the helmet disappear from player head
         GameManager.Instance.inventory.RemoveItem(helmet); 
     }
 }

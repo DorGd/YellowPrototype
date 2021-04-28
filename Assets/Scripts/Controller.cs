@@ -84,7 +84,7 @@ public class Controller : MonoBehaviour
             {
                 // TODO Need to add distance check
 
-                IInteractable item = hit.transform.gameObject.GetComponent<IInteractable>();
+                Interactable item = hit.transform.gameObject.GetComponent<Interactable>();
                 
                if (item != null)
                 {

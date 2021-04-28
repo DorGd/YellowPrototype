@@ -1,19 +1,22 @@
 using System;
 using UnityEngine;
 
-public class helmet : MonoBehaviour, IInteractable
+public class Helmet : Interactable
 {
-    public Action[] CalcInteractions()
+    ItemType CurrItemType = ItemType.Helmet; 
+    
+    public override Action[] CalcInteractions()
     {
         return new Action[] {Wear};
     }
     
+    /**
+     * Wear the helmet
+     * TODO need to add a visual (maybe not add to inventory? or create some kind of visual inventory)
+     */
     public void Wear()
     {
         Debug.Log("Wear");
-        
-        // TODO need to make the helmet appear on the player head
-        GameManager.Instance.inventory.AddItem(this.gameObject, false);
-        gameObject.SetActive(false);
+        GameManager.Instance.inventory.AddItem(this, false);
     }
 }

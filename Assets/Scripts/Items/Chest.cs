@@ -1,28 +1,35 @@
 using System;
 using UnityEngine;
 
-public class Chest : MonoBehaviour, IInteractable, IHideable
+public class Chest : Interactable, IHideable, IHidingPlace
 {
+    ItemType CurrItemType = ItemType.Chest;
+
     public bool open = false;
-    public GameObject wrench;
     public Inventory inventory;
-    private GameObject _curHandItem;
+    private Interactable _curHandItem;
+    
     private void Start()
     {
         inventory = gameObject.AddComponent<Inventory>();
     }
     
-    public Action[] CalcInteractions()
+    /**
+     * if chest is open:
+     *     if we have wrench as a hand object- we can close the chest 
+     *     if we have other object as a hand object- we can put it in the chest
+     * if chest is close:
+     *     we can pick it up as hand pbject
+     */
+    public override Action[] CalcInteractions()
     {
-        
         _curHandItem = GameManager.Instance.inventory.GetHandItem();
-
         
         // chest is open
         if (open)
         {
             // we have a wrench in the hand
-            if (GameManager.Instance.inventory.IsInInventory(wrench, true))
+            if (GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
             {
                 return new Action[] {Close, Hide};
             }
@@ -35,31 +42,23 @@ public class Chest : MonoBehaviour, IInteractable, IHideable
         }
 
         // chest is closed
-        else
-        {
-            if (_curHandItem == null)
-            {
-                return new Action[] {PickUp};
-            }
-        }
-        
-        
-        // nothing to do
-        return new Action[] { };
+        // don't need to check if there's a place for the items because this is a hand items and can always be picked up
+        return new Action[] {PickUp};
     }
     
+    /**
+     * pick the chest up as hand object
+     */
     public void PickUp()
     {
         Debug.Log("Pickup");
         
-        GameManager.Instance.inventory.AddItem(this.gameObject, true);
-        
-        // TODO need to implement if the object is held in the players hand or in the inventory
-        gameObject.SetActive(false);
-        
+        GameManager.Instance.inventory.AddItem(this, true);
     }
     
-    // TODO probably need to define when to open the chest
+    /**
+     * open the chest
+     */
     public void Open() 
     {
         Debug.Log("Open chest");
@@ -67,6 +66,9 @@ public class Chest : MonoBehaviour, IInteractable, IHideable
         open = true;
     }
     
+    /**
+     * close the chest
+     */
     public void Close()
     {
         Debug.Log("Close chest");
@@ -74,12 +76,14 @@ public class Chest : MonoBehaviour, IInteractable, IHideable
         open = false;
     }
 
+    /**
+     * hide the current hand item in the chest
+     */
     public void Hide()
     {
         Debug.Log("Hide hand item in chest");
 
         GameManager.Instance.inventory.RemoveItem(_curHandItem); // remove from global inventory
-        _curHandItem.SetActive(false); 
         inventory.AddItem(_curHandItem, false); // add to local inventory
     }
 }
