@@ -89,28 +89,24 @@ public class Controller : MonoBehaviour
                if (item != null)
                 {
                     Action[] events = item.CalcInteractions();
-                    
-                    // empty the buttons
-                    Button btn1 = _buttons[0];
-                    Button btn2 = _buttons[1];
-                    btn1.onClick.RemoveAllListeners();
-                    btn2.onClick.RemoveAllListeners();
-                    Text txt1 = btn1.GetComponentInChildren<Text>();
-                    Text txt2 = btn2.GetComponentInChildren<Text>();
-                    txt1.text = "";
-                    txt2.text = "";
 
-                    if (events.Length >= 1) // first method
+                    for (int i = 0; i < _buttons.Length; i++)
                     {
-                        txt1.text = events[0].Method.Name;
-                        btn1.onClick.RemoveAllListeners();
-                        btn1.onClick.AddListener(delegate { events[0](); });
-                    }
-                    if (events.Length == 2) // second method
-                    {
-                        txt2.text = events[1].Method.Name;
-                        btn2.onClick.RemoveAllListeners();
-                        btn2.onClick.AddListener(delegate { events[1](); });
+                        Button btn = _buttons[i];
+                        if (i < events.Length)
+                        {
+                            btn.gameObject.SetActive(true);
+                            btn.onClick.RemoveAllListeners();
+                            Text txt = btn.GetComponentInChildren<Text>();
+
+                            int j = i;
+                            txt.text = events[j].Method.Name;
+                            btn.onClick.AddListener(delegate { events[j](); });
+                        }
+                        else
+                        {
+                            btn.gameObject.SetActive(false);
+                        }
                     }
                     
                     rightClickCanvas.transform.position = hit.point;

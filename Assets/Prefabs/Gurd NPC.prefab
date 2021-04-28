@@ -94,10 +94,6 @@ GameObject:
   - component: {fileID: 180962878422466417}
   - component: {fileID: 180962878422466419}
   - component: {fileID: 180962878422466421}
-  - component: {fileID: 180962878422466428}
-  - component: {fileID: 8091525283715361099}
-  - component: {fileID: 1958493985751516759}
-  - component: {fileID: 2235382281542340178}
   - component: {fileID: 2562686037025396471}
   - component: {fileID: 6364723490835342022}
   m_Layer: 0
@@ -187,70 +183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71403ad55faa6414b9545ac13029a1e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &180962878422466428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180962878422466431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33be3a7859a4154abdc23e1a81b9809, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points:
-  - {fileID: 0}
-  - {fileID: 0}
---- !u!114 &8091525283715361099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180962878422466431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d42527850cf66846899008efef02457, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Events: []
-  StartTimes: 
-  EndTimes: 
-  patrolPaths:
-    pathList: []
-  regulations:
-    regulationsList: []
---- !u!114 &1958493985751516759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180962878422466431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a51aa053cb978408b384a5ac8713ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  punishment: 1
-  requiredEquipment: []
-  forbiddenEquipment: []
---- !u!114 &2235382281542340178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180962878422466431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a51aa053cb978408b384a5ac8713ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  punishment: 0
-  requiredEquipment: []
-  forbiddenEquipment: []
 --- !u!114 &2562686037025396471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a382a81f80f724d882b365eb9503ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _paradigms:
+  - {fileID: 11400000, guid: d2615471deedd3b4c9bfa29c6515a0aa, type: 2}
 --- !u!1 &4114665288455090676
 GameObject:
   m_ObjectHideFlags: 0

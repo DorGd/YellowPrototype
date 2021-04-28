@@ -6,7 +6,10 @@ public class Inventory : MonoBehaviour
     public Interactable handItem = null; // the current item in the player hand- if it's the main inventory 
     public Interactable[] inventoryItems = new Interactable[10];
     private int _inventoryCount = 0; 
-    
+    public int Count 
+    {
+        get { return _inventoryCount; } 
+    }
     /**
      * add an item as hand item (if main inventory) and if wanted (toHand = true) or to the inventory
      */
@@ -125,5 +128,15 @@ public class Inventory : MonoBehaviour
     public bool CanAdd()
     {
         return _inventoryCount != inventoryItems.Length; 
+    }
+
+    public bool IsEmpty()
+    {
+        if (_inventoryCount == 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
