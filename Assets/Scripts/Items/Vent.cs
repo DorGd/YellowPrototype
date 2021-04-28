@@ -1,15 +1,16 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Vent : MonoBehaviour, IInteractable
+public class Vent : Interactable
 {
-    
+    ItemType CurrItemType = ItemType.Vent;
+
     public bool open = false;
-    public GameObject wrench; 
-    
-    public Action[] CalcInteractions()
+
+    public override Action[] CalcInteractions()
     {
-        if (!open && GameManager.Instance.inventory.IsInInventory(wrench, true))
+        if (!open && GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
         {
             return new Action[] {Open};
         }
@@ -17,6 +18,9 @@ public class Vent : MonoBehaviour, IInteractable
         return new Action[] {};
     }
     
+    /**
+     * Open the door
+     */
     public void Open()
     {
         Debug.Log("Open");

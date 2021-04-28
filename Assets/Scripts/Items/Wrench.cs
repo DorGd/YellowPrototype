@@ -1,10 +1,13 @@
 using System;
 using UnityEngine;
 
-public class Wrench : MonoBehaviour, IInteractable, IHideable
+public class Wrench : Interactable, IHideable
 {
-    public Action[] CalcInteractions()
+    ItemType CurrItemType = ItemType.Wrench; 
+    
+    public override Action[] CalcInteractions()
     {
+        // no need to check if there's place because it's an hand item
         return new Action[] {PickUp};
     }
     
@@ -12,7 +15,8 @@ public class Wrench : MonoBehaviour, IInteractable, IHideable
     {
         Debug.Log("Pickup");
         
-        GameManager.Instance.inventory.AddItem(this.gameObject, true);
-        gameObject.SetActive(false);
+        GameManager.Instance.inventory.AddItem(this, true);
     }
+    
+    
 }

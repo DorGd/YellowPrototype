@@ -3,26 +3,28 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public bool isMainInventory = false; // is this the main player inventory 
-    public GameObject handItem = null; // the current item in the player hand- if it's the main inventory 
-    public GameObject[] inventoryItems = new GameObject[10];
-    private int _inventoryCount = 0;
+    public Interactable handItem = null; // the current item in the player hand- if it's the main inventory 
+    public Interactable[] inventoryItems = new Interactable[10];
+    private int _inventoryCount = 0; 
     public int Count 
     {
         get { return _inventoryCount; } 
     }
-
-    public void AddItem(GameObject newItem, bool toHand)
+    /**
+     * add an item as hand item (if main inventory) and if wanted (toHand = true) or to the inventory
+     */
+    public void AddItem(Interactable newItem, bool toHand)
     {
-        if (_inventoryCount == inventoryItems.Length)
+        // this is the main inventory and we want to add to the hand of the player. 
+        if (isMainInventory && toHand)
         {
-            // no place to add more
-            return; 
-        }
-        
-        if (isMainInventory && handItem == null && toHand)
-        {
-            // add the item to the hand of the player
+            if (handItem != null)
+            {
+                RemoveItem(handItem); // remove the item that is currently in hand
+            }
             handItem = newItem; 
+            newItem.gameObject.SetActive(false); // remove item from the scene
+            return;
         }
 
         for (int i = 0; i < inventoryItems.Length; i++)
@@ -32,48 +34,64 @@ public class Inventory : MonoBehaviour
                 // add to the free space
                 inventoryItems[i] = newItem;
                 _inventoryCount += 1;
-                break;
+                newItem.gameObject.SetActive(false); // remove item from the scene
+                return;
             }
         }
     }
 
-    public void RemoveItem(GameObject itemToRemove)
+    /**
+     * Remove an item- for hand items and inventory items 
+     * place the item that was removed next to where the player currently at.
+     * TODO when we will decide how to get the player location, add offset.
+     * TODO change to according to type 
+     */
+    public void RemoveItem(Interactable itemToRemove)
     {
+        // remove hand item 
         if (isMainInventory && handItem == itemToRemove)
         {
             handItem = null;
         }
-
-        for (int i = 0; i < inventoryItems.Length; i++)
+        
+        // remove from the inventory
+        else
         {
-
-            if (inventoryItems[i] != null && inventoryItems[i] == itemToRemove)
+            for (int i = 0; i < inventoryItems.Length; i++)
             {
-                inventoryItems[i].gameObject.SetActive(true);
-                inventoryItems[i] = null;
-                _inventoryCount--; 
+
+                if (inventoryItems[i] != null && inventoryItems[i] == itemToRemove)
+                {
+                    inventoryItems[i] = null;
+                    _inventoryCount--; 
+                }
             }
         }
+  
+        
+        // get the item back to the scene
+        itemToRemove.gameObject.SetActive(true); 
+        // TODO need to understand how to get the player coords and than locate the item with an offset
+        itemToRemove.gameObject.transform.position =
+            GameManager.Instance.GetPlayerLocation(); // locate the object that was removed next to the player
+
     }
-
-    public bool IsInInventory(GameObject itemToCheck, bool inHand)
+    
+    /**
+     * check if an item is in the inventory- for both hand items and inventory items
+     */
+    public bool IsInInventory(ItemType item,  bool inHand)
     {
-        if (inHand) // looking for the item in the hnd of the player
+        // looking for the item in the hand of the player
+        if (inHand)
         {
-            Debug.Log("looking fro wrench in hand");
-            if (handItem == itemToCheck)
-            {
-                Debug.Log("is in hand");
-
-                return true; // the item is in hand
-            }
-
-            return false;  // the item is not in hand
+            return handItem.GetType() == item; 
         }
         
+        // looking for the item in the inventory
         for (int i = 0; i < inventoryItems.Length; i++)
         {
-            if (inventoryItems[i] == itemToCheck)
+            if (inventoryItems[i].GetType() == item)
             {
                 return true; 
             }
@@ -81,24 +99,35 @@ public class Inventory : MonoBehaviour
         return false; 
     }
 
+    /**
+     * set the inventory as main inventory - that means that it's connected to our player and contains an active option
+     * to use the hand item.
+     * default setting for inventory: isMainInventory = false
+     */
     public void SetMainInventory()
     {
         isMainInventory = true; 
     }
-    
-    public GameObject GetHandItem()
-    {
-        return handItem; 
-    }
 
-    public bool IsFull()
+   
+    /**
+     * return the game object of the item the player have in it's hand. 
+     */
+    public Interactable GetHandItem()
     {
-        if (_inventoryCount == inventoryItems.Length)
+        if (isMainInventory)
         {
-            return true; 
+            return handItem;
         }
-
-        return false; 
+        return null; // doesn't even have a hand pbject
+    }
+    
+    /**
+     * Checks if there's place in the inventory or it's full
+     */
+    public bool CanAdd()
+    {
+        return _inventoryCount != inventoryItems.Length; 
     }
 
     public bool IsEmpty()
