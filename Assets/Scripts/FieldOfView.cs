@@ -78,14 +78,17 @@ public class FieldOfView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (InField() && !fieldContains)
+		if (InField())
 		{
-			onEnterField.Invoke();
-			fieldContains = true;
+			if (!fieldContains)
+			{
+				onEnterField.Invoke();
+				fieldContains = true;
+			}
 		}
 		else if (fieldContains)
 		{
-			onEnterField.Invoke();
+			onExitField.Invoke();
 			fieldContains = false;
 		}
 		DrawField();
