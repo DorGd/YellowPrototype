@@ -8,14 +8,14 @@ public class ConfiscateSanction : SanctionSO
 {
     // TODO Change to collectable or items enum type
     [SerializeField]
-    private GameObject[] _forbiddenEquipment;
+    private Interactable[] _forbiddenEquipment;
     public override void Apply()
     {
         for (int i = 0; i < GameManager.Instance.inventory.Count; ++i)
         {
             // TODO change to collectable
-            GameObject eq = GameManager.Instance.inventory.inventoryItems[i];
-            foreach (GameObject feq in _forbiddenEquipment)
+            Interactable eq = GameManager.Instance.inventory.inventoryItems[i];
+            foreach (Interactable feq in _forbiddenEquipment)
             {
                 if (feq.name.Equals(eq.name))
                 {

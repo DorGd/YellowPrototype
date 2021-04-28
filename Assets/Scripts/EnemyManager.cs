@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyManger : MonoBehaviour
+public class EnemyManager : MonoBehaviour
 {
 
     [SerializeField]
@@ -34,17 +34,14 @@ public class EnemyManger : MonoBehaviour
             }
         }
         UpdateParadigm();
-
+        _field.onEnterField.AddListener(RegulationsValidation);
     }
 
-    void Update()
+    void RegulationsValidation()
     {
-        if (_field.inField(GameObject.FindGameObjectWithTag("Player")))
+        foreach (var reg in _paradigms[curr].regulations)
         {
-            foreach (var reg in _paradigms[curr].regulations)
-            {
-                if(!reg.CheckRegulation()) reg.sanction.Apply();
-            }
+            if(!reg.CheckRegulation()) reg.sanction.Apply();
         }
     }
 

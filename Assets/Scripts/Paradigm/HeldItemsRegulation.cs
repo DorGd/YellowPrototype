@@ -5,9 +5,9 @@ public class HeldItemsRegulation : RegulationSO
 {
     // TODO change to GameObject to Collectable
     [SerializeField]
-    private GameObject[] _requiredEquipment;
+    private Interactable[] _requiredEquipment;
     [SerializeField]
-    private GameObject[] _forbiddenEquipment;
+    private Interactable[] _forbiddenEquipment;
 
     public override bool CheckRegulation()
     {
@@ -23,8 +23,8 @@ public class HeldItemsRegulation : RegulationSO
         for (int i = 0; i < GameManager.Instance.inventory.Count; ++i)
         {
             // TODO change to collectable
-            GameObject eq = GameManager.Instance.inventory.inventoryItems[i];
-            foreach (GameObject feq in _forbiddenEquipment)
+            Interactable eq = GameManager.Instance.inventory.inventoryItems[i];
+            foreach (Interactable feq in _forbiddenEquipment)
             {
                 // TODO change to collectable type
                 if (feq.name.Equals(eq.name))
@@ -35,10 +35,10 @@ public class HeldItemsRegulation : RegulationSO
         }
 
         bool reqFlag;
-        foreach (GameObject req in _requiredEquipment)
+        foreach (Interactable req in _requiredEquipment)
         {
             reqFlag = false;
-            foreach (GameObject eq in _requiredEquipment)
+            foreach (Interactable eq in _requiredEquipment)
             {
                 if (req.Equals(eq))
                 {

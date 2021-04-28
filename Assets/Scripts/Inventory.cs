@@ -72,8 +72,7 @@ public class Inventory : MonoBehaviour
         // get the item back to the scene
         itemToRemove.gameObject.SetActive(true); 
         // TODO need to understand how to get the player coords and than locate the item with an offset
-        itemToRemove.gameObject.transform.position =
-            GameManager.Instance.GetPlayerLocation(); // locate the object that was removed next to the player
+        itemToRemove.gameObject.transform.position = GameManager.Instance.PlayerTransform.position; // locate the object that was removed next to the player
 
     }
     

@@ -5,12 +5,12 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Paradigm/Actions/Patrol")]
 public class Patrol : ActionSO
 {
-    public override void Act(EnemyManger enemy)
+    public override void Act(EnemyManager enemy)
     {
         enemy.StartCoroutine(PatrolRoutine(enemy));
     }
     
-    IEnumerator PatrolRoutine(EnemyManger enemy)
+    IEnumerator PatrolRoutine(EnemyManager enemy)
     {
         // Disabling auto-braking allows for continuous movement
         // between points (ie, the agent doesn't slow down as it

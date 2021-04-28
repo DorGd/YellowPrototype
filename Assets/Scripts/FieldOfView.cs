@@ -218,7 +218,7 @@ public class FieldOfView : MonoBehaviour
 	public bool InField()
     {
 		
-		Vector3 targetPos = GameObject.FindGameObjectWithTag("Player").transform.position; //GameManger.Instance().PlayerTransform().position;
+		Vector3 targetPos = GameManager.Instance.PlayerTransform.position;
         if (Vector3.Distance(transform.position, targetPos) < viewDistance) // in distance
         {
             Vector3 targetDir = (targetPos - transform.position).normalized;
