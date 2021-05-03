@@ -68,8 +68,8 @@ public class Controller : MonoBehaviour
                         return;
                     case "Ground":
                         // Move player to hit point
-                        goToCircleAnimator.gameObject.transform.position = hit.point + new Vector3(0, 0.1f, 0);
                         goToCircleAnimator.SetTrigger("CircleTrigger");
+                        goToCircleAnimator.gameObject.transform.position = hit.point + new Vector3(0, 0.1f, 0);
                         _ai.MoveToPoint(hit.point);
                         break;
                 }
