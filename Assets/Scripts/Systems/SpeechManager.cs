@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,8 @@ public class SpeechManager : MonoBehaviour
     public Canvas speechCanvas;
     public Image bubbleImage;
     public TextMeshProUGUI speechTextBox;
-
+    public Animator bubbleAnimator;
+    
     [Header("Bubble Position")]
     public float xFromSource = 10;
     public float yFromSource = 10;
@@ -18,7 +20,7 @@ public class SpeechManager : MonoBehaviour
     [Header("Button")]
     public GameObject advanceButton;
     public TextMeshProUGUI buttonText;
-    public Animator bubbleAnimator;
+    
     public float typingDelay = 0.01f;
 
     private bool isAvailable;
@@ -39,13 +41,6 @@ public class SpeechManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        //if (!isAvailable && speechSource != null)
-        //{
-        //    DrawTail();
-        //}
-    }
 
     private void SetBubblePosition()
     {
@@ -55,32 +50,32 @@ public class SpeechManager : MonoBehaviour
 
         if (Screen.width - speechSource.x < bubbleWidth + xFromSource)
         {
-            xPos = speechSource.x - ((bubbleWidth / 2) + xFromSource);
+            xPos = Mathf.Min(speechSource.x,Screen.width) - ((bubbleWidth / 2) + xFromSource);
         }
         else
         {
-            xPos = (bubbleWidth / 2) + speechSource.x + xFromSource;
+            xPos =  Mathf.Max(speechSource.x, 0) + (bubbleWidth / 2) + xFromSource;
         }
 
         if (Screen.height - speechSource.y < bubbleHeight + yFromSource)
         {
-            yPos = speechSource.y - ((bubbleHeight / 2) + yFromSource);
+            yPos = Mathf.Min(speechSource.y,Screen.height) - ((bubbleHeight / 2) + yFromSource);
         }
         else
         {
-            yPos = (bubbleHeight / 2) + speechSource.y + yFromSource;
+            yPos = Mathf.Max(speechSource.y, 0) + (bubbleHeight / 2) + yFromSource;
         }
 
         bubbleImage.transform.position = new Vector3(xPos, yPos, 0);
     }
 
-    public void startSpeech(GameObject speaker, SpeechTextSO text)
+    public void StartSpeech(Vector3 speakerLocation, SpeechTextSO text)
     {
         if (isAvailable)
         {
             isAvailable = false;
             speechCanvas.gameObject.SetActive(true);
-            speechSource = Camera.main.WorldToScreenPoint(speaker.transform.position);
+            speechSource = Camera.main.WorldToScreenPoint(speakerLocation);
             SetBubblePosition();
             currentSentences = text.sentences;
             sentenceIndex = 0;
@@ -91,7 +86,7 @@ public class SpeechManager : MonoBehaviour
         }
     }
 
-    public void advanceSpeech()
+    public void AdvanceSpeech()
     {
         if (sentenceIndex < currentSentences.Length)
         {
@@ -140,9 +135,5 @@ public class SpeechManager : MonoBehaviour
         speechCanvas.gameObject.SetActive(false);
     }
 
-    //private void DrawTail()
-    //{
-    //    //Vector3 tailStart = bubbleImage.rectTransform
-    //    //tailMesh.vertices = [speechSource.transform.position, ];
-    //}
+
 }
