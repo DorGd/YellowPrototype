@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour
     private Button[] _buttons;
 
     public Canvas rightClickCanvas;
-
+    public Animator goToCircleAnimator;
 
     private void Awake()
     {
@@ -68,6 +68,8 @@ public class Controller : MonoBehaviour
                         return;
                     case "Ground":
                         // Move player to hit point
+                        goToCircleAnimator.gameObject.transform.position = hit.point + new Vector3(0, 0.1f, 0);
+                        goToCircleAnimator.SetTrigger("CircleTrigger");
                         _ai.MoveToPoint(hit.point);
                         break;
                 }
