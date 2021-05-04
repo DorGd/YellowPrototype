@@ -24,10 +24,10 @@ public class IsometricCharacterRenderer : MonoBehaviour
         {
             if (bucketStartAngles[i] > transform.parent.eulerAngles.y)
             {
-                material.SetTexture("_BaseMap", characterRotationTextures[i]);
+                material.SetTexture("_MainTex", characterRotationTextures[i]);
                 return;
             }
         }
-        material.SetTexture("_BaseMap", characterRotationTextures[0]);
+        material.SetTexture("_MainTex", characterRotationTextures[0]);
     }
 }
