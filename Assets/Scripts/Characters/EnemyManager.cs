@@ -5,17 +5,13 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField]
     private ParadigmSO[] _paradigms;
-
     private int curr;
     private FieldOfView _field;
     private PlayerAI _ai;
-
     public PlayerAI Ai
     {
         get { return _ai; }
     }
-
-    
 
     void Start()
     {
@@ -25,6 +21,7 @@ public class EnemyManager : MonoBehaviour
 
         // Find the current paradigm
         int time = GameManager.Instance.Clock.GetHour();
+        curr = -1;
         for (int i = 0; i < _paradigms.Length; i++)
         {
             if (_paradigms[i].startTime <= time && time <= _paradigms[i].endTime)
@@ -45,7 +42,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    void UpdateParadigm()
+    public void UpdateParadigm()
     {
         int time = GameManager.Instance.Clock.GetHour();
         if (_paradigms[(curr + 1) % _paradigms.Length].startTime == time)
@@ -58,11 +55,13 @@ public class EnemyManager : MonoBehaviour
             {
                 _ai.WayPoints = _paradigms[curr].patrolPath.Points;
             }
-
+            Debug.Log(_paradigms[curr].action.name);
             _paradigms[curr].action.Act(this);
-
         }
     }
 
-
+    public ParadigmSO GetCurrentParadigm()
+    {
+        return _paradigms[curr];
+    }
 }

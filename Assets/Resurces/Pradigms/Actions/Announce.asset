@@ -12,5 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d739b8a148a48a7bd8375dc2a481d2, type: 3}
   m_Name: Announce
   m_EditorClassIdentifier: 
-  text: {fileID: 11400000, guid: 4378f14c3b92d49b4bc5f6b5698687c4, type: 2}
-  manager: {fileID: 0}

@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Paradigm 1
+  m_Name: Mornning  Patrol
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: 8e0c58dd32c314402b3106ae075abd76, type: 2}
-  startTime: 1
-  endTime: 2
-  patrolPath: {fileID: 0}
+  action: {fileID: 11400000, guid: 9c180b8506a66d046adbb4bc4371068f, type: 2}
+  startTime: 8
+  endTime: 9
+  patrolPath: {fileID: 6203409048080163424, guid: b237ddb33cf217c4aafcce1646d0cde1, type: 3}
+  text: {fileID: 0}
+  goToPosition: {x: 0, y: 0, z: 0}
   regulations: []

@@ -13,12 +13,13 @@ public class Clock : MonoBehaviour
     //private Transform clockMinuteHandTransform;
     private float day;
     [SerializeField] private Text timeText;
-
+    [SerializeField] private float initTime;
     private void Awake()
     {
         //clockHourHandTransform = transform.Find("hourHand");
         //clockMinuteHandTransform = transform.Find("minuteHand");
         //timeText = transform.Find("timeText").GetComponent<Text>();
+        day = initTime / 24;
     }
 
     private void Update()

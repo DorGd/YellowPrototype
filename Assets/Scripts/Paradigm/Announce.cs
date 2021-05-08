@@ -5,18 +5,26 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Paradigm/Actions/Announce")]
 public class Announce : ActionSO
 {
-    public SpeechTextSO text;
     public override void Act(EnemyManager enemy)
     {
-        GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,text);
+        enemy.StartCoroutine(AnnounceRoutine(enemy));
     }
 
     IEnumerator AnnounceRoutine(EnemyManager enemy)
     {
+        if (enemy.GetCurrentParadigm().goToPosition != null)
+        {
+            enemy.Ai.MoveToPoint(enemy.GetCurrentParadigm().goToPosition);
+            yield return null;
+        }
+        while (enemy.Ai.IsNavigating())
+        {
+            yield return new WaitForSeconds(0.01f);
+        }
+        GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,enemy.GetCurrentParadigm().text);
         yield return new WaitForSeconds(0.01f);
-        Debug.Log("Announce!!!!!!!!!");
+        enemy.UpdateParadigm();
+        yield return null;
     }
-    
-    
-
+ 
 }

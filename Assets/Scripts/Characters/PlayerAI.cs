@@ -26,4 +26,9 @@ public class PlayerAI : MonoBehaviour
     {
         _agent.SetDestination(point);
     }
+
+    public bool IsNavigating()
+    {
+        return !(_agent.remainingDistance <= _agent.stoppingDistance);
+    }
 }

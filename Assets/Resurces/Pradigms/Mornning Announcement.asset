@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Paradigm
+  m_Name: Mornning Announcement
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: db5238b5da707cd409b84fa01be13b36, type: 2}
-  startTime: 0
-  endTime: 1
-  patrolPath: {fileID: 6203409048080163424, guid: b237ddb33cf217c4aafcce1646d0cde1, type: 3}
+  action: {fileID: 11400000, guid: d7bc7b5a702a813478dbced8cd3dccc8, type: 2}
+  startTime: 8
+  endTime: 9
+  patrolPath: {fileID: 0}
+  text: {fileID: 11400000, guid: ee5cd14dcbe2f41408de52902a4aff61, type: 2}
+  goToPosition: {x: -7.49, y: 0, z: -30.52}
   regulations: []
