@@ -20,6 +20,7 @@ public class Chase : ActionSO
             yield return new WaitForSeconds(Time.deltaTime);
         }
         enemy.Ai.MoveToPoint(enemy.transform.position + (GameManager.Instance.PlayerTransform.position - enemy.transform.position) / 2);
-        yield return null;
+        while (enemy.Ai.IsNavigating()) yield return new WaitForSeconds(Time.deltaTime);
+        enemy.ActivateNextParadigm();
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 public class ParadigmSO : ScriptableObject
 {
     public ActionSO action;
-    public int startTime;
-    public int endTime;
+    public float startTime;
+    public float endTime;
     public Path patrolPath;
     public SpeechTextSO text;
     public Vector3 goToPosition;

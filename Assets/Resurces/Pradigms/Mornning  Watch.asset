@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
   startTime: 6
-  endTime: 9
-  patrolPath: {fileID: 6203409048080163424, guid: b237ddb33cf217c4aafcce1646d0cde1, type: 3}
+  endTime: 7.5
+  patrolPath: {fileID: 0}
   text: {fileID: 0}
   goToPosition: {x: -23.4, y: 0, z: -35.76}
   watchSector: {x: 0, y: 540}

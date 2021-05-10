@@ -23,7 +23,7 @@ public class Announce : ActionSO
         }
         GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,enemy.GetCurrentParadigm().text);
         yield return new WaitForSeconds(Time.deltaTime);
-        enemy.UpdateParadigm();
+        enemy.ActivateNextParadigm();
         yield return null;
     }
  

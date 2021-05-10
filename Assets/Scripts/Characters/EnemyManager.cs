@@ -44,20 +44,31 @@ public class EnemyManager : MonoBehaviour
 
     public void UpdateParadigm()
     {
-        int time = GameManager.Instance.Clock.GetHour();
+        float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        Debug.Log($"time = {time}, paradigm time = {_paradigms[(curr + 1) % _paradigms.Length].startTime}");
         if (_paradigms[(curr + 1) % _paradigms.Length].startTime == time)
         {
-            curr = (curr + 1) % _paradigms.Length;
-            // Stop patroling Action if activated
-            _ai.Patroling = false;                                          
-            // Takes paradigm new path if not null
-            if (_paradigms[curr].patrolPath != null)
-            {
-                _ai.WayPoints = _paradigms[curr].patrolPath.Points;
-            }
-            Debug.Log(_paradigms[curr].action.name);
-            _paradigms[curr].action.Act(this);
+            ActivateNextParadigm();
         }
+    }
+
+    public void ActivateNextParadigm()
+    {
+            float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+            curr = (curr + 1) % _paradigms.Length;
+            ParadigmSO nextParadigm = _paradigms[curr];
+            if (nextParadigm.startTime <= time && nextParadigm.endTime >= time)
+            {    
+                // Stop patroling / watch Action if activated
+                _ai.Patroling = false;                                          
+                // Takes paradigm new path if not null
+                if (nextParadigm.patrolPath != null)
+                {
+                    _ai.WayPoints = nextParadigm.patrolPath.Points;
+                }
+                Debug.Log(nextParadigm.action.name);
+                nextParadigm.action.Act(this);
+            }
     }
 
     public ParadigmSO GetCurrentParadigm()
