@@ -45,7 +45,6 @@ public class EnemyManager : MonoBehaviour
     public void UpdateParadigm()
     {
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
-        Debug.Log($"time = {time}, paradigm time = {_paradigms[(curr + 1) % _paradigms.Length].startTime}");
         if (_paradigms[(curr + 1) % _paradigms.Length].startTime == time)
         {
             ActivateNextParadigm();
@@ -66,7 +65,6 @@ public class EnemyManager : MonoBehaviour
                 {
                     _ai.WayPoints = nextParadigm.patrolPath.Points;
                 }
-                Debug.Log(nextParadigm.action.name);
                 nextParadigm.action.Act(this);
             }
     }

@@ -19,6 +19,7 @@ public class Watch : ActionSO
         else
         {
             enemy.Ai.MoveToPoint(enemy.GetCurrentParadigm().goToPosition);
+            yield return null;
         }
         
         while (enemy.Ai.IsNavigating()) {yield return new WaitForSeconds(Time.deltaTime);}
@@ -29,14 +30,15 @@ public class Watch : ActionSO
         }
         else
         {
-            enemy.Ai.Patroling = true;
             Quaternion currentRotation = enemy.transform.rotation;
             Quaternion[] wantedRotation = new Quaternion[2];
             Vector2 sector = enemy.GetCurrentParadigm().watchSector;
-            wantedRotation[0] = Quaternion.Euler(currentRotation.eulerAngles.x, sector[0] ,currentRotation.eulerAngles.z);
-            wantedRotation[1] = Quaternion.Euler(currentRotation.eulerAngles.x, sector[1] ,currentRotation.eulerAngles.z);
-
+            wantedRotation[0] = Quaternion.Euler(0f, sector[0] ,0f);
+            wantedRotation[1] = Quaternion.Euler(0f, sector[1] ,0f);
             int i = 0;
+            
+            enemy.transform.rotation = wantedRotation[1];
+            enemy.Ai.Patroling = true;
             while (enemy.Ai.Patroling)
             {
                 currentRotation = enemy.transform.rotation;
