@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Mornning Announcement
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: d7bc7b5a702a813478dbced8cd3dccc8, type: 2}
-  startTime: 8
-  endTime: 9
+  startTime: 6
+  endTime: 7
   patrolPath: {fileID: 0}
   text: {fileID: 11400000, guid: ee5cd14dcbe2f41408de52902a4aff61, type: 2}
   goToPosition: {x: -7.49, y: 0, z: -30.52}
+  watchSector: {x: 0, y: 0}
   regulations: []

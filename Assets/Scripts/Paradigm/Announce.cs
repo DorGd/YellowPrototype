@@ -19,10 +19,10 @@ public class Announce : ActionSO
         }
         while (enemy.Ai.IsNavigating())
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(Time.deltaTime);
         }
         GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,enemy.GetCurrentParadigm().text);
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(Time.deltaTime);
         enemy.UpdateParadigm();
         yield return null;
     }
