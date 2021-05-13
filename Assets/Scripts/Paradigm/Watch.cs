@@ -5,26 +5,26 @@ using UnityEngine;
 public class Watch : ActionSO
 {
     public float rotateSpeed = 20f;
-    public override void Act(EnemyManager enemy)
+    public override Coroutine Act(EnemyManager enemy)
     {
-       enemy.StartCoroutine(WatchRoutine(enemy));
+       return enemy.StartCoroutine(WatchRoutine(enemy));
     }
 
     IEnumerator WatchRoutine(EnemyManager enemy)
     {
-         if (enemy.GetCurrentParadigm().goToPosition == null)
+         if (enemy.CurrentParadigm.goToPosition == null)
         {
             Debug.Log($"Gurd {enemy.name} missing go-to point for Watch action");
         }
         else
         {
-            enemy.Ai.MoveToPoint(enemy.GetCurrentParadigm().goToPosition);
+            enemy.Ai.MoveToPoint(enemy.CurrentParadigm.goToPosition);
             yield return null;
         }
         
         while (enemy.Ai.IsNavigating()) {yield return new WaitForSeconds(Time.deltaTime);}
 
-        if (enemy.GetCurrentParadigm().watchSector == null)
+        if (enemy.CurrentParadigm.watchSector == null)
         {
             Debug.Log($"Gurd {enemy.name} missing sector for Watch action");
         }
@@ -32,7 +32,7 @@ public class Watch : ActionSO
         {
             Quaternion currentRotation = enemy.transform.rotation;
             Quaternion[] wantedRotation = new Quaternion[2];
-            Vector2 sector = enemy.GetCurrentParadigm().watchSector;
+            Vector2 sector = enemy.CurrentParadigm.watchSector;
             wantedRotation[0] = Quaternion.Euler(0f, sector[0] ,0f);
             wantedRotation[1] = Quaternion.Euler(0f, sector[1] ,0f);
             int i = 0;

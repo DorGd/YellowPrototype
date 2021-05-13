@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 6364723490835342022}
   m_Layer: 0
   m_Name: Gurd NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,7 +129,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 3
   m_Acceleration: 30
   avoidancePriority: 50
   m_AngularSpeed: 1200
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 180962878422466431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71403ad55faa6414b9545ac13029a1e4, type: 3}
+  m_Script: {fileID: 11500000, guid: a0a2a64587e37f540a0ad28d1c4eb6d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WayPoints: []
@@ -226,6 +226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _paradigms:
   - {fileID: 11400000, guid: 5004112228fa02544801ed85eb745e29, type: 2}
+  - {fileID: 11400000, guid: c564b832a0fb3c14b8fc8ecc8878df74, type: 2}
+  - {fileID: 11400000, guid: 71c55db234f384b4aa395f72d5674b3c, type: 2}
   - {fileID: 11400000, guid: c564b832a0fb3c14b8fc8ecc8878df74, type: 2}
 --- !u!1 &4114665288455090676
 GameObject:

@@ -4,10 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Paradigm/Actions/Chase")]
 public class Chase : ActionSO
 {
-    public override void Act(EnemyManager enemy)
+    public override Coroutine Act(EnemyManager enemy)
     {
-        enemy.StartCoroutine(ChaseRoutine(enemy));
-
+        return enemy.StartCoroutine(ChaseRoutine(enemy));
     }
 
     private IEnumerator ChaseRoutine(EnemyManager enemy)

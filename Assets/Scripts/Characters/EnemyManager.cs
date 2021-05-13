@@ -1,22 +1,37 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour
 {
 
     [SerializeField]
     private ParadigmSO[] _paradigms;
+    private Stack<ParadigmSO> _eventParadigms;
+    private ParadigmSO _currParadigm;
+    public ParadigmSO CurrentParadigm
+    {
+        get { return _currParadigm; }
+    }
+    private bool _isEvent = false;
     private int curr;
     private FieldOfView _field;
-    private PlayerAI _ai;
-    public PlayerAI Ai
+    private Ai _ai;
+    public Ai Ai
     {
         get { return _ai; }
+    }
+    private Coroutine _currentCoroutine;
+    public Coroutine CurrentCoroutine
+    {
+        get { return _currentCoroutine;}
+        set { _currentCoroutine = value;}
     }
 
     void Start()
     {
         _field = GetComponent<FieldOfView>();
-        _ai = GetComponent<PlayerAI>();
+        _ai = GetComponent<Ai>();
+        _eventParadigms = new Stack<ParadigmSO>();
         GameManager.Instance.Clock.TickEvent += UpdateParadigm;
 
         // Find the current paradigm
@@ -36,6 +51,7 @@ public class EnemyManager : MonoBehaviour
 
     void RegulationsValidation()
     {
+        if (curr < 0) return;
         foreach (var reg in _paradigms[curr].regulations)
         {
             if(!reg.CheckRegulation()) reg.sanction.Apply();
@@ -51,26 +67,67 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void ActivateNextParadigm()
+    public void LoadEventParadigms(ParadigmSO[] paradigms)
     {
-            float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
-            curr = (curr + 1) % _paradigms.Length;
-            ParadigmSO nextParadigm = _paradigms[curr];
-            if (nextParadigm.startTime <= time && nextParadigm.endTime >= time)
-            {    
-                // Stop patroling / watch Action if activated
-                _ai.Patroling = false;                                          
-                // Takes paradigm new path if not null
-                if (nextParadigm.patrolPath != null)
-                {
-                    _ai.WayPoints = nextParadigm.patrolPath.Points;
-                }
-                nextParadigm.action.Act(this);
-            }
+        for (int i = paradigms.Length - 1; i >= 0; --i) _eventParadigms.Push(paradigms[i]);
     }
 
-    public ParadigmSO GetCurrentParadigm()
+    public void InvokeEventParadigm()
     {
-        return _paradigms[curr];
+        if (_eventParadigms.Count > 0)
+        {
+            _isEvent = true;
+            StopAction();
+            if (curr >= 0) curr--;
+            ActivateNextParadigm();
+        }
+    }
+
+    public void ActivateNextParadigm()
+    {       
+        if (_isEvent)
+        {
+            if (_eventParadigms.Count == 0) _isEvent = false;
+            else 
+            {
+                ParadigmSO eventParadigm = _eventParadigms.Pop();
+                _currParadigm = eventParadigm;
+                eventParadigm.action.Act(this);
+                // Tell to RoutineManager that the event is done
+                return;
+            }
+        }
+
+        float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        curr = (curr + 1) % _paradigms.Length;
+        ParadigmSO nextParadigm = _paradigms[curr];
+        _currParadigm = nextParadigm;
+        // TODO handle midnight paradigm shift
+
+        // next paradigm time slot contain current time
+        if (nextParadigm.startTime <= time && nextParadigm.endTime >= time)
+        {    
+            // Stop patroling / watch Action if activated
+            _ai.Patroling = false;                                          
+            // Takes paradigm new path if not null
+            if (nextParadigm.patrolPath != null)
+            {
+                _ai.WayPoints = nextParadigm.patrolPath.Points;
+            }
+            if (!_isEvent) CurrentCoroutine =  nextParadigm.action.Act(this);
+        }
+        // next paradigm end-time has past -> searching the next relevant paradigm
+        else if (nextParadigm.endTime < time)
+        {
+            // TODO search next relevant paradigm
+            Debug.Log("Search next relevant paradigm");
+        }
+        // else -> go to default paradigm
+    }
+
+    public void StopAction()
+    {
+        if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
+        Ai.StopAgent();
     }
 }

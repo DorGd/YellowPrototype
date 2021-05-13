@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class PlayerAI : MonoBehaviour
+public class Ai : MonoBehaviour
 {
     private NavMeshAgent _agent;
     public Transform[] WayPoints;
@@ -30,5 +30,34 @@ public class PlayerAI : MonoBehaviour
     public bool IsNavigating()
     {
         return !(_agent.remainingDistance <= _agent.stoppingDistance);
+    }
+
+    public void StopAgent()
+    {
+        // TODO try me without isStopped
+        _patroling = false;
+        _agent.isStopped = true;
+        _agent.ResetPath();
+        _agent.isStopped = false;
+    }
+
+    public bool HasPath()
+    {
+        return _agent.hasPath;
+    }
+
+    public NavMeshPath GetPath()
+    {
+        return _agent.path;
+    }
+    public void Follow (Ai target)
+    {
+        if (target.HasPath())
+        {
+            _agent.SetPath(target.GetPath());
+            _agent.isStopped = false;
+        } 
+            
+
     }
 }

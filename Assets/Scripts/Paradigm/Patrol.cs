@@ -5,9 +5,9 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Paradigm/Actions/Patrol")]
 public class Patrol : ActionSO
 {
-    public override void Act(EnemyManager enemy)
+    public override Coroutine Act(EnemyManager enemy)
     {
-        enemy.StartCoroutine(PatrolRoutine(enemy));
+        return enemy.StartCoroutine(PatrolRoutine(enemy));
     }
     
     IEnumerator PatrolRoutine(EnemyManager enemy)
