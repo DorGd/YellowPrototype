@@ -29,9 +29,10 @@ public class EnemyManager : MonoBehaviour
 
     void Start()
     {
-        _field = GetComponent<FieldOfView>();
         _ai = GetComponent<Ai>();
         _eventParadigms = new Stack<ParadigmSO>();
+        _field = GetComponent<FieldOfView>();
+        _field.onEnterField.AddListener(RegulationsValidation);
         GameManager.Instance.Clock.TickEvent += UpdateParadigm;
 
         // Find the current paradigm
@@ -46,27 +47,38 @@ public class EnemyManager : MonoBehaviour
             }
         }
         UpdateParadigm();
-        _field.onEnterField.AddListener(RegulationsValidation);
     }
 
-    void RegulationsValidation()
-    {
-        if (curr < 0) return;
-        foreach (var reg in _paradigms[curr].regulations)
-        {
-            if(!reg.CheckRegulation()) reg.sanction.Apply();
-        }
-    }
 
     public void UpdateParadigm()
     {
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        // check if next paradigm start time has arrived or current paradigm has expired 
         if (_paradigms[(curr + 1) % _paradigms.Length].startTime == time)
         {
             ActivateNextParadigm();
         }
+        else if (curr >= 0 && _paradigms[curr].endTime <= time)
+        {
+            FindNextParadigm();
+            ActivateNextParadigm();
+        }
     }
 
+    void FindNextParadigm()
+    {
+        float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+
+        for (int i = 0; i < _paradigms.Length; i++)
+        {
+            int j = (i + curr) % _paradigms.Length; 
+            if (_paradigms[j].endTime >= time)
+            {
+                curr = (j - 1) % _paradigms.Length;
+                return;
+            }
+        }
+    }
     public void LoadEventParadigms(ParadigmSO[] paradigms)
     {
         for (int i = paradigms.Length - 1; i >= 0; --i) _eventParadigms.Push(paradigms[i]);
@@ -84,20 +96,25 @@ public class EnemyManager : MonoBehaviour
     }
 
     public void ActivateNextParadigm()
-    {       
+    {   
+        // Event based paradigm logic    
         if (_isEvent)
         {
-            if (_eventParadigms.Count == 0) _isEvent = false;
+            if (_eventParadigms.Count == 0) 
+            {
+                _isEvent = false;
+                UpdateParadigm();
+            }
             else 
             {
                 ParadigmSO eventParadigm = _eventParadigms.Pop();
                 _currParadigm = eventParadigm;
                 eventParadigm.action.Act(this);
-                // Tell to RoutineManager that the event is done
-                return;
             }
+            return;
         }
 
+        // Regular routine logic
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
         curr = (curr + 1) % _paradigms.Length;
         ParadigmSO nextParadigm = _paradigms[curr];
@@ -116,18 +133,23 @@ public class EnemyManager : MonoBehaviour
             }
             if (!_isEvent) CurrentCoroutine =  nextParadigm.action.Act(this);
         }
-        // next paradigm end-time has past -> searching the next relevant paradigm
-        else if (nextParadigm.endTime < time)
+        else
         {
-            // TODO search next relevant paradigm
-            Debug.Log("Search next relevant paradigm");
+            Debug.Log($"No relevant paradigm for {gameObject.name}, wait until {nextParadigm.startTime} o'clock.");
         }
-        // else -> go to default paradigm
     }
 
     public void StopAction()
     {
         if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
         Ai.StopAgent();
+    }
+    void RegulationsValidation()
+    {
+        if (curr < 0) return;
+        foreach (var reg in _paradigms[curr].regulations)
+        {
+            if(!reg.CheckRegulation()) reg.sanction.Apply();
+        }
     }
 }

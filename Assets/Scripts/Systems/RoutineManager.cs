@@ -5,6 +5,7 @@ public class RoutineManager : MonoBehaviour
 {
     private Dictionary<string, EnemyManager> _enemies;
     private Controller _controller;
+    //public string playerCurrRoom;
     void Start()
     {
         _enemies = new Dictionary<string, EnemyManager>();
@@ -17,6 +18,7 @@ public class RoutineManager : MonoBehaviour
     void UpdateRoutine()
     {
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        // TODO: room collider which tell the routine manager where is the player. 
         // if (time == 8f) StartCoroutine(LaunchConvoy( new Vector3(1f,1f,1f), new Vector3(-61.6f,0f,-9.4f),"Cell Gurd 1", "Cell Gurd 2"));
     }
 
@@ -36,7 +38,8 @@ public class RoutineManager : MonoBehaviour
         enemy.InvokeEventParadigm();
         yield return null;
     }
-    IEnumerator LaunchConvoy(Vector3 startPos, Vector3 endPos, string leadGurdName, string backGurdName)
+
+    IEnumerator LaunchConvoy(Vector3 startPos, Vector3 endPos, Vector3 tailStartDirection ,string leadGurdName, string backGurdName)
     {
         Debug.Log("Convoy Time!");
         float offset = 4f;
@@ -46,14 +49,17 @@ public class RoutineManager : MonoBehaviour
 
         _controller.FreezeController();
         leadGurd.StopAction();
-        leadGurd.Ai.MoveToPoint(endPos);
+        leadGurd.Ai.MoveToPoint(startPos);
         backGurd.StopAction();
-        // backGurd.Ai.MoveToPoint(startPos);
-        while (leadGurd.Ai.IsNavigating())
+        backGurd.Ai.MoveToPoint(startPos + tailStartDirection.normalized * offset);
+
+        while (leadGurd.Ai.IsNavigating() && backGurd.Ai.IsNavigating())
         {
-            backGurd.Ai.Follow(leadGurd.Ai);
             yield return new WaitForSeconds(Time.deltaTime);
         }
+
+        leadGurd.Ai.MoveToPoint(endPos);
+
         // Get First Gurd to head marker
         // Get all others + player to go in line
         // Get back gurd in place

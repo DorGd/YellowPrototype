@@ -54,7 +54,7 @@ public class Ai : MonoBehaviour
     {
         if (target.HasPath())
         {
-            _agent.SetPath(target.GetPath());
+            bool b = _agent.SetPath(target.GetPath());
             _agent.isStopped = false;
         } 
             
