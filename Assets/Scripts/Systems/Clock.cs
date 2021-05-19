@@ -14,6 +14,7 @@ public class Clock : MonoBehaviour
     private void Awake()
     {
         day = initTime / 24;
+        Update();
     }
 
     private void Update()

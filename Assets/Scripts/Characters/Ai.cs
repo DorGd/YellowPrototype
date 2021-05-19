@@ -7,7 +7,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Ai : MonoBehaviour
 {
-    private NavMeshAgent _agent;
+    private NavMeshAgent _agent; 
     public Transform[] WayPoints;
     private bool _patroling = false;
     public bool Patroling
@@ -24,6 +24,7 @@ public class Ai : MonoBehaviour
     
     public void MoveToPoint(Vector3 point)
     {
+        _agent.isStopped = false;
         _agent.SetDestination(point);
     }
 
@@ -34,30 +35,28 @@ public class Ai : MonoBehaviour
 
     public void StopAgent()
     {
-        // TODO try me without isStopped
         _patroling = false;
         _agent.isStopped = true;
         _agent.ResetPath();
-        _agent.isStopped = false;
     }
 
-    public bool HasPath()
-    {
-        return _agent.hasPath;
-    }
+    // public bool HasPath()
+    // {
+    //     return _agent.hasPath;
+    // }
 
-    public NavMeshPath GetPath()
-    {
-        return _agent.path;
-    }
-    public void Follow (Ai target)
-    {
-        if (target.HasPath())
-        {
-            bool b = _agent.SetPath(target.GetPath());
-            _agent.isStopped = false;
-        } 
+    // public NavMeshPath GetPath()
+    // {
+    //     return _agent.path;
+    // }
+    // public void Follow (Ai target)
+    // {
+    //     if (target.HasPath())
+    //     {
+    //         bool b = _agent.SetPath(target.GetPath());
+    //         _agent.isStopped = false;
+    //     } 
             
 
-    }
+    // }
 }

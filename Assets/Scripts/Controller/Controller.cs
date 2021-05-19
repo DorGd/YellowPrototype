@@ -125,6 +125,7 @@ public class Controller : MonoBehaviour
     public void FreezeController()
     {
         _playerControls.Disable();
+        rightClickCanvas.enabled = false; 
     }
 
     public void UnFreezeController()
