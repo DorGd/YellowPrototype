@@ -4,12 +4,12 @@ using UnityEngine.UI;
 using System;
 
 
-[RequireComponent(typeof(PlayerAI))]
+[RequireComponent(typeof(Ai))]
 public class Controller : MonoBehaviour
 {
     private PlayerControls _playerControls;
     private Camera _cam;
-    private PlayerAI _ai;
+    private Ai _ai;
     private LayerMask _leftMouseMask;
     private LayerMask _rightMouseMask;
     private Button[] _buttons;
@@ -20,7 +20,7 @@ public class Controller : MonoBehaviour
     private void Awake()
     {
         _playerControls = new PlayerControls();
-        _ai = GetComponent<PlayerAI>();
+        _ai = GetComponent<Ai>();
         _cam = Camera.main;
         _leftMouseMask = LayerMask.GetMask("Ground", "Obstruction");
         _rightMouseMask = LayerMask.GetMask("Interactable");
@@ -84,7 +84,6 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f, _rightMouseMask))
             {
-                // TODO Need to add distance check
 
                 Interactable item = hit.transform.gameObject.GetComponent<Interactable>();
                 
@@ -118,13 +117,19 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void foo(int i)
-    {
-        Debug.Log("plzzz" + i);
-    }
-
     private bool IsMouseOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();    
+    }
+
+    public void FreezeController()
+    {
+        _playerControls.Disable();
+        rightClickCanvas.enabled = false; 
+    }
+
+    public void UnFreezeController()
+    {
+        _playerControls.Enable();
     }
 }

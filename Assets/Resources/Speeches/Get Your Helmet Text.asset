@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5debbae2d11194a43935d3ba54f767e7, type: 3}
+  m_Name: Get Your Helmet Text
+  m_EditorClassIdentifier: 
+  sentences:
+  - 'Remember, as Cosmos X employees, your safety is our first priority! '
+  - Take the helmets from your rooms and be back here by 08:00 !

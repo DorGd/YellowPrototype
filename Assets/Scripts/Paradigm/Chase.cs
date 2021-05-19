@@ -4,10 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Paradigm/Actions/Chase")]
 public class Chase : ActionSO
 {
-    public override void Act(EnemyManager enemy)
+    public override Coroutine Act(EnemyManager enemy)
     {
-        enemy.StartCoroutine(ChaseRoutine(enemy));
-
+        return enemy.StartCoroutine(ChaseRoutine(enemy));
     }
 
     private IEnumerator ChaseRoutine(EnemyManager enemy)
@@ -17,9 +16,10 @@ public class Chase : ActionSO
         {
             dist = Vector3.Distance(GameManager.Instance.PlayerTransform.position, enemy.transform.position);
             enemy.Ai.MoveToPoint(GameManager.Instance.PlayerTransform.position);
-            yield return null;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
         enemy.Ai.MoveToPoint(enemy.transform.position + (GameManager.Instance.PlayerTransform.position - enemy.transform.position) / 2);
-        yield return null;
+        while (enemy.Ai.IsNavigating()) yield return new WaitForSeconds(Time.deltaTime);
+        enemy.ActivateNextParadigm();
     }
 }
