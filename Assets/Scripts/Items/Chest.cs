@@ -1,19 +1,10 @@
 using System;
 using UnityEngine;
 
-public class Chest : Interactable, IHideable, IHidingPlace
+public class Chest : HidingPlace, IHideable
 {
-    ItemType CurrItemType = ItemType.Chest;
-
-    public bool open = false;
-    public Inventory inventory;
     private Interactable _curHandItem;
-    
-    private void Start()
-    {
-        inventory = gameObject.AddComponent<Inventory>();
-    }
-    
+
     /**
      * if chest is open:
      *     if we have wrench as a hand object- we can close the chest 
@@ -31,14 +22,16 @@ public class Chest : Interactable, IHideable, IHidingPlace
             // we have a wrench in the hand
             if (GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
             {
-                return new Action[] {Close, Hide};
+                return new Action[] {Close, Hide, Show};
             }
             
             // we have another item in hand
             if (_curHandItem != null)
             {
-                return new Action[] {Hide};
+                return new Action[] {Hide, Show};
             }
+            // Chest is open and there is nothing to hide
+            return new Action[] {Show};
         }
 
         // chest is closed
@@ -53,13 +46,22 @@ public class Chest : Interactable, IHideable, IHidingPlace
     {
         Debug.Log("Pickup");
         
-        GameManager.Instance.inventory.AddItem(this, true);
+        Interactable previousHandItem = GameManager.Instance.inventory.AddItem(this, true);
+
+        // had a hand object already- place it where the item we picked up was 
+        if (previousHandItem != null)
+        {
+            GameObject previousHandItemGM = previousHandItem.gameObject; 
+            previousHandItemGM.SetActive(true);
+            previousHandItemGM.transform.position = transform.position;
+        }
+        
     }
     
     /**
      * open the chest
      */
-    public void Open() 
+    public override void Open() 
     {
         Debug.Log("Open chest");
         
@@ -69,7 +71,7 @@ public class Chest : Interactable, IHideable, IHidingPlace
     /**
      * close the chest
      */
-    public void Close()
+    public override void Close()
     {
         Debug.Log("Close chest");
         
@@ -79,11 +81,24 @@ public class Chest : Interactable, IHideable, IHidingPlace
     /**
      * hide the current hand item in the chest
      */
-    public void Hide()
+    public override void Hide()
     {
         Debug.Log("Hide hand item in chest");
 
-        GameManager.Instance.inventory.RemoveItem(_curHandItem); // remove from global inventory
+        GameManager.Instance.inventory.DeleteItem(_curHandItem.GetItemType()); // remove from global inventory
         inventory.AddItem(_curHandItem, false); // add to local inventory
     }
+    
+    /**
+     * Show the items in the inventory
+     */
+    public override void Show()
+    {
+        Debug.Log("Show the items in the chest");
+        
+        inventory._inventoryUI.Load_Inventory("Chest", inventory); // load the items to the inventory 
+        inventory._inventoryUI.OpenInventory(); // show the inventory 
+    }
+    
+    
 }

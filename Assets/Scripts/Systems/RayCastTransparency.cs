@@ -20,8 +20,7 @@ public class RayCastTransparency : MonoBehaviour
         // Declaring variables that are going to be used
         RaycastHit hitWall; // where the hit target is going to be stored
 
-        Vector3 toCamera; // create the Vector3 we're going to use
-        toCamera = raytarget.position - transform.position; // transform.position is the xyz coordinate inside the room of the calling object... so subtracting the target gives us a VECTOR! yay!
+        Vector3 toCamera = raytarget.position - transform.position; // transform.position is the xyz coordinate inside the room of the calling object... so subtracting the target gives us a VECTOR! yay!
 
         //Debug.DrawRay(transform.position, toCamera, Color.green, 20f); // Draw the ray
 
@@ -31,7 +30,7 @@ public class RayCastTransparency : MonoBehaviour
             HighWall highwall = hitWall.transform.GetComponent<HighWall>();
             if (highwall != null)
             {
-                highwall.FadeOut(0.4f);
+                highwall.FadeOut(0.2f);
                 fadedWalls.Add(highwall);
             }
         }

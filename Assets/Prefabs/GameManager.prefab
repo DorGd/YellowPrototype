@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 0}
+
   initTime: 7
 --- !u!114 &1521942229211396937
 MonoBehaviour:
@@ -119,3 +120,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8793557563ac4240849bf7e1ad5599e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+

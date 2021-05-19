@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class HelmetPlace : Interactable
 {
-    ItemType CurrItemType = ItemType.HelmetPlace; 
-
-    public Interactable helmet;
-
     public override Action[] CalcInteractions()
     {
         if (GameManager.Instance.inventory.IsInInventory(ItemType.Helmet, false))
@@ -25,6 +21,6 @@ public class HelmetPlace : Interactable
     {
         Debug.Log("Place");
         
-        GameManager.Instance.inventory.RemoveItem(helmet); 
+        GameManager.Instance.inventory.DeleteItem(ItemType.Helmet); 
     }
 }
