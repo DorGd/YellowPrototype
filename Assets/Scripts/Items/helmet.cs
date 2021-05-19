@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Helmet : Interactable
 {
-    ItemType CurrItemType = ItemType.Helmet; 
     
     public override Action[] CalcInteractions()
     {

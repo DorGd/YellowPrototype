@@ -6,9 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-
-
-    private Inventory _inventory;
+    
+    private MainInventory _inventory;
     private Clock _clock;
     private Transform _playerTransform;
     private SpeechManager _speechManager;
@@ -59,7 +58,7 @@ public class GameManager : MonoBehaviour
         else
         {
             _clock = GetComponent<Clock>();
-            _inventory = GetComponent<Inventory>();
+            _inventory = GetComponent<MainInventory>();
             _inventory.SetMainInventory();
             _speechManager = GetComponent<SpeechManager>();
             _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;

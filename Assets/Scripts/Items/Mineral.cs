@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Mineral : Interactable, IHideable
 {
-    ItemType CurrItemType = ItemType.Mineral;
-
     public override Action[] CalcInteractions()
     {
         // there's place on the inventory
@@ -21,6 +19,15 @@ public class Mineral : Interactable, IHideable
     {
         Debug.Log("Pickup");
         
-        GameManager.Instance.inventory.AddItem(this, true);
+        Interactable previousHandItem = GameManager.Instance.inventory.AddItem(this, true);
+
+        // had a hand object already- place it where the item we picked up was 
+        if (previousHandItem != null)
+        {
+            GameObject previousHandItemGM = previousHandItem.gameObject; 
+            previousHandItemGM.SetActive(true);
+            previousHandItemGM.transform.position = transform.position;
+        }
+        
     }
 }
