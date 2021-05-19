@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class Wrench : Interactable, IHideable
 {
-    ItemType CurrItemType = ItemType.Wrench; 
-    
+   
     public override Action[] CalcInteractions()
     {
         // no need to check if there's place because it's an hand item
@@ -15,7 +14,16 @@ public class Wrench : Interactable, IHideable
     {
         Debug.Log("Pickup");
         
-        GameManager.Instance.inventory.AddItem(this, true);
+        Interactable previousHandItem = GameManager.Instance.inventory.AddItem(this, true);
+
+        // had a hand object already- place it where the item we picked up was 
+        if (previousHandItem != null)
+        {
+            GameObject previousHandItemGM = previousHandItem.gameObject; 
+            previousHandItemGM.SetActive(true);
+            previousHandItemGM.transform.position = transform.position;
+        }
+        
     }
     
     

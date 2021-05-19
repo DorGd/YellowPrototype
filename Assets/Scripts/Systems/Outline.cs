@@ -15,7 +15,6 @@ using UnityEngine;
 
 public class Outline : MonoBehaviour {
   private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
-  private int _Mode = 0; 
 
   public enum Mode {
     OutlineAll,
