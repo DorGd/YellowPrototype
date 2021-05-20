@@ -14,7 +14,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("npc"))
+        if (other.gameObject.CompareTag("NPC"))
         {
             OpenDoor();
         }
@@ -22,7 +22,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("npc"))
+        if (other.gameObject.CompareTag("NPC"))
         {
             CloseDoor();
         }

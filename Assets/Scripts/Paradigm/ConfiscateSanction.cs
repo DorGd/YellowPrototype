@@ -12,12 +12,13 @@ public class ConfiscateSanction : SanctionSO
         for (int i = 0; i < GameManager.Instance.inventory.Count; ++i)
         {
             // TODO change to collectable
-            Interactable eq = GameManager.Instance.inventory.inventoryItems[i];
+            Interactable eq = GameManager.Instance.inventory.InventoryItems[i];
             foreach (Interactable feq in _forbiddenEquipment)
             {
                 if (feq.name.Equals(eq.name))
                 {
-                    GameManager.Instance.inventory.RemoveItem(eq);
+                    ItemType eqType = eq.GetItemType();
+                    GameManager.Instance.inventory.DeleteItem(eqType);
                 }
             }
         }
