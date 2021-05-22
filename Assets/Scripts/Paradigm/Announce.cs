@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Paradigm/Actions/Announce")]
@@ -12,6 +11,7 @@ public class Announce : ActionSO
 
     IEnumerator AnnounceRoutine(EnemyManager enemy)
     {
+        // Navigate to a go-to position if exist in the wraping ParadigmSO
         if (enemy.CurrentParadigm.goToPosition != null)
         {
             enemy.Ai.MoveToPoint(enemy.CurrentParadigm.goToPosition);
@@ -21,6 +21,9 @@ public class Announce : ActionSO
         {
             yield return new WaitForSeconds(Time.deltaTime);
         }
+
+        // Look at the player and start the announce
+        enemy.transform.LookAt(GameManager.Instance.PlayerTransform); // TODO make the transition gradual
         GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,enemy.CurrentParadigm.text);
         yield return new WaitForSeconds(Time.deltaTime);
         enemy.ActivateNextParadigm();
