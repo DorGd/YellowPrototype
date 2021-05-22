@@ -15,6 +15,7 @@ public class Controller : MonoBehaviour
     private Button[] _buttons;
 
     public Canvas rightClickCanvas;
+    public CharacterAnimationManager animationManager;
     public Animator goToCircleAnimator;
 
     private void Awake()
@@ -114,6 +115,19 @@ public class Controller : MonoBehaviour
                     rightClickCanvas.enabled = true;
                 }
             }
+        }
+
+        AnimatePlayer();
+    }
+
+    private void AnimatePlayer()
+    {
+        if (_ai.IsNavigating())
+        {
+            animationManager.PlayAnimation(AnimationType.Walk);
+        } else
+        {
+            animationManager.PlayAnimation(AnimationType.Idle);
         }
     }
 
