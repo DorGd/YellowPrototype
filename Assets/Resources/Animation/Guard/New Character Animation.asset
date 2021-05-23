@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b4b496e7ec84c4886b4d46774b326c, type: 3}
   m_Name: New Character Animation
   m_EditorClassIdentifier: 
-  animations: []
   animationType: 0
+  animations:
+  - {fileID: 7400000, guid: ef8ae66a3eb10ad4187357755b4cdeb3, type: 2}
+  - {fileID: 7400000, guid: cbdc4fa031caa1349ba787f3911ea5ad, type: 2}
+  - {fileID: 7400000, guid: 1c424c9be686ccd4a82927b0b96a594c, type: 2}
+  - {fileID: 7400000, guid: 99cc61d3fd0340f4481e976b850a927e, type: 2}

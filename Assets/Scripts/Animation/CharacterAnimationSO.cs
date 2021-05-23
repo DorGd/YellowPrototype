@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Character Animation", menuName = "Character Animation")]
 public class CharacterAnimationSO : ScriptableObject
 {
-    /** First index is top, then going clockwise. */
-    public AnimationClip[] animations;
-
     public AnimationType animationType;
+
+    /** First index is top/back, then going clockwise. */
+    public AnimationClip[] animations;
 
     public string AnimationAtAngle(float angle)
     {
