@@ -17,6 +17,6 @@ public class CharacterAnimationSO : ScriptableObject
 
     private int AngleIndex(float angle)
     {
-        return (int)Mathf.Round((angle * animations.Length - 180) / 360);
+        return Mathf.FloorToInt(((angle * animations.Length - 180) / 360) % animations.Length);
     }
 }
