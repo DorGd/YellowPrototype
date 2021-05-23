@@ -4,15 +4,19 @@ using System.Collections.Generic;
 public class RoutineManager : MonoBehaviour
 {
     private Dictionary<string, EnemyManager> _enemies;
+    private Dictionary<string, DoorController> _doors;
     private Controller _controller;
     //public string playerCurrRoom;
     void Start()
     {
         _enemies = new Dictionary<string, EnemyManager>();
+        _doors = new Dictionary<string, DoorController>();
         GameManager.Instance.Clock.TickEvent += UpdateRoutine;
-        EnemyManager[] enemies = FindObjectsOfType<EnemyManager>();
         _controller = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Controller>();
+        DoorController[] doors = FindObjectsOfType<DoorController>();
+        EnemyManager[] enemies = FindObjectsOfType<EnemyManager>();
         foreach(var enemy in enemies) _enemies.Add(enemy.name, enemy);
+        foreach(var door in doors) _doors.Add(door.name, door);
     }
 
     void UpdateRoutine()
@@ -30,8 +34,22 @@ public class RoutineManager : MonoBehaviour
 
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
         string[] names = {"Cell Guard 1", "Cell Guard 2", "Cell Guard 3"}; 
+        string[] doors = {"PlayerRoomDoor"};
+        DoorController cellDoor = GetDoorsByName(doors)[0];
         EnemyManager[] enemies = GetAgentsByName(names);
+
+        /** 0600 **/
+        if (time == 6f) cellDoor.StayOpen = true;
+
+        /** 0800 **/
         if (time == 8f) StartCoroutine(LaunchConvoy(new Vector3(-27f, 0f, -35f), new Vector3(-36f, 0f, 3f) , new Vector3(1f, 0f, 0f), enemies));
+
+        /** 2030 **/
+        if (time == 20.5f) 
+        {
+            cellDoor.StayOpen = false; 
+            cellDoor.StayClose = true;
+        }
     }
 
     public void StartTestCo()
@@ -137,7 +155,18 @@ public class RoutineManager : MonoBehaviour
         foreach (string name in names)
         {
             if (_enemies.ContainsKey(name)) ret.Add(_enemies[name]);
-            else Debug.Log("No enemy at the name: " + name);
+            else Debug.Log("No enemy with the name: " + name);
+        }
+        return ret.ToArray();
+    }
+
+    DoorController[] GetDoorsByName(string[] names)
+    {
+        List<DoorController> ret = new List<DoorController>();
+        foreach (string name in names)
+        {
+            if (_doors.ContainsKey(name)) ret.Add(_doors[name]);
+            else Debug.Log("No door with the name: " + name);
         }
         return ret.ToArray();
     }

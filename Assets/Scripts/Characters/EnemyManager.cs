@@ -117,7 +117,8 @@ public class EnemyManager : MonoBehaviour
             {
                 ParadigmSO eventParadigm = _eventParadigms.Pop();
                 _currParadigm = eventParadigm;
-                 CurrentCoroutine = eventParadigm.action.Act(this);
+                if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
+                CurrentCoroutine = eventParadigm.action.Act(this);
             }
             return;
         }
@@ -139,7 +140,11 @@ public class EnemyManager : MonoBehaviour
             {
                 _ai.WayPoints = nextParadigm.patrolPath.Points;
             }
-            if (!_isRoutinePaused) CurrentCoroutine =  nextParadigm.action.Act(this);
+            if (!_isRoutinePaused)
+            {
+                if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);  
+                CurrentCoroutine =  nextParadigm.action.Act(this);
+            } 
         }
         else
         {
