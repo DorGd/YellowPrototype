@@ -33,22 +33,36 @@ public class RoutineManager : MonoBehaviour
         // TODO: add room colliders which tells the routine manager where is the player (playerCurrRoom variable). 
 
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
-        string[] names = {"Cell Guard 1", "Cell Guard 2", "Cell Guard 3"}; 
-        string[] doors = {"PlayerRoomDoor"};
+        string[] names = {"Leaving Room Guard 1", "Leaving Room Guard 2"}; 
+        string[] doors = {"PlayerRoomDoor", "MiningFacilityDoor"};
         DoorController cellDoor = GetDoorsByName(doors)[0];
+        DoorController factoryDoor = GetDoorsByName(doors)[1];
         EnemyManager[] enemies = GetAgentsByName(names);
 
         /** 0600 **/
         if (time == 6f) cellDoor.StayOpen = true;
 
         /** 0800 **/
-        if (time == 8f) StartCoroutine(LaunchConvoy(new Vector3(-27f, 0f, -35f), new Vector3(-36f, 0f, 3f) , new Vector3(1f, 0f, 0f), enemies));
+        if (time == 8f) 
+        {
+            factoryDoor.OpenDoor();
+            factoryDoor.StayOpen = true;
+            StartCoroutine(LaunchConvoy(new Vector3(-38.4f ,0f ,-36.2f), new Vector3(-42.4f, 0f, 12.5f) , new Vector3(1f, 0f, 0f), enemies));
+        }
+
+        if (time == 10f)
+        {
+            factoryDoor.StayOpen = false;
+            factoryDoor.CloseDoor();
+        }
 
         /** 2030 **/
-        if (time == 20.5f) 
+        if (time == 18.5f) 
         {
             cellDoor.StayOpen = false; 
             cellDoor.StayClose = true;
+            StartCoroutine(LaunchConvoy(new Vector3(-42.4f, 0f, 12.5f), new Vector3(-38.4f ,0f ,-36.2f) , new Vector3(0f, 0f, 1f), enemies));
+
         }
     }
 
@@ -79,7 +93,7 @@ public class RoutineManager : MonoBehaviour
             Debug.Log("Convoy aborted - has 0 enemies");
             yield break;
         }
-        float offset = 5f;
+        float offset = 2.5f;
         int i = 0;
         Ai player = GameManager.Instance.PlayerAI;
         EnemyManager leadGuard = enemies[0];
