@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Mineral
   m_EditorClassIdentifier: 
   _type: 6
-  sprite: {fileID: 21300000, guid: 54bc0c2f5e98e47459877669a13a06b2, type: 3}
+  sprite: {fileID: 21300000, guid: 88559af26fcf7ee4b94805eed027b3b3, type: 3}
