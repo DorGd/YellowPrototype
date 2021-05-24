@@ -5,13 +5,77 @@ using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
-
     protected AudioManager()
     {
     } // guarantee this will be always a singleton only - can't use the constructor!
 
+    public enum AudioType { Music, Ambience, Atmosphere, SFX }
+
+    public static float globalVolume = 1.0f;
+
+    public static bool soundOn = true;
+
+    public class AudioSourceHandle
+    {
+        private AudioSource source;
+        private AudioType type;
+        private int index;
+        private bool isPaused = false;
+
+        public AudioSourceHandle(AudioSource source, AudioClip clip, AudioType type, int index)
+        {
+            this.source = source;
+            this.type = type;
+            this.index = index;
+            source.clip = clip;
+        }
+
+        public void Play(float startVolume, bool loop)
+        {
+            source.volume = startVolume * globalVolume;
+            source.loop = loop;
+            source.Play();
+        }
+
+        public void PauseSound()
+        {
+            if (source.isPlaying && !isPaused)
+            {
+                isPaused = true;
+                source.Pause();
+            }
+        }
+
+        public void ContinueSound()
+        {
+            if (isPaused)
+            {
+                source.UnPause();
+            }
+        }
+
+        public void StopSound()
+        {
+            source.Stop();
+        }
+
+        public void ReleaseHandle()
+        {
+
+        }
+
+        public void ChangeVolume(float volume)
+        {
+            if (source.isPlaying || isPaused)
+            {
+                source.volume = Mathf.Clamp(volume * globalVolume, 0.0f, 1.0f);
+            }
+        }
+    }
+
+    private static int MAX_SOURCES = 5;
+
     ////////////////////////////////////////////////////AUDIO STRINGS////////////////////////////////////////////////////////////////////////////////
-    public enum AudioType { Music, Ambience, Atmosphere, SFX}
 
     public static string Ambience_warehouse = "Factory Ambience Better";
     public static string Ambience_livingQuarters = "Factory Ambience Better";
@@ -55,13 +119,11 @@ public class AudioManager : Singleton<AudioManager>
     private bool ambienceIsPaused = false;
     private bool atmosphereIsPaused = false;
     private bool SFXIsPaused = false;
-    private bool SpareSFXIsPaused = false;
 
-    private AudioSource ambienceAudioSource;
-    private AudioSource musicAudioSource;
-    private AudioSource atmosphericAudioSource;
-    private AudioSource SFXAudioSource;
-    private AudioSource SFXSpareAudioSource;
+    private AudioSource[] ambienceAudioSources = new AudioSource[MAX_SOURCES];
+    private AudioSource[] musicAudioSources = new AudioSource[MAX_SOURCES];
+    private AudioSource[] atmosphericAudioSources = new AudioSource[MAX_SOURCES];
+    private AudioSource[] SFXAudioSources = new AudioSource[MAX_SOURCES];
 
     private AudioClip[] ambienceClips;
     private AudioClip[] musicClips;
@@ -71,33 +133,26 @@ public class AudioManager : Singleton<AudioManager>
     // Start is called before the first frame update
     void Awake()
     {
-        ambienceAudioSource = Camera.main.gameObject.AddComponent<AudioSource>();
-        musicAudioSource = gameObject.AddComponent<AudioSource>();
-        atmosphericAudioSource = gameObject.AddComponent<AudioSource>();
-        SFXAudioSource = gameObject.AddComponent<AudioSource>();
-        SFXSpareAudioSource = gameObject.AddComponent<AudioSource>();
         ambienceClips = Resources.LoadAll<AudioClip>("Audio/Ambience");
         musicClips = Resources.LoadAll<AudioClip>("Audio/Music");
         atmosphericClips = Resources.LoadAll<AudioClip>("Audio/Atmosphere");
         SFXClips = Resources.LoadAll<AudioClip>("Audio/SFX");
     }
 
-    private AudioClip GetClip(AudioClip[] list, string clipName)
+    private AudioClip GetClipFromArray(AudioClip[] clips, string clipName)
     {
         AudioClip clip = null;
-
-        if (list != null)
+        if (clips != null)
         {
-            for (int index = 0; index < list.Length; index++)
+            for (int index = 0; index < clips.Length; index++)
             {
-                if (list[index].name == clipName)
+                if (clips[index].name == clipName)
                 {
-                    clip = list[index];
+                    clip = clips[index];
                     break;
                 }
             }
         }
-
         return clip;
     }
 
@@ -125,46 +180,59 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void PlaySound(string clipName, AudioType clipType)
+    public AudioSourceHandle GetAudioSourceHandle(string clipName, AudioType clipType)
     {
-        AudioClip[] sounds;
-        AudioSource source;
-        switch(clipType)
+        AudioClip[] clips = GetClipArrayByType(clipType);
+        AudioClip soundClip = GetClipFromArray(clips, clipName);
+        if (soundClip == null)
+        {
+            Debug.LogError("Couldn't find clip with this name and type");
+            return null;
+        }
+        AudioSource[] sources = GetSourceArrayByType(clipType);
+        for (int i = 0; i < MAX_SOURCES; i++)
+        {
+            if (sources[i] == null)
+            {
+                sources[i] = Camera.main.gameObject.AddComponent<AudioSource>();
+                return new AudioSourceHandle(sources[i], soundClip, clipType, i);
+            }
+        }
+        Debug.LogError("Not enough audio sources available, consider increasing max number");
+        return null;
+    }
+
+    private AudioClip[] GetClipArrayByType(AudioType clipType)
+    {
+        switch (clipType)
         {
             case AudioType.Ambience:
-                sounds = ambienceClips;
-                source = ambienceAudioSource;
-                break;
+                return ambienceClips;
             case AudioType.Music:
-                sounds = musicClips;
-                source = musicAudioSource;
-                break;
+                return musicClips;
             case AudioType.Atmosphere:
-                sounds = atmosphericClips;
-                source = atmosphericAudioSource;
-                break;
+                return atmosphericClips;
             case AudioType.SFX:
-                sounds = SFXClips;
-                if (!SFXAudioSource.isPlaying)
-                {
-                    source = SFXAudioSource;
-                }
-                else
-                {
-                    source = SFXSpareAudioSource;
-                }
-                break;
+                return SFXClips;
             default:
-                sounds = SFXClips;
-                source = SFXAudioSource;
-                break;
+                return SFXClips;
         }
+    }
 
-        AudioClip soundClip = GetClip(sounds, clipName);
-
-        if (soundClip != null)
+    private AudioSource[] GetSourceArrayByType(AudioType clipType)
+    {
+        switch (clipType)
         {
-            source.PlayOneShot(soundClip, 0.5f);
+            case AudioType.Ambience:
+                return ambienceAudioSources;
+            case AudioType.Music:
+                return musicAudioSources;
+            case AudioType.Atmosphere:
+                return atmosphericAudioSources;
+            case AudioType.SFX:
+                return SFXAudioSources;
+            default:
+                return SFXAudioSources;
         }
     }
 
