@@ -30,7 +30,7 @@ public class RayCastTransparency : MonoBehaviour
             HighWall highwall = hitWall.transform.GetComponent<HighWall>();
             if (highwall != null)
             {
-                highwall.FadeOut(0.2f);
+                highwall.FadeOut(0.35f);
                 fadedWalls.Add(highwall);
             }
         }

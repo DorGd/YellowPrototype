@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HighWall : MonoBehaviour
@@ -6,65 +7,102 @@ public class HighWall : MonoBehaviour
     public float startAlpha = 1f;
     public int renderOrder = 0;
 
-    private bool faded = false;
-
-    private Material _material;
-    private Color _color;
-
-    public bool Faded { get => faded;}
+    private Coroutine _activeFadingCoroutine = null;
+    private List<Material> _materials = new List<Material>();
+    private List<Color> _colors = new List<Color>();
+    private float _currentAlpha = 0.0f;
 
     void Awake()
     {
-        _material = GetComponent<MeshRenderer>().material;
-        _material.renderQueue += renderOrder;
-        _color = _material.color;
-        _color.a = startAlpha;
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        _currentAlpha = startAlpha;
+        foreach (MeshRenderer meshRenderer in meshRenderers)
+        {
+            foreach (Material material in meshRenderer.materials)
+            {
+                material.renderQueue += renderOrder;
+                Color color = material.color;
+                color.a = startAlpha;
+                _materials.Add(material);
+                _colors.Add(color);
+            }
+        }
         SetTranspMaterialColour();
     }
 
     //There is no point in setting the colour every frame
     private void SetTranspMaterialColour()
     {
-        _material.SetColor("_BaseColor", _color);
+        for (int i = 0; i < _materials.Count; i++)
+        {
+            Material material = _materials[i];
+            material.SetColor("_BaseColor", _colors[i]);
+        }
     }
 
     public void FadeOut(float alpha)
     {
-        faded = true;
         gameObject.layer = LayerMask.NameToLayer("TransparentWall");
-        StartCoroutine(GraduallyFadeOut(alpha));
+        if (_activeFadingCoroutine != null)
+        {
+            StopCoroutine(_activeFadingCoroutine);
+        }
+        _activeFadingCoroutine = StartCoroutine(GraduallyFadeOut(alpha));
     }
 
     public void FadeIn()
     {
-        faded = false;
         gameObject.layer = LayerMask.NameToLayer("Wall");
-        StartCoroutine(GraduallyFadeIn());
+        if (_activeFadingCoroutine != null)
+        {
+            StopCoroutine(_activeFadingCoroutine);
+        }
+        _activeFadingCoroutine = StartCoroutine(GraduallyFadeIn());
     }
 
     private IEnumerator GraduallyFadeIn()
     {
-        _color = _material.color;
-        while (_color.a < startAlpha)
+        while (_currentAlpha < startAlpha)
         {
-            _color = _material.color;
-            _color.a += 0.01f;
+            _currentAlpha += 0.01f;
+            for (int i = 0; i < _colors.Count; i++)
+            {
+                Color color = _colors[i];
+                color.a = _currentAlpha;
+                _colors[i] = color;
+            }
             SetTranspMaterialColour();
             yield return new WaitForEndOfFrame();
         }
-        _color.a = startAlpha;
+        for (int i = 0; i < _colors.Count; i++)
+        {
+            Color color = _colors[i];
+            color.a = startAlpha;
+            _colors[i] = color;
+        }
         SetTranspMaterialColour();
     }
 
-    private IEnumerator GraduallyFadeOut(float alpha)
+    private IEnumerator GraduallyFadeOut(float targetAlpha)
     {
-        _color = _material.color;
-        while (_color.a > alpha)
+        while (_currentAlpha > targetAlpha)
         {
-            _color = _material.color;
-            _color.a -= 0.01f;
+            _currentAlpha -= 0.01f;
+            for (int i = 0; i < _colors.Count; i++)
+            {
+                Color color = _colors[i];
+                color.a = _currentAlpha;
+                _colors[i] = color;
+            }
             SetTranspMaterialColour();
             yield return new WaitForEndOfFrame();
         }
+        for (int i = 0; i < _colors.Count; i++)
+        {
+            Color color = _colors[i];
+            color.a = targetAlpha;
+            _colors[i] = color;
+        }
+        SetTranspMaterialColour();
     }
 }
