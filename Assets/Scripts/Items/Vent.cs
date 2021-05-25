@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Vent : Interactable
 {
-    ItemType CurrItemType = ItemType.Vent;
 
     public bool open = false;
 
@@ -12,9 +11,12 @@ public class Vent : Interactable
     {
         if (!open && GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
         {
+            Debug.Log("found wrench");
+
             return new Action[] {Open};
         }
         
+        Debug.Log("No wrench");
         return new Action[] {};
     }
     

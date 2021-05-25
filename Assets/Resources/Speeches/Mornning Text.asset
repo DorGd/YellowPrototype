@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5debbae2d11194a43935d3ba54f767e7, type: 3}
+  m_Name: Mornning Text
+  m_EditorClassIdentifier: 
+  sentences:
+  - Good morning guys, another productive day today!
+  - 'Eat your breakfast and head to the
+
+    Package Facility by 08:00! '
+  - Just remember, you're all wearing an electric collar that can help with motivation,
+    in case we see that you need some.

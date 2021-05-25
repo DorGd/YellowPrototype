@@ -23,7 +23,7 @@ public class HeldItemsRegulation : RegulationSO
         for (int i = 0; i < GameManager.Instance.inventory.Count; ++i)
         {
             // TODO change to collectable
-            Interactable eq = GameManager.Instance.inventory.inventoryItems[i];
+            Interactable eq = GameManager.Instance.inventory.InventoryItems[i];
             foreach (Interactable feq in _forbiddenEquipment)
             {
                 // TODO change to collectable type

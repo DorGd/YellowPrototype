@@ -121,9 +121,9 @@ GameObject:
   - component: {fileID: 5122551217940291242}
   - component: {fileID: 5122551217940291240}
   - component: {fileID: 5122551217940291247}
-  - component: {fileID: 5122551217940291246}
   - component: {fileID: 5122551218496140041}
   - component: {fileID: 5108508614207960121}
+  - component: {fileID: 2923851436535363998}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -211,19 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rightClickCanvas: {fileID: 0}
---- !u!114 &5122551217940291246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5122551217940291236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71403ad55faa6414b9545ac13029a1e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WayPoints: []
+  goToCircleAnimator: {fileID: 0}
 --- !u!114 &5122551218496140041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615d8a72a18f18f40a5fda86aa896f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
 --- !u!114 &5108508614207960121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,3 +243,16 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &2923851436535363998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122551217940291236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a2a64587e37f540a0ad28d1c4eb6d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WayPoints: []

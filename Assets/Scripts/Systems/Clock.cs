@@ -8,17 +8,13 @@ public class Clock : MonoBehaviour
     private bool firstTickInFrame = true;
     private bool firstTickEver = true;
 
-
-    //private Transform clockHourHandTransform;
-    //private Transform clockMinuteHandTransform;
     private float day;
     [SerializeField] private Text timeText;
-
+    [SerializeField] private float initTime;
     private void Awake()
     {
-        //clockHourHandTransform = transform.Find("hourHand");
-        //clockMinuteHandTransform = transform.Find("minuteHand");
-        //timeText = transform.Find("timeText").GetComponent<Text>();
+        day = initTime / 24;
+        Update();
     }
 
     private void Update()
@@ -26,11 +22,7 @@ public class Clock : MonoBehaviour
         day += Time.deltaTime / REAL_SECONDS_PER_INGAME_DAY;
         float dayNormalized = day % 1f;
 
-        //float rotationDegPerDay = 360f;
-        //clockHourHandTransform.eulerAngles = new Vector3(0, 0, -dayNormalized * rotationDegPerDay);
-
         float hoursPerDay = 24f; 
-        //clockMinuteHandTransform.eulerAngles = new Vector3(0, 0, -dayNormalized * rotationDegPerDay * hoursPerDay);
 
         string hoursString = Mathf.Floor(dayNormalized * hoursPerDay).ToString("00");
 
@@ -44,7 +36,7 @@ public class Clock : MonoBehaviour
 
     void CheckForTick()
     {
-        if (timeText.text.EndsWith("00"))
+        if (timeText.text.EndsWith("00") || timeText.text.EndsWith("30"))
         {
             if (firstTickInFrame)
             {
@@ -70,5 +62,13 @@ public class Clock : MonoBehaviour
     public int GetHour()
     {
         return Convert.ToInt32(timeText.text.Substring(0, 2));
+    }
+
+    /// summary  
+    /// return minuts as partial hour, means 30 m -> 0.5 h
+    /// summary
+    public float GetMinutes()
+    {
+        return Convert.ToInt32(timeText.text.Substring(3,2)) / 60f;
     }
 }

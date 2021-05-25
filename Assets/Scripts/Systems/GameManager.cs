@@ -1,16 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-
-
-    private Inventory _inventory;
+    private MainInventory _inventory;
     private Clock _clock;
-    private Transform _playerTransform;
+    private SpeechManager _speechManager;
     public Inventory inventory
     {
         get { return _inventory; }
@@ -21,11 +16,21 @@ public class GameManager : MonoBehaviour
         get { return _clock; } 
     }
 
+    private Transform _playerTransform;
     public Transform PlayerTransform
     {
         get { return _playerTransform; }
     }
 
+    private Ai _playerAi;
+    public Ai PlayerAI
+    {
+        get {return _playerAi; }
+    }
+    public SpeechManager SpeechManager
+    {
+        get { return _speechManager; }
+    }
     
     //Constructor
     public static GameManager Instance
@@ -54,9 +59,11 @@ public class GameManager : MonoBehaviour
         else
         {
             _clock = GetComponent<Clock>();
-            _inventory = GetComponent<Inventory>();
+            _inventory = GetComponent<MainInventory>();
             _inventory.SetMainInventory();
+            _speechManager = GetComponent<SpeechManager>();
             _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+            _playerAi = _playerTransform.GetComponent<Ai>();
         }
     }
 
