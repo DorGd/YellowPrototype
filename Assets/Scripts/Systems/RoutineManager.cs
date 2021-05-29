@@ -88,12 +88,20 @@ public class RoutineManager : MonoBehaviour
         eventParadigms[0] = Resources.Load<ParadigmSO>("Routine/Paradigms/Paradigm Test 1");
         eventParadigms[1] = Resources.Load<ParadigmSO>("Routine/Paradigms/Paradigm Test 2");
 
-        EnemyManager enemy = GameObject.Find("Cell Guard 1").GetComponent<EnemyManager>();
+        EnemyManager enemy = GameObject.Find("Leaving Room Guard 1").GetComponent<EnemyManager>();
         enemy.LoadEventParadigms(eventParadigms);
         enemy.InvokeEventParadigm();
         yield return null;
     }
 
+    public void WellcomeTheConvoy()
+    {
+        ParadigmSO[] eventParadigms = new ParadigmSO[1];
+        eventParadigms[0] = Resources.Load<ParadigmSO>("Routine/Paradigms/Storage Warehouse/0830 Storage Facility Wellcome Announce");
+        EnemyManager enemy = GameObject.Find("Storage Warehouse Guard 1").GetComponent<EnemyManager>();
+        enemy.LoadEventParadigms(eventParadigms);
+        enemy.InvokeEventParadigm();
+    }
     IEnumerator LaunchConvoy(Vector3 startPos, Vector3 endPos, Vector3 tailStartDirection , EnemyManager[] enemies )
     {
         if (enemies.Length == 0) 
@@ -165,7 +173,6 @@ public class RoutineManager : MonoBehaviour
         // Activate the regular routine at each agent
         foreach (EnemyManager enemy in enemies)
         {
-            enemy.ResumeAgentRoutine();
             enemy.ResumeCurrentParadigm();
         }
         _controller.UnFreezeController();

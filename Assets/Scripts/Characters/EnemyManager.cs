@@ -89,7 +89,9 @@ public class EnemyManager : MonoBehaviour
     public void ResumeCurrentParadigm()
     {
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
-        
+        _currParadigm = _paradigms[_curr];
+        _isRoutinePaused = false;
+
         // day factor is added to handle day shift cases
         int nextDayFactor = 0;
         if (_currParadigm.startTime > _currParadigm.endTime) nextDayFactor = 24;  // handle situation: [start=22, time=23, end=4] -> [start=22, time=23, end=28]
@@ -105,7 +107,7 @@ public class EnemyManager : MonoBehaviour
             {
                 _ai.WayPoints = _currParadigm.patrolPath.Points;
             }
-            if (!_isRoutinePaused) CurrentCoroutine =  _currParadigm.action.Act(this);
+            CurrentCoroutine =  _currParadigm.action.Act(this);
         }
         else
         {
@@ -128,7 +130,7 @@ public class EnemyManager : MonoBehaviour
                 _currParadigm = eventParadigm;
                 if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
                 CurrentCoroutine = eventParadigm.action.Act(this);
-                Debug.Log($"{gameObject.name} invoke paradigm: {_currParadigm.name}.");
+                Debug.Log($"{gameObject.name} invoke event paradigm: {_currParadigm.name}.");
             }
             return;
         }
@@ -188,11 +190,6 @@ public class EnemyManager : MonoBehaviour
         if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
         Ai.StopAgent();
         _isRoutinePaused = true;
-    }
-
-    public void ResumeAgentRoutine()
-    {
-        _isRoutinePaused = false;
     }
 
     void RegulationsValidation()
