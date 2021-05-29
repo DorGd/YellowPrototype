@@ -56,13 +56,21 @@ public class RoutineManager : MonoBehaviour
             factoryDoor.CloseDoor();
         }
 
-        /** 2030 **/
+        /** 1830 **/
         if (time == 18.5f) 
         {
             cellDoor.StayOpen = false; 
             cellDoor.StayClose = true;
+            factoryDoor.OpenDoor();
+            factoryDoor.StayOpen = true;
             StartCoroutine(LaunchConvoy(new Vector3(-42.4f, 0f, 12.5f), new Vector3(-38.4f ,0f ,-36.2f) , new Vector3(0f, 0f, 1f), enemies));
 
+        }
+        /** 2100 **/
+        if (time == 21f)
+        {
+            factoryDoor.StayOpen = false;
+            factoryDoor.CloseDoor();
         }
     }
 

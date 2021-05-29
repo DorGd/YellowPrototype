@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Empty Paradigm
+  m_Name: 2030 Evening Announce
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: ac1ffac316ada6f4b9c3685e0fbdc91b, type: 2}
-  startTime: 5.5
-  endTime: 6
+  action: {fileID: 11400000, guid: d7bc7b5a702a813478dbced8cd3dccc8, type: 2}
+  startTime: 20.5
+  endTime: 21
   patrolPath: {fileID: 0}
-  text: {fileID: 0}
-  goToPosition: {x: 0, y: 0, z: 0}
-  lookAtAngle: 0
+  text: {fileID: 11400000, guid: dc306657def2d5243803084f0396d02d, type: 2}
+  goToPosition: {x: -29.42, y: 0, z: -36.16}
+  lookAtAngle: 90
   watchSector: {x: 0, y: 0}
   regulations: []

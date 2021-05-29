@@ -4,7 +4,7 @@ using System;
 public class Clock : MonoBehaviour
 {
     public event Action TickEvent;
-    private const float REAL_SECONDS_PER_INGAME_DAY = 60f * 5f;
+    public float REAL_SECONDS_PER_INGAME_DAY = 60f * 5f; // public for debug, should be const private
     private bool firstTickInFrame = true;
     private bool firstTickEver = true;
 

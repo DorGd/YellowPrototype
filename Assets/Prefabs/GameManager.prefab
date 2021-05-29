@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 0}
-  initTime: 6
+  initTime: 5.5
 --- !u!114 &3493741548710748595
 MonoBehaviour:
   m_ObjectHideFlags: 0

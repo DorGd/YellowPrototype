@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Empty Paradigm
+  m_Name: 1830 Night Patrol 2
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: ac1ffac316ada6f4b9c3685e0fbdc91b, type: 2}
-  startTime: 5.5
-  endTime: 6
-  patrolPath: {fileID: 0}
+  action: {fileID: 11400000, guid: 9c180b8506a66d046adbb4bc4371068f, type: 2}
+  startTime: 18.5
+  endTime: 8
+  patrolPath: {fileID: 1733204905545129902, guid: dcdf1f11fc1105b42b7eb8b166034c8f, type: 3}
   text: {fileID: 0}
   goToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0

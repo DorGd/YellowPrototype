@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5debbae2d11194a43935d3ba54f767e7, type: 3}
+  m_Name: Storage Facility Wellcome
+  m_EditorClassIdentifier: 
+  sentences:
+  - 'Good morning everybody! We''re in for an exciting day today! '
+  - 'New Minerals were brought up from the mines this morning.
+
+    Just take some
+    Minerals, put them in a Box, close it with a wrench and bring it to the Loading
+    Docks.'
+  - "If you'll manage to deliver enough Boxes, you\r\nmay even have a chance to become
+    our Employee of the Month! \n"
+  - Just remember, by 18:30 everybody needs to be back here!
