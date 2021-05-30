@@ -19,5 +19,6 @@ MonoBehaviour:
   text: {fileID: 0}
   goToPosition: {x: -28.62, y: 0, z: 4.9}
   lookAtAngle: 0
-  watchSector: {x: 0, y: 0}
-  regulations: []
+  watchSector: {x: 295, y: 400}
+  regulations:
+  - {fileID: 11400000, guid: 81770a169bfbfb64d9c19cd41b41db00, type: 2}

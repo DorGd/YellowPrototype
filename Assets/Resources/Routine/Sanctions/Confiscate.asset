@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc402fa3cfbb01042895246a678d2e99, type: 3}
-  m_Name: New Confiscate Sanction
+  m_Name: Confiscate
   m_EditorClassIdentifier: 
   _forbiddenEquipment:
-  - {fileID: 4372944890617180262, guid: 3141ab2075625436e87049efdf14b356, type: 3}
+  - {fileID: 0}
