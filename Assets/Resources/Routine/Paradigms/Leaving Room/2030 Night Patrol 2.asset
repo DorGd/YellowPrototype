@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Mornning  Watch 4
+  m_Name: 2030 Night Patrol 2
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
-  startTime: 8
-  endTime: 16
-  patrolPath: {fileID: 0}
+  action: {fileID: 11400000, guid: 9c180b8506a66d046adbb4bc4371068f, type: 2}
+  startTime: 20.5
+  endTime: 6
+  patrolPath: {fileID: 2486630637632353617, guid: 0b6d830110a955f4aa8db983d7e961e7, type: 3}
   text: {fileID: 0}
-  goToPosition: {x: -43.8, y: 0, z: 25.3}
-  watchSector: {x: 125, y: 215}
+  goToPosition: {x: 0, y: 0, z: 0}
+  lookAtAngle: 0
+  watchSector: {x: 0, y: 0}
   regulations: []

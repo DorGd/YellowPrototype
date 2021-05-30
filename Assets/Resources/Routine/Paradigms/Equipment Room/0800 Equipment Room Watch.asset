@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Mornning  Watch 5
+  m_Name: 0800 Equipment Room Watch
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
   startTime: 8
-  endTime: 16
+  endTime: 18.5
   patrolPath: {fileID: 0}
   text: {fileID: 0}
-  goToPosition: {x: -22.5, y: 0, z: 7.2}
-  watchSector: {x: 255, y: 275}
+  goToPosition: {x: -44.34, y: 0, z: -12.14}
+  lookAtAngle: 0
+  watchSector: {x: 295, y: 255}
   regulations: []
