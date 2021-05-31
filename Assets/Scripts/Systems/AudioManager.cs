@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    public interface IAudioSourceHandle
+    public interface IAudioSourceHandler
     {
         public void SetClip(AudioClip clip);
         public void SetClip(String clipName);
@@ -17,10 +17,10 @@ public class AudioManager : Singleton<AudioManager>
         public void Pause();
         public void UnPause();
         public void Stop();
-        public void ReleaseHandle();
+        public void ReleaseHandler();
     }
 
-    private class AudioSourceHandle : IAudioSourceHandle
+    private class AudioSourceHandle : IAudioSourceHandler
     {
         public AudioSource source;
         private bool isPaused = false;
@@ -116,7 +116,7 @@ public class AudioManager : Singleton<AudioManager>
             }
         }
 
-        public void ReleaseHandle()
+        public void ReleaseHandler()
         {
             isAllocated = false;
         }
@@ -213,7 +213,7 @@ public class AudioManager : Singleton<AudioManager>
         return null;
     }
 
-    public IAudioSourceHandle GetAvailableAudioSourceHandle()
+    public IAudioSourceHandler GetAvailableAudioSourceHandle()
     {
         for (int i = 0; i < MAX_SOURCES; i++)
         {
