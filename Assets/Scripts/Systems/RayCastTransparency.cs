@@ -8,10 +8,11 @@ public class RayCastTransparency : MonoBehaviour
     public LayerMask transparentWallLayerMask;
 
     private List<HighWall> fadedWalls = new List<HighWall>();
+    private float dist;
     // Start is called before the first frame update
     void Start()
     {
-
+        dist = (raytarget.position - transform.position).magnitude;
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class RayCastTransparency : MonoBehaviour
         //Debug.DrawRay(transform.position, toCamera, Color.green, 20f); // Draw the ray
 
         Ray checkRay = new Ray(transform.position, toCamera); // Create the ray variable to be used in the next line
-        if (Physics.Raycast(checkRay, out hitWall, 100, solidWallLayerMask))
+        if (Physics.Raycast(checkRay, out hitWall, dist, solidWallLayerMask))
         {
             HighWall highwall = hitWall.transform.GetComponent<HighWall>();
             if (highwall != null)
