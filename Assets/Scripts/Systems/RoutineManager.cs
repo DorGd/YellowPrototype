@@ -33,21 +33,23 @@ public class RoutineManager : MonoBehaviour
         // TODO: add room colliders which tells the routine manager where is the player (playerCurrRoom variable). 
 
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
-        string[] names = {"Leaving Room Guard 1", "Leaving Room Guard 2"}; 
-        string[] doors = {"PlayerRoomDoor", "MiningFacilityDoor"};
+        string[] names = {"Leaving Room Guard 1", "Worker (1)", "Worker (2)", "Worker (3)", "Leaving Room Guard 2"}; 
+        string[] doors = {"PlayerRoomDoor", "WorkersRoomDoor", "MiningFacilityDoor"};
         DoorController cellDoor = GetDoorsByName(doors)[0];
-        DoorController factoryDoor = GetDoorsByName(doors)[1];
+        DoorController cellDoor2 = GetDoorsByName(doors)[1];
+        DoorController factoryDoor = GetDoorsByName(doors)[2];
         EnemyManager[] enemies = GetAgentsByName(names);
 
         /** 0600 **/
         if (time == 6f) cellDoor.StayOpen = true;
+        if (time == 6f) cellDoor2.StayOpen = true;
 
         /** 0800 **/
         if (time == 8f) 
         {
             factoryDoor.OpenDoor();
             factoryDoor.StayOpen = true;
-            StartCoroutine(LaunchConvoy(new Vector3(-38.4f ,0f ,-36.2f), new Vector3(-42.4f, 0f, 12.5f) , new Vector3(1f, 0f, 0f), enemies));
+            StartCoroutine(LaunchConvoy(new Vector3(-38.4f ,0f ,-36.2f), new Vector3(-41.5f, 0f, 28.5f) , new Vector3(1f, 0f, 0f), enemies));
         }
 
         if (time == 10f)
@@ -59,16 +61,18 @@ public class RoutineManager : MonoBehaviour
         /** 1830 **/
         if (time == 18.5f) 
         {
-            cellDoor.StayOpen = false; 
-            cellDoor.StayClose = true;
             factoryDoor.OpenDoor();
             factoryDoor.StayOpen = true;
-            StartCoroutine(LaunchConvoy(new Vector3(-42.4f, 0f, 12.5f), new Vector3(-38.4f ,0f ,-36.2f) , new Vector3(0f, 0f, 1f), enemies));
+            StartCoroutine(LaunchConvoy(new Vector3(-41.5f, 0f, 9f), new Vector3(-38.4f ,0f ,-36.2f) , new Vector3(0f, 0f, 1f), enemies));
 
         }
         /** 2100 **/
         if (time == 21f)
         {
+            cellDoor.CloseDoor();
+            cellDoor.StayClose = true;
+            cellDoor2.CloseDoor();
+            cellDoor2.StayClose = true;
             factoryDoor.StayOpen = false;
             factoryDoor.CloseDoor();
         }
@@ -120,7 +124,7 @@ public class RoutineManager : MonoBehaviour
         {
             enemy.PauseAgentRoutine();
         }
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
 
         foreach (EnemyManager enemy in enemies)
         {

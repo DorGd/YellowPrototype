@@ -34,7 +34,8 @@ public class EnemyManager : MonoBehaviour
         _ai = GetComponent<Ai>();
         _eventParadigms = new Stack<ParadigmSO>();
         _field = GetComponent<FieldOfView>();
-        _field.onEnterField.AddListener(RegulationsValidation);
+        if (_field != null)
+            _field.onEnterField.AddListener(RegulationsValidation);
         GameManager.Instance.Clock.TickEvent += UpdateParadigm;
 
         // Find the current paradigm
