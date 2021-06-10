@@ -25,7 +25,7 @@ public class FieldOfView : MonoBehaviour
 
 	public UnityEvent onEnterField;
 	public UnityEvent onExitField;
-
+	
 
 	/*
 	 * Contains information about a raycast. 

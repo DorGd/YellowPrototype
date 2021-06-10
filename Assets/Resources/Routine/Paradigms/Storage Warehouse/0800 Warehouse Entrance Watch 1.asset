@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
+  m_Name: 0800 Warehouse Entrance Watch 1
+  m_EditorClassIdentifier: 
+  action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
+  startTime: 8
+  endTime: 18.5
+  patrolPath: {fileID: 0}
+  text: {fileID: 0}
+  goToPosition: {x: -64.84, y: 0, z: 3.39}
+  lookAtAngle: 0
+  watchSector: {x: 0, y: 0}
+  regulations: []

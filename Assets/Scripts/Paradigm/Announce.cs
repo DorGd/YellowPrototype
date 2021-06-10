@@ -22,9 +22,13 @@ public class Announce : ActionSO
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        // Look at the player and start the announce
-        enemy.transform.LookAt(GameManager.Instance.PlayerTransform); // TODO make the transition gradual
+        // Look at the right direction and start the announce
+        // TODO make the transition gradual
+        if (enemy.CurrentParadigm.lookAtAngle == 0f) enemy.transform.LookAt(GameManager.Instance.PlayerTransform); 
+        else enemy.transform.eulerAngles = Vector3.up * enemy.CurrentParadigm.lookAtAngle;
+
         GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,enemy.CurrentParadigm.text);
+
         yield return new WaitForSeconds(Time.deltaTime);
         enemy.ActivateNextParadigm();
     }

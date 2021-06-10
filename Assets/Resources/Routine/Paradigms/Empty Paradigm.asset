@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
   m_Name: Empty Paradigm
   m_EditorClassIdentifier: 
-  action: {fileID: 0}
-  startTime: 0
-  endTime: 0
+  action: {fileID: 11400000, guid: ac1ffac316ada6f4b9c3685e0fbdc91b, type: 2}
+  startTime: 5.5
+  endTime: 24
   patrolPath: {fileID: 0}
   text: {fileID: 0}
   goToPosition: {x: 0, y: 0, z: 0}
+  lookAtAngle: 0
   watchSector: {x: 0, y: 0}
   regulations: []

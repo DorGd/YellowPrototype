@@ -18,5 +18,6 @@ MonoBehaviour:
   patrolPath: {fileID: 0}
   text: {fileID: 0}
   goToPosition: {x: 0, y: 0, z: 0}
+  lookAtAngle: 0
   watchSector: {x: 0, y: 0}
   regulations: []
