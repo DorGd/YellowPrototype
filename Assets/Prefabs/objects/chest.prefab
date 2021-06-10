@@ -164,6 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e32b95910ce04760aa320d9eb3d9f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
-  inventory: {fileID: 0}
+  item: {fileID: 11400000, guid: 452d41f2a258b443c8ae51d027516ab5, type: 2}
+  hpInventory: {fileID: 0}
   open: 0

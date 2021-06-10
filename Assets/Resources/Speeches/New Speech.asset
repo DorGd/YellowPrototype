@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5debbae2d11194a43935d3ba54f767e7, type: 3}
-  m_Name: Test Text
+  m_Name: New Speech
   m_EditorClassIdentifier: 
   sentences:
   - Don't click this button you A hole!

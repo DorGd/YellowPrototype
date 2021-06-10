@@ -26,7 +26,8 @@ using UnityEngine;
                  // add to the free space
                  InventoryItems[i] = newItem;
                  InventoryCount += 1;
-                 newItem.gameObject.SetActive(false); // remove item from the scene
+                 Debug.Log(InventoryItems[i].item._type);
+
                  _inventoryUI.AddItem(newItem); // Add the item to UI
                  return null;
              }
@@ -44,6 +45,7 @@ using UnityEngine;
          {
              if (InventoryItems[i] != null && InventoryItems[i].GetItemType() == item)
              {
+                 _inventoryUI.Removeitem(item); // remove the item to UI
                  InventoryItems[i] = null;
                  InventoryCount--; 
              }

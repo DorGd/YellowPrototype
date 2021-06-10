@@ -12,7 +12,7 @@ public class HPInventoryUI : MonoBehaviour
     public Text inventoryName;
     
     // inventory 
-    private HPInventory _curInventory;
+    public HPInventory _curInventory;
     
     
     /**
@@ -29,10 +29,12 @@ public class HPInventoryUI : MonoBehaviour
          Interactable[] items = subInventory.GetItems();
          foreach (var item in items)
          {
-             AddItem(item);
+             if (item != null)
+             {
+                 AddItem(item);
+             }
          }
     }
-    
     
     /**
      * Add an item to the inventory slot
@@ -57,19 +59,14 @@ public class HPInventoryUI : MonoBehaviour
     {
         foreach (InventorySlot slot in slots)
         {
-            // Can add this item to the inventory 
+            // Can remove this item from the inventory 
             if (!slot.IsEmpty() && slot.Contains() == item)
             {
                 slot.RemoveItem();
                 break;
             }
         }
-        
-        // Delete the items from the inventory itself
-        _curInventory.DeleteItem(item);
-
     }
-
 
     /**
      * open the inventory panel 
@@ -85,6 +82,11 @@ public class HPInventoryUI : MonoBehaviour
     public void CloseInventory()
     {
         inventoryPanel.SetActive(false);
+    }
+
+    public HPInventory GetInventory()
+    {
+        return _curInventory;
     }
     
 }
