@@ -5,25 +5,16 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
-    private Interactable _curItem;
-    private Image cur_image;
-    
-    
-    private void Start()
-    {
-        _curItem = null;
-    }
-    
-    
-    
+    public Interactable _curItem;
+    public Sprite empty_sprite;
+
     /**
      * Add item to this slot
      */
     public void AddItem(Interactable newItem)
     {
         _curItem = newItem;
-        
-        transform.GetChild(0).GetComponent<Image>().sprite = _curItem.item.sprite; // TODO notice that reference to the location in hierarchy
+        transform.GetChild(0).GetComponent<Image>().sprite = _curItem.item.sprite; 
     }
 
     /**
@@ -32,6 +23,7 @@ public class InventorySlot : MonoBehaviour
     public void RemoveItem()
     {
         _curItem = null;
+        transform.GetChild(0).GetComponent<Image>().sprite = empty_sprite;
     }
 
     /**
@@ -39,7 +31,7 @@ public class InventorySlot : MonoBehaviour
      */
     public bool IsEmpty()
     {
-        if (_curItem != null)
+        if (_curItem == null)
         {
             return true; 
         }
@@ -55,4 +47,48 @@ public class InventorySlot : MonoBehaviour
         return _curItem.GetItemType();
     }
     
+    
+    // ------------------- Slots Button functions ---------------- //
+    
+    
+    /**
+     * Move from the HP inventory to the main inventory 
+     */
+    public void MoveFromHpToMain()
+    {
+        // is this possible?
+        // there is an item in this slot and theres place in the other inventory
+        if (_curItem == null || !GameManager.Instance.inventory.CanAdd())
+        {
+            return;
+        }
+
+        // Enter the item to the main inventory
+        GameManager.Instance.inventory.AddItem(_curItem);
+
+        // Remove the item in this slot in the HP inventory
+        FindObjectOfType<HPInventoryUI>().GetInventory().DeleteItem(_curItem.GetItemType());
+        // TODO- this might not be this specific one, but could be other item of the same type
+    }
+    
+    /**
+     * Move from the main inventory to the HP inventory 
+     */
+    public void MoveFromMainToHp()
+    {
+        
+        // is this possible?
+        // there is an item in this slot and theres place in the other inventory
+        if (_curItem == null || !FindObjectOfType<HPInventoryUI>().GetInventory().CanAdd())
+        {
+            return;
+        }
+
+        // Enter the item to the HP inventory
+        FindObjectOfType<HPInventoryUI>().GetInventory().AddItem(_curItem);
+
+        // Remove the item in this slot in the main inventory
+        GameManager.Instance.inventory.DeleteItem(_curItem.GetItemType());
+        // TODO- this might not be this specific one, but could be other item of the same type
+    }
 }

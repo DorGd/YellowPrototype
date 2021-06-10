@@ -22,21 +22,21 @@ public class Chest : HidingPlace, IHideable
             // we have a wrench in the hand
             if (GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
             {
-                return new Action[] {Close, Hide, Show};
+                return new Action[] {Close, Hide, Exchange};
             }
             
             // we have another item in hand
             if (_curHandItem != null)
             {
-                return new Action[] {Hide, Show};
+                return new Action[] {Hide, Exchange};
             }
             // Chest is open and there is nothing to hide
-            return new Action[] {Show};
+            return new Action[] {Exchange};
         }
 
         // chest is closed
         // don't need to check if there's a place for the items because this is a hand items and can always be picked up
-        return new Action[] {PickUp};
+        return new Action[] {PickUp, Open};
     }
     
     /**
@@ -86,19 +86,25 @@ public class Chest : HidingPlace, IHideable
         Debug.Log("Hide hand item in chest");
 
         GameManager.Instance.inventory.DeleteItem(_curHandItem.GetItemType()); // remove from global inventory
-        inventory.AddItem(_curHandItem, false); // add to local inventory
+        hpInventory.AddItem(_curHandItem, false); // add to local inventory
     }
     
     /**
      * Show the items in the inventory
      */
-    public override void Show()
+    public override void Exchange()
     {
         Debug.Log("Show the items in the chest");
         
-        inventory._inventoryUI.Load_Inventory("Chest", inventory); // load the items to the inventory 
-        inventory._inventoryUI.OpenInventory(); // show the inventory 
+        // Handling the local inventory 
+        // todo - the problem is in the load function 
+        hpInventory._inventoryUI.Load_Inventory("Chest", hpInventory); // load the items to the inventory 
+        
+        // Handling the main inventory 
+        MainInventory main = GameManager.Instance.inventory;
+        
+        // open both inventories panels
+        main.GetInventoryUI().StartExchange();
     }
-    
-    
+
 }

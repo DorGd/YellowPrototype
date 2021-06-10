@@ -6,12 +6,15 @@ public class InventoryUI : MonoBehaviour
 {
 
     // manage UI
-    public InventorySlot[] slots = new InventorySlot[12]; 
+    public InventorySlot[] slots = new InventorySlot[4]; 
     public InventorySlot handItemSlot;   
 
     // only UI components
     public GameObject inventoryPanel;
     public GameObject inventoryButton;
+    public GameObject closeButtonMain;
+    public GameObject closeButtonHP;
+    public GameObject stopExchange;
 
     /**
      * Add an item to the inventory slot
@@ -36,11 +39,11 @@ public class InventoryUI : MonoBehaviour
     }
     
     /**
-     * TODO think about when and how to do that (gonna be a button that does this- when wanting to move the item to other)
+     * Remove the item from the UI.
      */
     public void Removeitem(ItemType item, bool fromHand = false)
     {
-        if (fromHand && handItemSlot.Contains() == item)
+        if (fromHand && !handItemSlot.IsEmpty() && handItemSlot.Contains() == item)
         {
             handItemSlot.RemoveItem();
             return;
@@ -65,7 +68,6 @@ public class InventoryUI : MonoBehaviour
     {
         inventoryPanel.SetActive(true);
         inventoryButton.SetActive(false);
-
     }
 
     /**
@@ -76,5 +78,36 @@ public class InventoryUI : MonoBehaviour
         inventoryPanel.SetActive(false);
         inventoryButton.SetActive(true);
 
+    }
+    
+    // Handle exchange
+    
+    /**
+     * disable the close buttons on the inventories.
+     * Is called when Exchange button in pressed.
+     */
+    public void StopExchange()
+    {
+        closeButtonMain.SetActive(true);
+        closeButtonHP.SetActive(true);
+        stopExchange.SetActive(false);
+
+        CloseInventory();
+        FindObjectOfType<HPInventoryUI>().CloseInventory();
+
+    }
+    
+    /**
+     * disable the close buttons on the inventories.
+     * Is called when stop Exchange button in pressed.
+     */
+    public void StartExchange()
+    {
+        closeButtonMain.SetActive(false);
+        closeButtonHP.SetActive(false);
+        stopExchange.SetActive(true);
+
+        FindObjectOfType<HPInventoryUI>().OpenInventory();
+        OpenInventory();
     }
 }

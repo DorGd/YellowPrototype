@@ -46,7 +46,7 @@ public class MainInventory : Inventory
                 InventoryItems[i] = newItem;
                 InventoryCount += 1;
                 newItem.gameObject.SetActive(false); // remove item from the scene
-                _inventoryUI.AddItem(newItem, toHand); // Add the item to UI
+                _inventoryUI.AddItem(newItem, false); // Add the item to UI
                 return null;
             }
         }
@@ -60,7 +60,7 @@ public class MainInventory : Inventory
     public override void DeleteItem(ItemType item)
     {
         // delete hand item 
-        if (HandItem.GetItemType() == item)
+        if (HandItem != null && HandItem.GetItemType() == item)
         {
             HandItem = null;
             _inventoryUI.Removeitem(item, true); // Remove the item from UI
@@ -79,9 +79,11 @@ public class MainInventory : Inventory
                 }
             }
         }
-        
-
     }
-    
+
+    public InventoryUI GetInventoryUI()
+    {
+        return _inventoryUI; 
+    }
 
 }

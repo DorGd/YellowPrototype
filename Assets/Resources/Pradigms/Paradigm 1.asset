@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Paradigm Test 1
+  m_Name: Paradigm 1
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: db5238b5da707cd409b84fa01be13b36, type: 2}
   startTime: 0

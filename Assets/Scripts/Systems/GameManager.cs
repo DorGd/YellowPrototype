@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     private MainInventory _inventory;
     private Clock _clock;
     private SpeechManager _speechManager;
-    public Inventory inventory
+    public MainInventory inventory
     {
         get { return _inventory; }
     }
