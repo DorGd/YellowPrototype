@@ -46,7 +46,7 @@ public class MainInventory : Inventory
                 InventoryItems[i] = newItem;
                 InventoryCount += 1;
                 newItem.gameObject.SetActive(false); // remove item from the scene
-                _inventoryUI.AddItem(newItem, false); // Add the item to UI
+                _inventoryUI.AddItem(newItem); // Add the item to UI
                 return null;
             }
         }

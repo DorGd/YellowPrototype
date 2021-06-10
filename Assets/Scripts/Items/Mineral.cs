@@ -20,7 +20,7 @@ public class Mineral : Interactable, IHideable
         Debug.Log("Pickup");
         
         // TODO - changed for testing- not an hand item any more
-        Interactable previousHandItem = GameManager.Instance.inventory.AddItem(this, false);
+        Interactable previousHandItem = GameManager.Instance.inventory.AddItem(this, true);
         gameObject.SetActive(false); // remove item from the scene
 
         // had a hand object already- place it where the item we picked up was 
