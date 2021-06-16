@@ -15,7 +15,7 @@ MonoBehaviour:
   action: {fileID: 11400000, guid: 6bef0c1803351f14e952f9f764e5dd66, type: 2}
   startTime: 8
   endTime: 18.5
-  patrolPath: {fileID: 1733204905545129902, guid: 1377d5d13f99b0941aaaf9f7321fe98f, type: 3}
+  patrolPath: {fileID: 1733204905545129902, guid: bdd30a4620e75ef468a111c61cfd73e1, type: 3}
   text: {fileID: 0}
   goToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0

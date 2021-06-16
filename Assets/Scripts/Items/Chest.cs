@@ -3,8 +3,15 @@ using UnityEngine;
 
 public class Chest : HidingPlace, IHideable
 {
+    private GameObject _lid;
+
     private Interactable _curHandItem;
 
+    protected override void Start()
+    {
+        base.Start();
+        _lid = transform.GetChild(1).gameObject;
+    }
     /**
      * if chest is open:
      *     if we have wrench as a hand object- we can close the chest 
@@ -46,16 +53,7 @@ public class Chest : HidingPlace, IHideable
     {
         Debug.Log("Pickup");
         
-        Interactable previousHandItem = GameManager.Instance.inventory.AddItem(this, true);
-
-        // had a hand object already- place it where the item we picked up was 
-        if (previousHandItem != null)
-        {
-            GameObject previousHandItemGM = previousHandItem.gameObject; 
-            previousHandItemGM.SetActive(true);
-            previousHandItemGM.transform.position = transform.position;
-        }
-        
+        GameManager.Instance.inventory.AddItem(this);
     }
     
     /**
@@ -64,7 +62,7 @@ public class Chest : HidingPlace, IHideable
     public override void Open() 
     {
         Debug.Log("Open chest");
-        
+        _lid.SetActive(true);
         open = true;
     }
     
@@ -74,7 +72,7 @@ public class Chest : HidingPlace, IHideable
     public override void Close()
     {
         Debug.Log("Close chest");
-        
+        _lid.SetActive(false);
         open = false;
     }
 
@@ -86,7 +84,7 @@ public class Chest : HidingPlace, IHideable
         Debug.Log("Hide hand item in chest");
 
         GameManager.Instance.inventory.DeleteItem(_curHandItem.GetItemType()); // remove from global inventory
-        hpInventory.AddItem(_curHandItem, false); // add to local inventory
+        hpInventory.AddItem(_curHandItem); // add to local inventory
     }
     
     /**
@@ -95,11 +93,12 @@ public class Chest : HidingPlace, IHideable
     public override void Exchange()
     {
         Debug.Log("Show the items in the chest");
-        
+
         // Handling the local inventory 
         // todo - the problem is in the load function 
-        hpInventory._inventoryUI.Load_Inventory("Chest", hpInventory); // load the items to the inventory 
-        
+        //hpInventory._inventoryUI.Load_Inventory("Chest", hpInventory); // load the items to the inventory 
+        hpInventory.StartExchange("Chest");
+
         // Handling the main inventory 
         MainInventory main = GameManager.Instance.inventory;
         

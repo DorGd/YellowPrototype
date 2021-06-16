@@ -31,18 +31,13 @@ public class InventorySlot : MonoBehaviour
      */
     public bool IsEmpty()
     {
-        if (_curItem == null)
-        {
-            return true; 
-        }
-
-        return false; 
+        return _curItem == null;
     }
 
     /**
      * Get the item type of the item currently in this slot. 
      */
-    public ItemType Contains()
+    public ItemType GetItemType()
     {
         return _curItem.GetItemType();
     }
@@ -62,13 +57,14 @@ public class InventorySlot : MonoBehaviour
         {
             return;
         }
-
-        // Enter the item to the main inventory
-        GameManager.Instance.inventory.AddItem(_curItem);
-
+        
         // Remove the item in this slot in the HP inventory
-        FindObjectOfType<HPInventoryUI>().GetInventory().DeleteItem(_curItem.GetItemType());
         // TODO- this might not be this specific one, but could be other item of the same type
+        Interactable removedItem = _curItem;
+        FindObjectOfType<HPInventoryUI>().GetInventory().DeleteItem(_curItem.GetItemType());
+        
+        // Enter the item to the main inventory
+        GameManager.Instance.inventory.AddItem(removedItem, removedItem.isHandItem? this : null);
     }
     
     /**

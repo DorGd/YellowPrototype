@@ -28,9 +28,9 @@ public abstract class Inventory : MonoBehaviour
     // ----------- function that require access to UI ------------//
 
     /**
-     * add an item as hand item (if main inventory) and if wanted (toHand = true) or to the inventory
+     * add an item as hand item (if main inventory) or to the inventory
      */
-    public abstract Interactable AddItem(Interactable newItem, bool toHand = false);
+    public abstract void AddItem(Interactable newItem, InventorySlot fromSlot = null);
 
     /**
      * Delete an item- for hand items and inventory items 

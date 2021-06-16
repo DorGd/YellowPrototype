@@ -16,6 +16,6 @@ public class Helmet : Interactable
     public void Wear()
     {
         Debug.Log("Wear");
-        GameManager.Instance.inventory.AddItem(this, false);
+        GameManager.Instance.inventory.AddItem(this);
     }
 }

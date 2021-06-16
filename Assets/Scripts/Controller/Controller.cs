@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
-
+using System.Collections;
 
 [RequireComponent(typeof(Ai))]
 public class Controller : MonoBehaviour
@@ -13,6 +13,8 @@ public class Controller : MonoBehaviour
     private LayerMask _leftMouseMask;
     private LayerMask _rightMouseMask;
     private Button[] _buttons;
+    private Interactable targetItem = null;
+    private Coroutine disableButtonsCoroutine = null;
 
     public Canvas rightClickCanvas;
     public Animator goToCircleAnimator;
@@ -53,6 +55,18 @@ public class Controller : MonoBehaviour
         // Read Right Muse value
         bool interactInput = _playerControls.Player.Interact.triggered;
 
+        if (goInput || interactInput)
+        {
+            disableButtonsCoroutine = StartCoroutine(DisableButtons());
+            targetItem = null;
+            _ai.StopAgent();
+        }
+        else if (targetItem != null && (GameManager.Instance.PlayerAI.transform.position - targetItem.transform.position).magnitude <= 1)
+        {
+            if (disableButtonsCoroutine != null)
+                StopCoroutine(disableButtonsCoroutine);
+            PresentInteractions(targetItem.transform.position, targetItem);
+        }
 
         if (goInput)
         {
@@ -89,31 +103,57 @@ public class Controller : MonoBehaviour
                 
                if (item != null)
                 {
-                    Action[] events = item.CalcInteractions();
-
-                    for (int i = 0; i < _buttons.Length; i++)
+                    if ((GameManager.Instance.PlayerAI.transform.position - item.transform.position).magnitude > 1)
                     {
-                        Button btn = _buttons[i];
-                        if (i < events.Length)
-                        {
-                            btn.gameObject.SetActive(true);
-                            btn.onClick.RemoveAllListeners();
-                            Text txt = btn.GetComponentInChildren<Text>();
-
-                            int j = i;
-                            txt.text = events[j].Method.Name;
-                            btn.onClick.AddListener(delegate { events[j](); });
-                        }
-                        else
-                        {
-                            btn.gameObject.SetActive(false);
-                        }
+                        // Move player to object
+                        goToCircleAnimator.SetTrigger("CircleTrigger");
+                        goToCircleAnimator.gameObject.transform.position = item.transform.position + new Vector3(0, 0.1f, 0);
+                        _ai.MoveToPoint(item.transform.position);
+                        targetItem = item;
+                        return;
                     }
-                    
-                    rightClickCanvas.transform.position = hit.point;
-                    rightClickCanvas.enabled = true;
+                    if (disableButtonsCoroutine != null)
+                        StopCoroutine(disableButtonsCoroutine);
+                    PresentInteractions(hit.point, item);
                 }
             }
+        }
+    }
+
+    private void PresentInteractions(Vector3 pos, Interactable item)
+    {
+        Action[] events = item.CalcInteractions();
+
+        for (int i = 0; i < _buttons.Length; i++)
+        {
+            Button btn = _buttons[i];
+            if (i < events.Length)
+            {
+                btn.gameObject.SetActive(true);
+                btn.onClick.RemoveAllListeners();
+                Text txt = btn.GetComponentInChildren<Text>();
+
+                int j = i;
+                txt.text = events[j].Method.Name;
+                btn.onClick.AddListener(delegate { events[j](); });
+                btn.onClick.AddListener(delegate { StartCoroutine(DisableButtons()); });
+            }
+            else
+            {
+                btn.gameObject.SetActive(false);
+            }
+        }
+
+        rightClickCanvas.transform.position = pos;
+        rightClickCanvas.enabled = true;
+    }
+
+    private IEnumerator DisableButtons()
+    {
+        yield return new WaitForSeconds(0.2f);
+        foreach(Button btn in _buttons)
+        {
+            btn.gameObject.SetActive(false);
         }
     }
 

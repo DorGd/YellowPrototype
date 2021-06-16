@@ -16,29 +16,29 @@ public class HPInventoryUI : MonoBehaviour
     
     
     /**
-     * Load the inventory UI with a specific Hiding place inventory 
-     */
-    public void Load_Inventory(String name, HPInventory subInventory)
+        * Load the inventory UI with a specific Hiding place inventory 
+        */
+    public void Load_Inventory(string name, HPInventory subInventory)
     {
-        _curInventory = subInventory; 
-        
-         // set the name
-         inventoryName.text = name;
+        _curInventory = subInventory;
+        ClearInventory();
+        // set the name
+        inventoryName.text = name;
          
-         // add to the slots
-         Interactable[] items = subInventory.GetItems();
-         foreach (var item in items)
-         {
-             if (item != null)
-             {
-                 AddItem(item);
-             }
-         }
+        // add to the slots
+        Interactable[] items = subInventory.GetItems();
+        foreach (var item in items)
+        {
+            if (item != null)
+            {
+                AddItem(item);
+            }
+        }
     }
     
     /**
-     * Add an item to the inventory slot
-     */
+        * Add an item to the inventory slot
+        */
     public void AddItem(Interactable item)
     {
         foreach (InventorySlot slot in slots)
@@ -53,14 +53,14 @@ public class HPInventoryUI : MonoBehaviour
     }
     
     /**
-     * Remove the item from the UI
-     */
+        * Remove the item from the UI
+        */
     public void Removeitem(ItemType item)
     {
         foreach (InventorySlot slot in slots)
         {
             // Can remove this item from the inventory 
-            if (!slot.IsEmpty() && slot.Contains() == item)
+            if (!slot.IsEmpty() && slot.GetItemType() == item)
             {
                 slot.RemoveItem();
                 break;
@@ -69,18 +69,19 @@ public class HPInventoryUI : MonoBehaviour
     }
 
     /**
-     * open the inventory panel 
-     */
+        * open the inventory panel 
+        */
     public void OpenInventory()
     {
         inventoryPanel.SetActive(true);
     }
 
     /**
-     * close the inventory panel
-     */
+        * close the inventory panel
+        */
     public void CloseInventory()
     {
+        ClearInventory();
         inventoryPanel.SetActive(false);
     }
 
@@ -89,4 +90,11 @@ public class HPInventoryUI : MonoBehaviour
         return _curInventory;
     }
     
+    private void ClearInventory()
+    {
+        foreach (InventorySlot slot in slots)
+        {
+            slot.RemoveItem();
+        }
+    }
 }
