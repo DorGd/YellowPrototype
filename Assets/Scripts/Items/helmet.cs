@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Helmet : Interactable
+public class Helmet : Interactable, IHideable
 {
     
     public override Action[] CalcInteractions()
@@ -16,6 +16,11 @@ public class Helmet : Interactable
     public void Wear()
     {
         Debug.Log("Wear");
+        PickUp();
+    }
+
+    public void PickUp()
+    {
         GameManager.Instance.inventory.AddItem(this);
     }
 }

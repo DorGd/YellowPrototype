@@ -41,14 +41,24 @@ public class InventoryUI : MonoBehaviour
     /**
      * Remove the item from the UI.
      */
-    public void RemoveItem(ItemType item, bool fromHand = false)
+    public void RemoveItem(ItemType item, bool fromHand = false, int slotIndex = -1)
     {
         if (fromHand && !handItemSlot.IsEmpty() && handItemSlot.GetItemType() == item)
         {
             handItemSlot.RemoveItem();
             return;
         }
-        
+
+        if (slotIndex >= 0)
+        {
+            // Can remove this item from the inventory 
+            if (slots[slotIndex].IsEmpty() && slots[slotIndex].GetItemType() == item)
+            {
+                slots[slotIndex].RemoveItem();
+                return;
+            }
+        }
+
         foreach (InventorySlot slot in slots)
         {
             // Can add this item to the inventory 

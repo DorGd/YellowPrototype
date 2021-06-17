@@ -14,6 +14,14 @@ using UnityEngine;
         _inventoryUI = GameObject.Find("HP inventory (canvas)").GetComponent<HPInventoryUI>();
     }
 
+    private void Update()
+    {
+        if (_inExchange && (GameManager.Instance.PlayerAI.transform.position - transform.position).magnitude > 1)
+        {
+            FindObjectOfType<InventoryUI>().StopExchange();
+        }
+    }
+
     public void StartExchange(string name)
     {
         _inExchange = true;
@@ -21,11 +29,18 @@ using UnityEngine;
         _inventoryUI.OpenInventory();
     }
 
+    public void StopExchange()
+    {
+        _inExchange = false;
+    }
+
     /**
     * add to the inventory
     */
     public override void AddItem(Interactable newItem, InventorySlot fromSlot = null)
     {
+        if (!(newItem is IHideable))
+            return;
         for (int i = 0; i < InventoryItems.Length; i++)
         {
             if (InventoryItems[i] == null)
@@ -45,17 +60,28 @@ using UnityEngine;
     /**
     * Delete an item
     */
-    public override void DeleteItem(ItemType item)
+    public override void DeleteItem(ItemType item, int slot = -1)
     {
-         
+        if (slot >= 0)
+        {
+            if (InventoryItems[slot] != null && InventoryItems[slot].GetItemType() == item)
+            {
+                if (_inExchange)
+                    _inventoryUI.Removeitem(item, slot); // remove the item to UI
+                InventoryItems[slot] = null;
+                InventoryCount--;
+                return;
+            }
+        }
         for (int i = 0; i < InventoryItems.Length; i++)
         {
             if (InventoryItems[i] != null && InventoryItems[i].GetItemType() == item)
             {
                 if (_inExchange)
-                    _inventoryUI.Removeitem(item); // remove the item to UI
+                    _inventoryUI.Removeitem(item, i); // remove the item to UI
                 InventoryItems[i] = null;
-                InventoryCount--; 
+                InventoryCount--;
+                return;
             }
         }
     }

@@ -12,6 +12,8 @@ public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPoint
     // protected ItemType CurrItemType;
     protected Outline _outline;
 
+    protected int spriteIndex = 0;
+
     protected virtual void Start()
     {
         _outline = GetComponent<Outline>();
@@ -51,6 +53,11 @@ public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPoint
     public void Disable()
     {
         _outline.enabled = false;    
+    }
+
+    public Sprite GetSprite()
+    {
+        return item.GetSprite(spriteIndex);
     }
 
 }

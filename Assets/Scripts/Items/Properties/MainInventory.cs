@@ -71,25 +71,36 @@ public class MainInventory : Inventory
     /**
      * Delete an item- for hand items and inventory items 
      */
-    public override void DeleteItem(ItemType item)
+    public override void DeleteItem(ItemType item, int slot = -1)
     {
         // delete hand item 
         if (HandItem != null && HandItem.GetItemType() == item)
         {
             HandItem = null;
-            _inventoryUI.RemoveItem(item, true); // Remove the item from UI
+            _inventoryUI.RemoveItem(item, true, slot); // Remove the item from UI
         }
         
         // delete from the inventory
         else
         {
+            if (slot >= 0)
+            {
+                if (InventoryItems[slot] != null && InventoryItems[slot].GetItemType() == item)
+                {
+                    InventoryItems[slot] = null;
+                    InventoryCount--;
+                    _inventoryUI.RemoveItem(item, false, slot); // Remove the item from UI
+                    return;
+                }
+            }
             for (int i = 0; i < InventoryItems.Length; i++)
             {
                 if (InventoryItems[i] != null && InventoryItems[i].GetItemType() == item)
                 {
                     InventoryItems[i] = null;
                     InventoryCount--; 
-                    _inventoryUI.RemoveItem(item, false); // Remove the item from UI
+                    _inventoryUI.RemoveItem(item, false, slot); // Remove the item from UI
+                    return;
                 }
             }
         }

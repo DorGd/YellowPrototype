@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Chest : HidingPlace, IHideable
+public class Chest : HidingPlace
 {
     private GameObject _lid;
 
@@ -21,29 +21,33 @@ public class Chest : HidingPlace, IHideable
      */
     public override Action[] CalcInteractions()
     {
-        _curHandItem = GameManager.Instance.inventory.GetHandItem();
+        // Handling the main inventory 
+        MainInventory main = GameManager.Instance.inventory;
+
+        // open both inventories panels
+        main.GetInventoryUI().StopExchange();
+
+        _curHandItem = main.GetHandItem();
         
-        // chest is open
-        if (open)
+        // we don't carry a non-hidable object
+        if (!(_curHandItem != null && !(_curHandItem is IHideable)))
         {
+            
             // we have a wrench in the hand
             if (GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
             {
-                return new Action[] {Close, Hide, Exchange};
+                if (open)
+                    return new Action[] {PickUp, Close, Exchange};
+                return new Action[] { PickUp, Open };
             }
             
-            // we have another item in hand
-            if (_curHandItem != null)
-            {
-                return new Action[] {Hide, Exchange};
-            }
-            // Chest is open and there is nothing to hide
-            return new Action[] {Exchange};
+            if (open)
+                return new Action[] { PickUp, Exchange };
         }
 
-        // chest is closed
+        // either player already carries a non-hidable item or the chest is closed
         // don't need to check if there's a place for the items because this is a hand items and can always be picked up
-        return new Action[] {PickUp, Open};
+        return new Action[] {PickUp};
     }
     
     /**
@@ -61,6 +65,7 @@ public class Chest : HidingPlace, IHideable
      */
     public override void Open() 
     {
+        spriteIndex = 0;
         Debug.Log("Open chest");
         _lid.SetActive(true);
         open = true;
@@ -71,6 +76,7 @@ public class Chest : HidingPlace, IHideable
      */
     public override void Close()
     {
+        spriteIndex = 1;
         Debug.Log("Close chest");
         _lid.SetActive(false);
         open = false;
@@ -83,8 +89,11 @@ public class Chest : HidingPlace, IHideable
     {
         Debug.Log("Hide hand item in chest");
 
-        GameManager.Instance.inventory.DeleteItem(_curHandItem.GetItemType()); // remove from global inventory
-        hpInventory.AddItem(_curHandItem); // add to local inventory
+        if (hpInventory.CanAdd())
+        {
+            GameManager.Instance.inventory.DeleteItem(_curHandItem.GetItemType()); // remove from global inventory
+            hpInventory.AddItem(_curHandItem); // add to local inventory
+        }
     }
     
     /**

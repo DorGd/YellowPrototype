@@ -15,14 +15,6 @@ public abstract class HidingPlace : Interactable
 
     }
 
-    private void Update()
-    {
-        if ((GameManager.Instance.PlayerAI.transform.position - transform.position).magnitude > 1)
-        {
-            FindObjectOfType<InventoryUI>().StopExchange();
-        }
-    }
-
     public abstract void Hide();
     public abstract void Close();
     public abstract void Open();

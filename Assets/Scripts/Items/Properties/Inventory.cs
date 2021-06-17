@@ -35,7 +35,7 @@ public abstract class Inventory : MonoBehaviour
     /**
      * Delete an item- for hand items and inventory items 
      */
-    public abstract void DeleteItem(ItemType item);
+    public abstract void DeleteItem(ItemType item, int slot = -1);
 
     
     // ----------- function that doesn't require access to UI ------------//

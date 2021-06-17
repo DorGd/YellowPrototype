@@ -55,8 +55,17 @@ public class HPInventoryUI : MonoBehaviour
     /**
         * Remove the item from the UI
         */
-    public void Removeitem(ItemType item)
+    public void Removeitem(ItemType item, int slotIndex = -1)
     {
+        if (slotIndex >= 0)
+        {
+            // Can remove this item from the inventory 
+            if (!slots[slotIndex].IsEmpty() && slots[slotIndex].GetItemType() == item)
+            {
+                slots[slotIndex].RemoveItem();
+                return;
+            }
+        }
         foreach (InventorySlot slot in slots)
         {
             // Can remove this item from the inventory 
@@ -81,6 +90,9 @@ public class HPInventoryUI : MonoBehaviour
         */
     public void CloseInventory()
     {
+        if (_curInventory == null)
+            return;
+        _curInventory.StopExchange();
         ClearInventory();
         inventoryPanel.SetActive(false);
     }

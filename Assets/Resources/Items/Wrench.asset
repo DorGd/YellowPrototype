@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Wrench
   m_EditorClassIdentifier: 
   _type: 4
-  sprite: {fileID: 21300000, guid: 01df840c70543426abeac7d8f1ed4801, type: 3}
+  sprites:
+  - {fileID: 21300000, guid: 01df840c70543426abeac7d8f1ed4801, type: 3}
