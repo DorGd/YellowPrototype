@@ -16,7 +16,7 @@ using UnityEngine;
 
     private void Update()
     {
-        if (_inExchange && (GameManager.Instance.PlayerAI.transform.position - transform.position).magnitude > 1)
+        if (_inExchange && (GameManager.Instance.PlayerAI.transform.position - transform.position).magnitude > 2)
         {
             FindObjectOfType<InventoryUI>().StopExchange();
         }
@@ -84,5 +84,10 @@ using UnityEngine;
                 return;
             }
         }
+    }
+
+    public override bool CanAdd()
+    {
+        return _inExchange && base.CanAdd();
     }
 }

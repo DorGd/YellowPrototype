@@ -24,9 +24,6 @@ public class Chest : HidingPlace
         // Handling the main inventory 
         MainInventory main = GameManager.Instance.inventory;
 
-        // open both inventories panels
-        main.GetInventoryUI().StopExchange();
-
         _curHandItem = main.GetHandItem();
         
         // we don't carry a non-hidable object

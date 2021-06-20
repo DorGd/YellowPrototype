@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Helmet : Interactable, IHideable
 {
-    
+    public HelmetPlace helmetPlace;
     public override Action[] CalcInteractions()
     {
         return new Action[] {Wear};
@@ -21,6 +21,10 @@ public class Helmet : Interactable, IHideable
 
     public void PickUp()
     {
+        if (GameManager.Instance.inventory.IsInInventory(ItemType.Helmet))
+        {
+            return;
+        }
         GameManager.Instance.inventory.AddItem(this);
     }
 }

@@ -97,6 +97,11 @@ public class HPInventoryUI : MonoBehaviour
         inventoryPanel.SetActive(false);
     }
 
+    internal bool CanAdd()
+    {
+        return (_curInventory != null && _curInventory.CanAdd());
+    }
+
     public HPInventory GetInventory()
     {
         return _curInventory;

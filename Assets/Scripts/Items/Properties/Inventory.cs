@@ -114,7 +114,7 @@ public abstract class Inventory : MonoBehaviour
     /**
      * Checks if there's place in the inventory or it's full
      */
-    public bool CanAdd()
+    public virtual bool CanAdd()
     {
         return InventoryCount != InventoryItems.Length; 
     }

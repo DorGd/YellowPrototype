@@ -16,7 +16,7 @@ public class InventorySlot : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("Updated");
         _curItem = newItem;
-        transform.GetChild(0).GetComponent<Image>().sprite = _curItem.GetSprite(); 
+        transform.GetChild(1).GetComponent<Image>().sprite = _curItem.GetSprite(); 
     }
 
     /**
@@ -26,7 +26,7 @@ public class InventorySlot : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("Updated");
         _curItem = null;
-        transform.GetChild(0).GetComponent<Image>().sprite = empty_sprite;
+        transform.GetChild(1).GetComponent<Image>().sprite = empty_sprite;
     }
 
     /**
@@ -78,7 +78,7 @@ public class InventorySlot : MonoBehaviour
         
         // is this possible?
         // there is an item in this slot and theres place in the other inventory
-        if (_curItem == null || !(_curItem is IHideable) || !FindObjectOfType<HPInventoryUI>().GetInventory().CanAdd())
+        if (_curItem == null || !(_curItem is IHideable) || !FindObjectOfType<HPInventoryUI>().CanAdd())
         {
             return;
         }

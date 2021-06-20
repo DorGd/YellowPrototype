@@ -25,7 +25,7 @@ public class Controller : MonoBehaviour
         _ai = GetComponent<Ai>();
         _cam = Camera.main;
         _leftMouseMask = LayerMask.GetMask("Ground", "Obstruction");
-        _rightMouseMask = LayerMask.GetMask("Interactable");
+        _rightMouseMask = LayerMask.GetMask("Ground", "Interactable");
         _buttons = rightClickCanvas.GetComponentsInChildren<Button>(true);
     }
 
@@ -61,10 +61,11 @@ public class Controller : MonoBehaviour
             targetItem = null;
             _ai.StopAgent();
         }
-        else if (targetItem != null && (GameManager.Instance.PlayerAI.transform.position - targetItem.transform.position).magnitude <= 1)
+        else if (targetItem != null && (GameManager.Instance.PlayerAI.transform.position - targetItem.transform.position).magnitude <= 2)
         {
             if (disableButtonsCoroutine != null)
                 StopCoroutine(disableButtonsCoroutine);
+            _ai.StopAgent();
             PresentInteractions(targetItem.transform.position, targetItem);
         }
 
@@ -75,6 +76,7 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f, _leftMouseMask) && !IsMouseOverUI())
             {
+                GameManager.Instance.inventory.GetInventoryUI().StopExchange();
                 rightClickCanvas.enabled = false;
                 switch (LayerMask.LayerToName(hit.transform.gameObject.layer))
                 {
@@ -85,7 +87,7 @@ public class Controller : MonoBehaviour
                         goToCircleAnimator.SetTrigger("CircleTrigger");
                         goToCircleAnimator.gameObject.transform.position = hit.point + new Vector3(0, 0.1f, 0);
                         _ai.MoveToPoint(hit.point);
-                        break;
+                        return;
                 }
 
             }
@@ -98,31 +100,54 @@ public class Controller : MonoBehaviour
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f, _rightMouseMask))
             {
-
+                GameManager.Instance.inventory.GetInventoryUI().StopExchange();
                 Interactable item = hit.transform.gameObject.GetComponent<Interactable>();
-                
-               if (item != null)
+
+                switch (LayerMask.LayerToName(hit.transform.gameObject.layer))
                 {
-                    if ((GameManager.Instance.PlayerAI.transform.position - item.transform.position).magnitude > 1)
-                    {
-                        // Move player to object
-                        goToCircleAnimator.SetTrigger("CircleTrigger");
-                        goToCircleAnimator.gameObject.transform.position = item.transform.position + new Vector3(0, 0.1f, 0);
-                        _ai.MoveToPoint(item.transform.position);
-                        targetItem = item;
+                    case "Interactable":
+                        if (item != null)
+                        {
+                            if ((GameManager.Instance.PlayerAI.transform.position - item.transform.position).magnitude > 2)
+                            {
+                                // Move player to object
+                                goToCircleAnimator.SetTrigger("CircleTrigger");
+                                goToCircleAnimator.gameObject.transform.position = item.transform.position + new Vector3(0, 0.1f, 0);
+                                _ai.MoveToPoint(item.transform.position);
+                                targetItem = item;
+                                return;
+                            }
+                            if (disableButtonsCoroutine != null)
+                                StopCoroutine(disableButtonsCoroutine);
+                            PresentInteractions(hit.point, item);
+                        }
                         return;
-                    }
-                    if (disableButtonsCoroutine != null)
-                        StopCoroutine(disableButtonsCoroutine);
-                    PresentInteractions(hit.point, item);
+                    case "Ground":
+                        // Show Drop Interaction if player carries a hand item
+                        if (disableButtonsCoroutine != null)
+                            StopCoroutine(disableButtonsCoroutine);
+                        PresentInteractions(hit.point, null);
+                        return;
                 }
+
+                
             }
         }
     }
 
     private void PresentInteractions(Vector3 pos, Interactable item)
     {
-        Action[] events = item.CalcInteractions();
+        Action[] events;
+        if (item == null)
+        {
+            if (GameManager.Instance.inventory.GetHandItem() == null)
+                return;
+            events = new Action[] { Drop };
+        }
+        else
+        {
+            events = item.CalcInteractions();
+        }
 
         for (int i = 0; i < _buttons.Length; i++)
         {
@@ -146,6 +171,14 @@ public class Controller : MonoBehaviour
 
         rightClickCanvas.transform.position = pos;
         rightClickCanvas.enabled = true;
+    }
+
+    public void Drop()
+    {
+        Interactable handItem = GameManager.Instance.inventory.GetHandItem();
+        GameManager.Instance.inventory.DeleteItem(handItem.GetItemType());
+        handItem.transform.position = GameManager.Instance.PlayerTransform.position;
+        handItem.gameObject.SetActive(true);
     }
 
     private IEnumerator DisableButtons()

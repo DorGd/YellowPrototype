@@ -26,6 +26,7 @@ public class Vent : Interactable
     public void Open()
     {
         Debug.Log("Open");
-        open = true; 
+        open = true;
+        gameObject.SetActive(false);
     }
 }

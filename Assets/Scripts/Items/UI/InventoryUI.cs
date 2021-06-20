@@ -51,8 +51,9 @@ public class InventoryUI : MonoBehaviour
 
         if (slotIndex >= 0)
         {
+            Debug.Log(gameObject.name);
             // Can remove this item from the inventory 
-            if (slots[slotIndex].IsEmpty() && slots[slotIndex].GetItemType() == item)
+            if (!slots[slotIndex].IsEmpty() && slots[slotIndex].GetItemType() == item)
             {
                 slots[slotIndex].RemoveItem();
                 return;
