@@ -74,10 +74,7 @@ public abstract class Inventory : MonoBehaviour
         // looking for the item in the hand of the player
         if (IsMainInventory && inHand && HandItem != null)
         {
-            // Debug.Log(item);
-            Debug.Log(HandItem.GetItemType());
-
-            return HandItem != null && HandItem.GetItemType() == item; 
+            return HandItem.GetItemType() == item; 
         }
         
         // looking for the item in the inventory
@@ -137,4 +134,5 @@ public abstract class Inventory : MonoBehaviour
     {
         return InventoryItems;
     }
+
 }

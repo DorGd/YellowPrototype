@@ -15,6 +15,7 @@ public class Wrench : Interactable, IHideable
         Debug.Log("Pickup");
         
         Interactable previousHandItem = GameManager.Instance.inventory.AddItem(this, true);
+        gameObject.SetActive(false); // remove item from the scene
 
         // had a hand object already- place it where the item we picked up was 
         if (previousHandItem != null)

@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private ParadigmSO[] _paradigms;
     private Stack<ParadigmSO> _eventParadigms;
+    [SerializeField]
     private ParadigmSO _currParadigm;
     public ParadigmSO CurrentParadigm
     { 
@@ -33,7 +34,8 @@ public class EnemyManager : MonoBehaviour
         _ai = GetComponent<Ai>();
         _eventParadigms = new Stack<ParadigmSO>();
         _field = GetComponent<FieldOfView>();
-        _field.onEnterField.AddListener(RegulationsValidation);
+        if (_field != null)
+            _field.onEnterField.AddListener(RegulationsValidation);
         GameManager.Instance.Clock.TickEvent += UpdateParadigm;
 
         // Find the current paradigm
@@ -55,12 +57,15 @@ public class EnemyManager : MonoBehaviour
     public void UpdateParadigm()
     {
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        int nextDayFactor = 0;
+        if (_currParadigm.startTime > _currParadigm.endTime) nextDayFactor = 24;  // handle situation: [start=22, time=23, end=4] -> [start=22, time=23, end=28]
+
         // check if next paradigm start time has arrived or current paradigm has expired 
         if (_paradigms[(_curr + 1) % _paradigms.Length].startTime == time)
         {
             ActivateNextParadigm();
         }
-        else if (_curr >= 0 && _paradigms[_curr].endTime <= time && !_isEvent)
+        else if (_curr >= 0 && _paradigms[_curr].endTime + nextDayFactor <= time && !_isEvent)
         {
             FindNextParadigm();
             ActivateNextParadigm();
@@ -85,9 +90,16 @@ public class EnemyManager : MonoBehaviour
     public void ResumeCurrentParadigm()
     {
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        _currParadigm = _paradigms[_curr];
+        _isRoutinePaused = false;
 
+        // day factor is added to handle day shift cases
+        int nextDayFactor = 0;
+        if (_currParadigm.startTime > _currParadigm.endTime) nextDayFactor = 24;  // handle situation: [start=22, time=23, end=4] -> [start=22, time=23, end=28]
+        if (time < _currParadigm.endTime && nextDayFactor != 0) time += nextDayFactor; // handle situation: [start=22, time=2, end=4] -> [start=22, time=26, end=28]
+        
         // current paradigm time slot contain current time
-        if (_currParadigm.startTime <= time && _currParadigm.endTime >= time)
+        if (_currParadigm.startTime <= time && _currParadigm.endTime + nextDayFactor >= time)
         {    
             // Stop patroling / watch Action if activated
             _ai.Patroling = false;                                          
@@ -96,7 +108,7 @@ public class EnemyManager : MonoBehaviour
             {
                 _ai.WayPoints = _currParadigm.patrolPath.Points;
             }
-            if (!_isRoutinePaused) CurrentCoroutine =  _currParadigm.action.Act(this);
+            CurrentCoroutine =  _currParadigm.action.Act(this);
         }
         else
         {
@@ -117,7 +129,9 @@ public class EnemyManager : MonoBehaviour
             {
                 ParadigmSO eventParadigm = _eventParadigms.Pop();
                 _currParadigm = eventParadigm;
-                 CurrentCoroutine = eventParadigm.action.Act(this);
+                if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
+                CurrentCoroutine = eventParadigm.action.Act(this);
+                Debug.Log($"{gameObject.name} invoke event paradigm: {_currParadigm.name}.");
             }
             return;
         }
@@ -127,10 +141,14 @@ public class EnemyManager : MonoBehaviour
         _curr = (_curr + 1) % _paradigms.Length;
         ParadigmSO nextParadigm = _paradigms[_curr];
         _currParadigm = nextParadigm;
-        // TODO handle midnight paradigm shift
 
+        // day factor is added to handle day shift cases
+        int nextDayFactor = 0;
+        if (nextParadigm.startTime > nextParadigm.endTime) nextDayFactor = 24;  // handle situation: [start=22, time=23, end=4] -> [start=22, time=23, end=28]
+        if (time < nextParadigm.endTime && nextDayFactor != 0) time += nextDayFactor; // handle situation: [start=22, time=2, end=4] -> [start=22, time=26, end=28]
+        
         // next paradigm time slot contain current time
-        if (nextParadigm.startTime <= time && nextParadigm.endTime >= time)
+        if (nextParadigm.startTime <= time && nextParadigm.endTime + nextDayFactor >= time)
         {    
             // Stop patroling / watch Action if activated
             _ai.Patroling = false;                                          
@@ -139,7 +157,12 @@ public class EnemyManager : MonoBehaviour
             {
                 _ai.WayPoints = nextParadigm.patrolPath.Points;
             }
-            if (!_isRoutinePaused) CurrentCoroutine =  nextParadigm.action.Act(this);
+            if (!_isRoutinePaused)
+            {
+                if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
+                if (nextParadigm.action == null)  Debug.LogWarning($"No ActionSO provided for {nextParadigm.name}!");
+                CurrentCoroutine =  nextParadigm.action.Act(this);
+            } 
         }
         else
         {
@@ -168,11 +191,6 @@ public class EnemyManager : MonoBehaviour
         if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
         Ai.StopAgent();
         _isRoutinePaused = true;
-    }
-
-    public void ResumeAgentRoutine()
-    {
-        _isRoutinePaused = false;
     }
 
     void RegulationsValidation()

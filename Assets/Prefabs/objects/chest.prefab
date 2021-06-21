@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 6850904908195708147}
   - component: {fileID: 6872193414628546110}
   - component: {fileID: 5732268870850685580}
-  - component: {fileID: 7250652883826643882}
+  - component: {fileID: 6771059726864134618}
+  - component: {fileID: 6066642038323346917}
+  - component: {fileID: 8734234579916913806}
   m_Layer: 7
   m_Name: chest
   m_TagString: Untagged
@@ -113,7 +115,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &7250652883826643882
+--- !u!114 &6771059726864134618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,8 +124,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 3746031874114097181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da833bd025484b4fb2a0aa94ac9c74a, type: 3}
+  m_Script: {fileID: 11500000, guid: 03b22769735c3465283db91823b21d37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HandItem: {fileID: 0}
+  InventoryItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _inventoryUI: {fileID: 0}
+--- !u!114 &6066642038323346917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3746031874114097181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &8734234579916913806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3746031874114097181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e32b95910ce04760aa320d9eb3d9f09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 452d41f2a258b443c8ae51d027516ab5, type: 2}
+  hpInventory: {fileID: 0}
   open: 0
-  key: {fileID: 1120579541833554272, guid: c914cfa1bfc1e45b99dff1f0fe11fcb0, type: 3}

@@ -1,20 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    private Animator mAnimator;
+    private Animator _animator;
 
-    // Start is called before the first frame update
+    /** stayOpen/Close uses to enforce door state from the RoutineManager **/
+    public bool StayOpen { get; set;}
+    public bool StayClose { get; set;}
+
     void Awake()
     {
-        mAnimator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("NPC"))
+        if (other.gameObject.CompareTag("NPC") && !StayClose)
         {
             OpenDoor();
         }
@@ -22,7 +23,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("NPC"))
+        if (other.gameObject.CompareTag("NPC") && !StayOpen)
         {
             CloseDoor();
         }
@@ -30,17 +31,17 @@ public class DoorController : MonoBehaviour
 
     public void OpenDoor()
     {
-        if (mAnimator != null)
+        if (_animator != null)
         {
-            mAnimator.SetBool("Open", true);
+            _animator.SetBool("Open", true);
         }
     }
 
     public void CloseDoor()
     {
-        if (mAnimator != null)
+        if (_animator != null)
         {
-            mAnimator.SetBool("Open", false);
+            _animator.SetBool("Open", false);
         }
     }
 }

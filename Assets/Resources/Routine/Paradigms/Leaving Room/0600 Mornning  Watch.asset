@@ -17,6 +17,6 @@ MonoBehaviour:
   endTime: 7.5
   patrolPath: {fileID: 0}
   text: {fileID: 0}
-  goToPosition: {x: -7.83, y: 0, z: -35.64}
-  watchSector: {x: 225, y: 315}
+  goToPosition: {x: -27.77, y: 0, z: -42.42}
+  watchSector: {x: 15, y: 75}
   regulations: []
