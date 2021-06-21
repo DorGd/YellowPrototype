@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b4b496e7ec84c4886b4d46774b326c, type: 3}
   m_Name: IdleAnimations
   m_EditorClassIdentifier: 
-  animations:
-  - {fileID: 7400000, guid: f35248c1d70a74741b5f6d8836985914, type: 2}
-  - {fileID: 7400000, guid: bc4910e99c6a9b74a908ec4444f1d18a, type: 2}
-  - {fileID: 7400000, guid: 8652c60593ad8eb4dbeb0daa799b68db, type: 2}
-  - {fileID: 7400000, guid: 9e15c8384031b63419665c9542bbbea9, type: 2}
-  - {fileID: 7400000, guid: 42304b20352f94e4c9068b091a7d8b73, type: 2}
-  - {fileID: 7400000, guid: 305a4e21801b92d4f9600467fd740412, type: 2}
-  - {fileID: 7400000, guid: 101715de86c708c4e8587b6b9176eed5, type: 2}
-  - {fileID: 7400000, guid: fc37412b6b9c1e74d8ab252df6391913, type: 2}
   animationType: 0
+  animations:
+  - {fileID: 7400000, guid: ea7d152a58b12b64081bb0884d1f34ff, type: 2}
+  - {fileID: 7400000, guid: e93eee34cd7a6a34ca2a133412d89116, type: 2}
+  - {fileID: 7400000, guid: 6906f6be4092ebd4c86c5e0495c2efcb, type: 2}
+  - {fileID: 7400000, guid: 23f7eb8d19f9e614793b35d27358055c, type: 2}
+  - {fileID: 7400000, guid: 46d1db14f81f7c943b380ea525245c9b, type: 2}
+  - {fileID: 7400000, guid: 34e974191f0eaa949ae619640392acde, type: 2}
+  - {fileID: 7400000, guid: f0e64beefe343514f9058d161af9969e, type: 2}
+  - {fileID: 7400000, guid: 07f0109de98245044a8f3b2dd222d2ff, type: 2}
