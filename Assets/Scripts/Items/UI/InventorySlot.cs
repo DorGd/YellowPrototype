@@ -14,7 +14,13 @@ public class InventorySlot : MonoBehaviour
      */
     public void AddItem(Interactable newItem)
     {
-        GetComponent<Animator>().SetTrigger("Updated");
+        if (!gameObject.activeInHierarchy)
+        {
+            GameObject inventoryBtn = GameObject.Find("Inventory Button ");
+            inventoryBtn.GetComponent<Animator>()?.SetTrigger("Updated");
+        }
+        else
+            GetComponent<Animator>().SetTrigger("Updated");
         _curItem = newItem;
         transform.GetChild(1).GetComponent<Image>().sprite = _curItem.GetSprite(); 
     }
@@ -56,7 +62,7 @@ public class InventorySlot : MonoBehaviour
     {
         // is this possible?
         // there is an item in this slot and theres place in the other inventory
-        if (_curItem == null || !GameManager.Instance.inventory.CanAdd())
+        if (_curItem == null || !GameManager.Instance.inventory.CanAdd() || (_curItem is IHideable.IWearable && GameManager.Instance.inventory.IsInInventory(_curItem.GetItemType())))
         {
             return;
         }

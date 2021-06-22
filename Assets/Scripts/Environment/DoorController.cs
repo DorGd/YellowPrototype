@@ -1,8 +1,17 @@
+using System;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour
+public class DoorController : Interactable
 {
+
+    public ItemType keyType;
     private Animator _animator;
+    private int originalLayer;
+
+    public override Action[] CalcInteractions()
+    {
+        return new Action[] {Open };
+    }
 
     /** stayOpen/Close uses to enforce door state from the RoutineManager **/
     public bool StayOpen { get; set;}
@@ -10,6 +19,7 @@ public class DoorController : MonoBehaviour
 
     void Awake()
     {
+        originalLayer = gameObject.layer;
         _animator = GetComponent<Animator>();
     }
 
@@ -23,7 +33,7 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("NPC") && !StayOpen)
+        if (!StayOpen)
         {
             CloseDoor();
         }
@@ -33,6 +43,7 @@ public class DoorController : MonoBehaviour
     {
         if (_animator != null)
         {
+            gameObject.layer = LayerMask.NameToLayer("Default");
             _animator.SetBool("Open", true);
         }
     }
@@ -41,7 +52,16 @@ public class DoorController : MonoBehaviour
     {
         if (_animator != null)
         {
+            gameObject.layer = originalLayer;
             _animator.SetBool("Open", false);
+        }
+    }
+
+    public void Open()
+    {
+        if (GameManager.Instance.inventory.IsInInventory(keyType))
+        {
+            OpenDoor();
         }
     }
 }

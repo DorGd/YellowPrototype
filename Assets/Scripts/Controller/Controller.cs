@@ -61,7 +61,7 @@ public class Controller : MonoBehaviour
             targetItem = null;
             _ai.StopAgent();
         }
-        else if (targetItem != null && (GameManager.Instance.PlayerAI.transform.position - targetItem.transform.position).magnitude <= 2)
+        else if (targetItem != null && (GameManager.Instance.PlayerAI.transform.position - targetItem.transform.position).magnitude <= 2.5f)
         {
             if (disableButtonsCoroutine != null)
                 StopCoroutine(disableButtonsCoroutine);
@@ -95,11 +95,13 @@ public class Controller : MonoBehaviour
 
         else if (interactInput)
         {
+            Debug.Log("clicked");
             Vector2 mousePos = _playerControls.Player.MosuePosition.ReadValue<Vector2>();
             RaycastHit hit;
             Ray ray = _cam.ScreenPointToRay(mousePos);
             if (Physics.Raycast(ray, out hit, 100f, _rightMouseMask))
             {
+                Debug.Log("hit");
                 GameManager.Instance.inventory.GetInventoryUI().StopExchange();
                 Interactable item = hit.transform.gameObject.GetComponent<Interactable>();
 
@@ -108,11 +110,11 @@ public class Controller : MonoBehaviour
                     case "Interactable":
                         if (item != null)
                         {
-                            if ((GameManager.Instance.PlayerAI.transform.position - item.transform.position).magnitude > 2)
+                            if ((GameManager.Instance.PlayerAI.transform.position - item.transform.position).magnitude > 2.5f)
                             {
                                 // Move player to object
                                 goToCircleAnimator.SetTrigger("CircleTrigger");
-                                goToCircleAnimator.gameObject.transform.position = item.transform.position + new Vector3(0, 0.1f, 0);
+                                goToCircleAnimator.gameObject.transform.position = new Vector3(item.transform.position.x, 0.1f, item.transform.position.z);
                                 _ai.MoveToPoint(item.transform.position);
                                 targetItem = item;
                                 return;

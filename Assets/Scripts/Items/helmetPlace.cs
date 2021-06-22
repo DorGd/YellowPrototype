@@ -6,7 +6,7 @@ public class HelmetPlace : Interactable
     public Helmet[] helmets;
     public override Action[] CalcInteractions()
     {
-        if (GameManager.Instance.inventory.IsInInventory(ItemType.Helmet, false))
+        if (GameManager.Instance.inventory.IsInInventory(ItemType.Helmet))
         {
             return new Action[] {Place};
         }

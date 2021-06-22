@@ -9,7 +9,7 @@ public class Vent : Interactable
 
     public override Action[] CalcInteractions()
     {
-        if (!open && GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
+        if (!open && GameManager.Instance.inventory.IsInInventory(ItemType.Wrench))
         {
             Debug.Log("found wrench");
 

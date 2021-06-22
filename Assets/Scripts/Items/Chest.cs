@@ -31,7 +31,7 @@ public class Chest : HidingPlace
         {
             
             // we have a wrench in the hand
-            if (GameManager.Instance.inventory.IsInInventory(ItemType.Wrench, true))
+            if (GameManager.Instance.inventory.IsInInventory(ItemType.Wrench))
             {
                 if (open)
                     return new Action[] {PickUp, Close, Exchange};

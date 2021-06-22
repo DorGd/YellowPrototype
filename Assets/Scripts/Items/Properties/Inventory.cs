@@ -69,12 +69,13 @@ public abstract class Inventory : MonoBehaviour
     /**
      * check if an item is in the inventory- for both hand items and inventory items
      */
-    public bool IsInInventory(ItemType item,  bool inHand = false)
+    public bool IsInInventory(ItemType item)
     {
         // looking for the item in the hand of the player
-        if (IsMainInventory && inHand && HandItem != null)
+        if (IsMainInventory && HandItem != null)
         {
-            return HandItem.GetItemType() == item; 
+            if (HandItem.GetItemType() == item)
+                return true;
         }
         
         // looking for the item in the inventory
