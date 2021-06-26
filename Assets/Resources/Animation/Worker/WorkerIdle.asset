@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b4b496e7ec84c4886b4d46774b326c, type: 3}
+  m_Name: WorkerIdle
+  m_EditorClassIdentifier: 
+  animationType: 0
+  animations:
+  - {fileID: 7400000, guid: c3eb3db0ee54e714bb745d0be93c9654, type: 2}
+  - {fileID: 7400000, guid: b21fb848a3fc3ff4e9c6ac6d85947460, type: 2}
+  - {fileID: 7400000, guid: c1c77389e59887640a123eb3bf0391b3, type: 2}
+  - {fileID: 7400000, guid: da822afd38a29b84d8eb00c0984217bd, type: 2}
+  - {fileID: 7400000, guid: eb868c31d3ee88042b480d4aa80b43d8, type: 2}
+  - {fileID: 7400000, guid: bb3f6dae44561ce4e80fd1930ed4cb2e, type: 2}
+  - {fileID: 7400000, guid: bb27d2b6437c50d43a18ead824a48464, type: 2}
+  - {fileID: 7400000, guid: 77f757d4fe930d040ab14f2fada80658, type: 2}

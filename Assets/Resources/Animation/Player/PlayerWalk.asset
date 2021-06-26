@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b4b496e7ec84c4886b4d46774b326c, type: 3}
+  m_Name: PlayerWalk
+  m_EditorClassIdentifier: 
+  animationType: 1
+  animations:
+  - {fileID: 7400000, guid: 5c7cab28b3e72314dbee1a5d0330a3cb, type: 2}
+  - {fileID: 7400000, guid: 90c659f7d79e196458d1113335c82700, type: 2}
+  - {fileID: 7400000, guid: 877ac473664eae04ba4fe40d4c88d624, type: 2}
+  - {fileID: 7400000, guid: 0b03672ac45b4804498470640c6b73b7, type: 2}
+  - {fileID: 7400000, guid: c86876a56020f6142bd80fcd19e6c316, type: 2}
+  - {fileID: 7400000, guid: 370ab619b2b2c6b46a012a7524ea14ee, type: 2}
+  - {fileID: 7400000, guid: 0ed4b4205abad464aa32c91d14fc37ea, type: 2}
+  - {fileID: 7400000, guid: 22cca01af9dd9a84e8d126429d2aaf57, type: 2}
