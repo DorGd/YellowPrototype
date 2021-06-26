@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Badge
   m_EditorClassIdentifier: 
   _type: 5
-  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  sprites:
+  - {fileID: 21300000, guid: 2c2dbdbb17867c74b88ca90fe3cb1984, type: 3}

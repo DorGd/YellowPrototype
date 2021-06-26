@@ -28,14 +28,14 @@ public abstract class Inventory : MonoBehaviour
     // ----------- function that require access to UI ------------//
 
     /**
-     * add an item as hand item (if main inventory) and if wanted (toHand = true) or to the inventory
+     * add an item as hand item (if main inventory) or to the inventory
      */
-    public abstract Interactable AddItem(Interactable newItem, bool toHand = false);
+    public abstract void AddItem(Interactable newItem, InventorySlot fromSlot = null);
 
     /**
      * Delete an item- for hand items and inventory items 
      */
-    public abstract void DeleteItem(ItemType item);
+    public abstract void DeleteItem(ItemType item, int slot = -1);
 
     
     // ----------- function that doesn't require access to UI ------------//
@@ -69,12 +69,13 @@ public abstract class Inventory : MonoBehaviour
     /**
      * check if an item is in the inventory- for both hand items and inventory items
      */
-    public bool IsInInventory(ItemType item,  bool inHand = false)
+    public bool IsInInventory(ItemType item)
     {
         // looking for the item in the hand of the player
-        if (IsMainInventory && inHand && HandItem != null)
+        if (IsMainInventory && HandItem != null)
         {
-            return HandItem.GetItemType() == item; 
+            if (HandItem.GetItemType() == item)
+                return true;
         }
         
         // looking for the item in the inventory
@@ -114,7 +115,7 @@ public abstract class Inventory : MonoBehaviour
     /**
      * Checks if there's place in the inventory or it's full
      */
-    public bool CanAdd()
+    public virtual bool CanAdd()
     {
         return InventoryCount != InventoryItems.Length; 
     }

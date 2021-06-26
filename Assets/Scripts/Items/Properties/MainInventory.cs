@@ -18,14 +18,14 @@ public class MainInventory : Inventory
 
        
     /**
-     * add an item as hand item (if main inventory) and if wanted (toHand = true) or to the inventory
+     * add an item as hand item (if main inventory) and if wanted or to the inventory
      */
-    public override Interactable AddItem(Interactable newItem, bool toHand = false)
+    public override void AddItem(Interactable newItem, InventorySlot fromSlot = null)
     {
         Interactable previousHandItem = null;
         
         // this is the main inventory and we want to add to the hand of the player. 
-        if (toHand)
+        if (newItem.isHandItem)
         {
             if (HandItem != null)
             {
@@ -35,7 +35,22 @@ public class MainInventory : Inventory
             HandItem = newItem; 
             newItem.gameObject.SetActive(false); // remove item from the scene
             _inventoryUI.AddItem(newItem, true); // Add the item to UI
-            return previousHandItem;
+            
+            // had a hand object already- place it where the item we picked up was 
+            if (previousHandItem != null)
+            {
+                if (fromSlot != null)
+                {
+                    FindObjectOfType<HPInventoryUI>().GetInventory().AddItem(previousHandItem);
+                }
+                else
+                {
+                    GameObject previousHandItemGM = previousHandItem.gameObject;
+                    previousHandItemGM.SetActive(true);
+                    previousHandItemGM.transform.position = newItem.transform.position;
+                }
+            }
+            return;
         }
 
         for (int i = 0; i < InventoryItems.Length; i++)
@@ -47,35 +62,45 @@ public class MainInventory : Inventory
                 InventoryCount += 1;
                 newItem.gameObject.SetActive(false); // remove item from the scene
                 _inventoryUI.AddItem(newItem); // Add the item to UI
-                return null;
+                return;
             }
         }
-        return null;
     }
     
     
     /**
      * Delete an item- for hand items and inventory items 
      */
-    public override void DeleteItem(ItemType item)
+    public override void DeleteItem(ItemType item, int slot = -1)
     {
         // delete hand item 
         if (HandItem != null && HandItem.GetItemType() == item)
         {
             HandItem = null;
-            _inventoryUI.Removeitem(item, true); // Remove the item from UI
+            _inventoryUI.RemoveItem(item, true, slot); // Remove the item from UI
         }
         
         // delete from the inventory
         else
         {
+            if (slot >= 0)
+            {
+                if (InventoryItems[slot] != null && InventoryItems[slot].GetItemType() == item)
+                {
+                    InventoryItems[slot] = null;
+                    InventoryCount--;
+                    _inventoryUI.RemoveItem(item, false, slot); // Remove the item from UI
+                    return;
+                }
+            }
             for (int i = 0; i < InventoryItems.Length; i++)
             {
                 if (InventoryItems[i] != null && InventoryItems[i].GetItemType() == item)
                 {
                     InventoryItems[i] = null;
                     InventoryCount--; 
-                    _inventoryUI.Removeitem(item, false); // Remove the item from UI
+                    _inventoryUI.RemoveItem(item, false, slot); // Remove the item from UI
+                    return;
                 }
             }
         }
