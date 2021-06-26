@@ -13,12 +13,14 @@ public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPoint
     protected Outline _outline;
 
     protected int spriteIndex = 0;
+    private Vector3 initialPos;
 
     protected virtual void Start()
     {
         _outline = GetComponent<Outline>();
         _outline.OutlineMode = Outline.Mode.OutlineVisible;
         _outline.enabled = false;
+        initialPos = transform.position;
     }
     
     /**
@@ -58,6 +60,12 @@ public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPoint
     public Sprite GetSprite()
     {
         return item.GetSprite(spriteIndex);
+    }
+
+    public void ResetPos()
+    {
+        transform.position = initialPos;
+        gameObject.SetActive(true);
     }
 
 }

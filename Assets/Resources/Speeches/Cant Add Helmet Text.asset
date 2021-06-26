@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc402fa3cfbb01042895246a678d2e99, type: 3}
-  m_Name: Confiscate
+  m_Script: {fileID: 11500000, guid: 5debbae2d11194a43935d3ba54f767e7, type: 3}
+  m_Name: Cant Add Helmet Text
   m_EditorClassIdentifier: 
-  _forbiddenEquipment: 02000000
+  sentences:
+  - You're already wearing a helmet

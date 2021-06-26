@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: 0800 Warehouse Entrance Watch 2
+  m_Name: 0800 Closed Boxes Only
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
+  action: {fileID: 11400000, guid: d7bc7b5a702a813478dbced8cd3dccc8, type: 2}
   startTime: 8
   endTime: 18.5
   patrolPath: {fileID: 0}
-  text: {fileID: 0}
-  goToPosition: {x: -58.17, y: 0, z: 3.15}
-  sendPlayer: 0
+  text: {fileID: 11400000, guid: b8d224cd7f191684a8ce77475c0e01eb, type: 2}
+  goToPosition: {x: 0.89, y: 0, z: 8.84}
   sendToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0
-  watchSector: {x: 0, y: 0}
-  regulations:
-  - {fileID: 11400000, guid: 33f9d3dc2a06e1c419425d6685c551bd, type: 2}
+  watchSector: {x: 255, y: 315}
+  regulations: []

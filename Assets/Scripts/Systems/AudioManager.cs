@@ -165,7 +165,7 @@ public class AudioManager : Singleton<AudioManager>
     public static string SFX_hit = "Punch - Pop";
     public static string SFX_hitGasp = "Punch - Splok";
     public static string SFX_hitGasp2 = "Punch - Sploop";
-    public static string SFX_textPopup = "Short - Mini Popup";
+    public static string SFX_textPopup = "202230__deraj__pop-sound";
     public static string SFX_interactionMenuPopup = "Short - Ploppy Plop";
     public static string SFX_failedInteraction = "Short - Stutter 303";
     public static string SFX_swishAndPop = "Short - Swish";
@@ -282,6 +282,23 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlayOneShot(AudioClip clip, float volumeScale = 1.0f)
     {
+        oneShotSource.PlayOneShot(clip, volumeScale * globalVolume);
+    }
+
+    public void PlayOneShotCalcDist(string clipName, Vector3 pos)
+    {
+        AudioClip clip = GetClipByName(clipName);
+        if (clip == null)
+            return;
+        float distance = Vector3.Distance(GameManager.Instance.PlayerAI.transform.position, pos);
+        float volumeScale = Mathf.Clamp(1 - (distance / 20f), 0f, 1.0f);
+        oneShotSource.PlayOneShot(clip, volumeScale * globalVolume);
+    }
+
+    public void PlayOneShotCalcDist(AudioClip clip, Vector3 pos)
+    {
+        float distance = Vector3.Distance(GameManager.Instance.PlayerAI.transform.position, pos);
+        float volumeScale = Mathf.Clamp(1 - (distance / 20f), 0f, 1.0f);
         oneShotSource.PlayOneShot(clip, volumeScale * globalVolume);
     }
 }

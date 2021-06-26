@@ -9,5 +9,7 @@ public class WarningSanction : SanctionSO
     public override void Apply(EnemyManager enemy)
     {
         GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position ,enemy.CurrentParadigm.text);
+        if (enemy.CurrentParadigm.sendPlayer)
+            GameManager.Instance.PlayerAI.ForceMoveToPoint(enemy.CurrentParadigm.sendToPosition);
     }
 }

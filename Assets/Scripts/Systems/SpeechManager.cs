@@ -101,6 +101,7 @@ public class SpeechManager : MonoBehaviour
 
     private IEnumerator openSpeech()
     {
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_textPopup);
         bubbleAnimator.SetTrigger("Open");
         yield return new WaitForSecondsRealtime(scaleDelay);
         StartCoroutine(typeText());

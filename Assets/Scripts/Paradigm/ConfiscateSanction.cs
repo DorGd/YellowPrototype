@@ -5,20 +5,22 @@ using UnityEngine;
 public class ConfiscateSanction : SanctionSO
 {
     [SerializeField]
-    private Interactable[] _forbiddenEquipment;
+    private ItemType[] _forbiddenEquipment;
+
+    [SerializeField]
+    private SpeechTextSO text;
     public override void Apply(EnemyManager enemy)
     {
-        for (int i = 0; i < GameManager.Instance.inventory.Count; ++i)
+        if (text != null)
+            GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position, text);
+        foreach (ItemType feq in _forbiddenEquipment)
         {
-            // TODO change to collectable
-            Interactable eq = GameManager.Instance.inventory.InventoryItems[i];
-            foreach (Interactable feq in _forbiddenEquipment)
+            if (GameManager.Instance.inventory.IsInInventory(feq))
             {
-                if (feq.name.Equals(eq.name))
-                {
-                    ItemType eqType = eq.GetItemType();
-                    GameManager.Instance.inventory.DeleteItem(eqType);
-                }
+                Interactable item = GameManager.Instance.inventory.GetItem(feq);
+                AudioManager.Instance.PlayOneShot(AudioManager.SFX_failedInteraction, 0.5f);
+                GameManager.Instance.inventory.DeleteItem(feq);
+                item.ResetPos();
             }
         }
     }
