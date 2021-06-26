@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
     {
         get { return _speechManager; }
     }
+
+    public event Action onShockTransition;
     
     //Constructor
     public static GameManager Instance
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour
                 if (_instance == null)
                 {
                     _instance = new GameObject().AddComponent<GameManager>();
+                    Debug.Log("Creating new GameManager");
                 }
             }
             return _instance;
@@ -51,20 +55,31 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null)
-        {
-            Destroy(this);
-            DontDestroyOnLoad(this);
-        }
-        else
-        {
-            _clock = GetComponent<Clock>();
-            _inventory = GetComponent<MainInventory>();
-            _inventory.SetMainInventory();
-            _speechManager = GetComponent<SpeechManager>();
-            _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
-            _playerAi = _playerTransform.GetComponent<Ai>();
-        }
+        // if (_instance != null)
+        // {
+        //     Destroy(this);
+        // }
+        // else
+        // {
+        //     _clock = GetComponent<Clock>();
+        //     _inventory = GetComponent<MainInventory>();
+        //     _inventory.SetMainInventory();
+        //     _speechManager = GetComponent<SpeechManager>();
+        //     _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+        //     _playerAi = _playerTransform.GetComponent<Ai>();
+        // }
+
+        _clock = GetComponent<Clock>();
+        _inventory = GetComponent<MainInventory>();
+        _inventory.SetMainInventory();
+        _speechManager = GetComponent<SpeechManager>();
+        _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+        _playerAi = _playerTransform.GetComponent<Ai>();
+    }
+
+    public void InvokeShock()
+    {
+        onShockTransition.Invoke();
     }
 
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Paradigm/Sanctions/Confiscate")]
-
 public class ConfiscateSanction : SanctionSO
 {
     [SerializeField]
