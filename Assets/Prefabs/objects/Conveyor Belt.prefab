@@ -520,7 +520,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3292316852129066037}
-  m_LocalRotation: {x: 0.45451832, y: 0.54167354, z: 0.454521, w: 0.5416767}
+  m_LocalRotation: {x: 0.45451945, y: 0.54167527, z: 0.45451945, w: 0.54167527}
   m_LocalPosition: {x: -2.7999992, y: 0.3, z: 11.1}
   m_LocalScale: {x: 1.7153584, y: 1.7153579, z: 1.7153584}
   m_Children:
@@ -633,6 +633,8 @@ MonoBehaviour:
   - {fileID: 560077173615684071}
   - {fileID: 560077173046187666}
   - {fileID: 560077174268093393}
+  closeBoxWarningParadigm: {fileID: 11400000, guid: b96f21216aff46d44891a73999754e31, type: 2}
+  greatJobParadigm: {fileID: 11400000, guid: 725867c8f1c398440b0c560023385725, type: 2}
 --- !u!95 &3292316852129066041
 Animator:
   serializedVersion: 3

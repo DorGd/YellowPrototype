@@ -30,6 +30,10 @@ public class Announce : ActionSO
         GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,enemy.CurrentParadigm.text);
 
         yield return new WaitForSeconds(Time.deltaTime);
+        if (enemy.CurrentParadigm.sendPlayer)
+        {
+            GameManager.Instance.PlayerAI.ForceMoveToPoint(enemy.CurrentParadigm.sendToPosition);
+        }
         enemy.ActivateNextParadigm();
     }
  

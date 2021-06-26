@@ -55,7 +55,17 @@ public class InventoryUI : MonoBehaviour
             // Can remove this item from the inventory 
             if (!slots[slotIndex].IsEmpty() && slots[slotIndex].GetItemType() == item)
             {
+                AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
                 slots[slotIndex].RemoveItem();
+                if (slots[slotIndex].gameObject.activeInHierarchy)
+                {
+                    slots[slotIndex].GetComponent<Animator>().SetTrigger("Updated");
+                }
+                else
+                {
+                    GameObject inventoryBtn = GameObject.Find("Inventory Button ");
+                    inventoryBtn.GetComponent<Animator>()?.SetTrigger("Updated");
+                }
                 return;
             }
         }
@@ -65,7 +75,17 @@ public class InventoryUI : MonoBehaviour
             // Can add this item to the inventory 
             if (!slot.IsEmpty() && slot.GetItemType() == item)
             {
+                AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
                 slot.RemoveItem();
+                if (slot.gameObject.activeInHierarchy)
+                {
+                    slot.GetComponent<Animator>().SetTrigger("Updated");
+                }
+                else
+                {
+                    GameObject inventoryBtn = GameObject.Find("Inventory Button ");
+                    inventoryBtn.GetComponent<Animator>()?.SetTrigger("Updated");
+                }
                 break;
             }
         }

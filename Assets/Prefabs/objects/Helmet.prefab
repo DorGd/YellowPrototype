@@ -209,3 +209,4 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 2d4053c0fba9842c08b103cc5f96d29f, type: 2}
   isHandItem: 0
   helmetPlace: {fileID: 0}
+  cantWearText: {fileID: 11400000, guid: d7a0d403dad2e1e43b092e742a532f60, type: 2}

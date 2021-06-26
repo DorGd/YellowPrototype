@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
+  m_Name: 0800 Great Job
+  m_EditorClassIdentifier: 
+  action: {fileID: 11400000, guid: d7bc7b5a702a813478dbced8cd3dccc8, type: 2}
+  startTime: 8
+  endTime: 18.5
+  patrolPath: {fileID: 0}
+  text: {fileID: 11400000, guid: 9c68336d9f73bb84383be7f71f834901, type: 2}
+  goToPosition: {x: 0.89, y: 0, z: 8.84}
+  sendPlayer: 1
+  sendToPosition: {x: -32, y: 0, z: 6}
+  lookAtAngle: 0
+  watchSector: {x: 255, y: 315}
+  regulations: []

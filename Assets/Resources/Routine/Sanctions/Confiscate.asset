@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc402fa3cfbb01042895246a678d2e99, type: 3}
   m_Name: Confiscate
   m_EditorClassIdentifier: 
-  _forbiddenEquipment:
-  - {fileID: 0}
+  _forbiddenEquipment: 02000000

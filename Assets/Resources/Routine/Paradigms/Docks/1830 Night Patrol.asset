@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
   m_Name: 1830 Night Patrol
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: 9c180b8506a66d046adbb4bc4371068f, type: 2}
+  action: {fileID: 0}
   startTime: 18.5
   endTime: 8
   patrolPath: {fileID: 7745093928499639166, guid: 5ff8e5a9cedfe994b9ff4f38c6271827, type: 3}
   text: {fileID: 0}
   goToPosition: {x: 0, y: 0, z: 0}
+  sendPlayer: 0
+  sendToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0
   watchSector: {x: 0, y: 0}
   regulations: []

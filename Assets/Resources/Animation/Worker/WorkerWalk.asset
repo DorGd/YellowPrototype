@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b4b496e7ec84c4886b4d46774b326c, type: 3}
+  m_Name: WorkerWalk
+  m_EditorClassIdentifier: 
+  animationType: 1
+  animations:
+  - {fileID: 7400000, guid: 2d6ba9b421194264b8acf2e396e587f2, type: 2}
+  - {fileID: 7400000, guid: 73457ba26c355da42a30b13f00e4114a, type: 2}
+  - {fileID: 7400000, guid: 3493643280ef63b4f8c7d5712abb204b, type: 2}
+  - {fileID: 7400000, guid: 29a19540e48924f47ad5ec499b3c9283, type: 2}
+  - {fileID: 7400000, guid: a5eab1bfdf0b441449ffc6cc326ad85c, type: 2}
+  - {fileID: 7400000, guid: daabb0df499afb445b1caa924281d560, type: 2}
+  - {fileID: 7400000, guid: 322ea7d50297ed3419cb6ef25ae51b84, type: 2}
+  - {fileID: 7400000, guid: b40ba8d08e0953f4e9c69d0add89a41e, type: 2}
