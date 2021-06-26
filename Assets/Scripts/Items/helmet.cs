@@ -4,12 +4,14 @@ using UnityEngine;
 public class Helmet : Interactable, IHideable, IHideable.IWearable
 {
     public HelmetPlace helmetPlace;
+    public SpeechTextSO cantWearText;
     public override Action[] CalcInteractions()
     {
         if (!GameManager.Instance.inventory.IsInInventory(ItemType.Helmet) && GameManager.Instance.inventory.CanAdd())
         {
             return new Action[] { Wear };
         }
+        GameManager.Instance.SpeechManager.StartSpeech(transform.position, cantWearText);
         return new Action[] {};
     }
     

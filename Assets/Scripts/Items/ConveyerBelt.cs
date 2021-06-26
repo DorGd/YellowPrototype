@@ -6,10 +6,9 @@ using UnityEngine;
 public class ConveyerBelt : Interactable
 {
     public Transform[] boxPositions;
-    public EnemyManager docksGuard;
 
-    ParadigmSO closeBoxWarning;
-    ParadigmSO closedBoxParadigm;
+    public ParadigmSO closeBoxWarningParadigm;
+    public ParadigmSO greatJobParadigm;
     private Chest[] boxes;
     private void Awake()
     {
@@ -18,15 +17,22 @@ public class ConveyerBelt : Interactable
     public override Action[] CalcInteractions()
     {
         if (GameManager.Instance.inventory.IsInInventory(ItemType.Chest) && !(GameManager.Instance.inventory.GetHandItem() as Chest).open)
+        {
             return new Action[] { Place };
-        //docksGuard.LoadEventParadigms()
+        }
+        if (GameManager.Instance.Clock.GetHour() >= closeBoxWarningParadigm.startTime && GameManager.Instance.Clock.GetHour() < closeBoxWarningParadigm.endTime)
+        {
+            EnemyManager docksGuard = GameObject.Find("Docks Guard 1").GetComponent<EnemyManager>();
+            docksGuard.LoadEventParadigms(new ParadigmSO[] { closeBoxWarningParadigm });
+            docksGuard.InvokeEventParadigm();
+        }
         return new Action[] { };
     }
 
     private void Place()
     {
         GetComponent<Animator>().SetTrigger("Start");
-        AudioManager.Instance.PlayOneShot(AudioManager.SFX_conveyor);
+        AudioManager.Instance.PlayOneShotCalcDist(AudioManager.SFX_conveyor, transform.position);
         for (int i = 0; i < boxes.Length; i++)
         {
             if (boxes[i] == null)
@@ -35,6 +41,7 @@ public class ConveyerBelt : Interactable
                 boxes[i].transform.position = boxPositions[i].position;
                 boxes[i].gameObject.SetActive(true);
                 GameManager.Instance.inventory.DeleteItem(ItemType.Chest);
+                GoodJob();
                 return;
             }
         }
@@ -46,6 +53,16 @@ public class ConveyerBelt : Interactable
             boxes[i - 1].transform.position = boxPositions[i - 1].position;
         }
         Place();
+    }
+
+    private void GoodJob()
+    {
+        if (GameManager.Instance.Clock.GetHour() >= greatJobParadigm.startTime && GameManager.Instance.Clock.GetHour() < greatJobParadigm.endTime)
+        {
+            EnemyManager docksGuard = GameObject.Find("Docks Guard 1").GetComponent<EnemyManager>();
+            docksGuard.LoadEventParadigms(new ParadigmSO[] { greatJobParadigm });
+            docksGuard.InvokeEventParadigm();
+        }
     }
 }
 

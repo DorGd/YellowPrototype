@@ -171,28 +171,7 @@ public class FieldOfView : MonoBehaviour
 		{
 			float angle = transform.eulerAngles.y - 360 / 2 + stepSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle, proximityRadius);
-
-			if (i > 0)
-			{
-				bool edgeIsFar = Mathf.Abs(oldViewCast.len - newViewCast.len) > edgeDstThreshold;
-				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeIsFar))
-				{
-					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
-					if (edge.pointA != Vector3.zero)
-					{
-						viewPoints.Add(edge.pointA);
-					}
-					if (edge.pointB != Vector3.zero)
-					{
-						viewPoints.Add(edge.pointB);
-					}
-				}
-
-			}
-
-
 			viewPoints.Add(newViewCast.point);
-			oldViewCast = newViewCast;
 		}
 
 		int vertexCount = viewPoints.Count + 1;

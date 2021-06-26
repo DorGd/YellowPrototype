@@ -26,6 +26,7 @@ public class Ai : MonoBehaviour
     private IEnumerator ForceMoveCoroutine(Vector3 sendToPosition)
     {
         yield return new WaitForEndOfFrame();
+        gameObject.layer = LayerMask.NameToLayer("Obstruction");
         _controller.FreezeController();
         MoveToPoint(sendToPosition);
         yield return new WaitUntil(IsNavigating);
@@ -34,6 +35,7 @@ public class Ai : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
         StopAgent();
+        gameObject.layer = LayerMask.NameToLayer("Default");
         _controller.UnFreezeController();
     }
 

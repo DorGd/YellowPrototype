@@ -154,6 +154,7 @@ public class Controller : MonoBehaviour
         {
             events = item.CalcInteractions();
         }
+        targetItem = null;
 
         for (int i = 0; i < _buttons.Length; i++)
         {
