@@ -23,8 +23,6 @@ public class ShockSanction : SanctionSO
         }
 
         // Initiate transition and reset the scene
-        // GameManager.Instance.InvokeShock();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+        GameManager.Instance.InvokeShock();
     }
 }

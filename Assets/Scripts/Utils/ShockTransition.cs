@@ -14,9 +14,6 @@ public class ShockTransition : MonoBehaviour
     private void OnEnable() {
         GameManager.Instance.onShockTransition += TransitionWarpper;
     }    
-    private void OnDisable() {
-        // GameManager.Instance.onShockTransition -= TransitionWarpper;
-    }
 
     private void TransitionWarpper()
     {
@@ -30,7 +27,7 @@ public class ShockTransition : MonoBehaviour
         Color colorToAdd = new Color(0f, 0f, 0f, 0f);
         while (elapsedTime < _blackOutDuration)
         {
-            colorToAdd.a = _bg.color.a - Mathf.Lerp(0f, 1f, elapsedTime / _blackOutDuration);
+            colorToAdd.a = Mathf.Lerp(0f, 1f, elapsedTime / _blackOutDuration) - _bg.color.a;
             _bg.color += colorToAdd;
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -40,13 +37,13 @@ public class ShockTransition : MonoBehaviour
         elapsedTime = 0f;
         while (elapsedTime < _textDuration)
         {
-            colorToAdd.a = _text.color.a - Mathf.Lerp(0f, 1f, elapsedTime / _blackOutDuration);
+            colorToAdd.a =  Mathf.Lerp(0f, 1f, elapsedTime / _blackOutDuration) - _text.color.a;
             _text.color += colorToAdd;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

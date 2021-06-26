@@ -55,20 +55,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // if (_instance != null)
-        // {
-        //     Destroy(this);
-        // }
-        // else
-        // {
-        //     _clock = GetComponent<Clock>();
-        //     _inventory = GetComponent<MainInventory>();
-        //     _inventory.SetMainInventory();
-        //     _speechManager = GetComponent<SpeechManager>();
-        //     _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
-        //     _playerAi = _playerTransform.GetComponent<Ai>();
-        // }
-
         _clock = GetComponent<Clock>();
         _inventory = GetComponent<MainInventory>();
         _inventory.SetMainInventory();
@@ -79,7 +65,7 @@ public class GameManager : MonoBehaviour
 
     public void InvokeShock()
     {
-        onShockTransition.Invoke();
+        onShockTransition?.Invoke();
     }
 
 }

@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e2f125d948c0b44aad5edcde311e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blackOutDuration: 2
+  _blackOutDuration: 1
   _textDuration: 3
   _text: {fileID: 415442646}
   _bg: {fileID: 1201509578}
