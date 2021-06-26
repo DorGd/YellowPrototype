@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 6757176771823539356}
   - component: {fileID: 8883933710972877452}
   - component: {fileID: 615886799}
-  - component: {fileID: 8488632981646126148}
+  - component: {fileID: 7530784473966786682}
   m_Layer: 7
   m_Name: Helmet
   m_TagString: Untagged
@@ -194,7 +194,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &8488632981646126148
+--- !u!114 &7530784473966786682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

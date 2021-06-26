@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.28502586, g: 0.37139237, b: 0.4960093, a: 1}
+  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6400,6 +6400,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6757176771823539345, guid: 99d19c627de54448e8f5d97a337292d1, type: 3}
   m_PrefabInstance: {fileID: 608916075}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &609377643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+  m_PrefabInstance: {fileID: 610905029}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &610905029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6455,6 +6466,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Helmet
       objectReference: {fileID: 0}
+    - target: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+      propertyPath: helmetPlace
+      value: 
+      objectReference: {fileID: 1469243438}
     - target: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
       propertyPath: helmetPlace
       value: 
@@ -6466,17 +6481,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6757176771823539345, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
   m_PrefabInstance: {fileID: 610905029}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &610905031 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
-  m_PrefabInstance: {fileID: 610905029}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &637523693
 Mesh:
   m_ObjectHideFlags: 0
@@ -6891,19 +6895,19 @@ PrefabInstance:
     - target: {fileID: 7156860747629901769, guid: 15b00071650b64bc69e0f10571c27203, type: 3}
       propertyPath: helmets.Array.data[0]
       value: 
-      objectReference: {fileID: 610905031}
+      objectReference: {fileID: 609377643}
     - target: {fileID: 7156860747629901769, guid: 15b00071650b64bc69e0f10571c27203, type: 3}
       propertyPath: helmets.Array.data[1]
       value: 
-      objectReference: {fileID: 1471072836}
+      objectReference: {fileID: 1041397253}
     - target: {fileID: 7156860747629901769, guid: 15b00071650b64bc69e0f10571c27203, type: 3}
       propertyPath: helmets.Array.data[2]
       value: 
-      objectReference: {fileID: 841420473}
+      objectReference: {fileID: 1180738851}
     - target: {fileID: 7156860747629901769, guid: 15b00071650b64bc69e0f10571c27203, type: 3}
       propertyPath: helmets.Array.data[3]
       value: 
-      objectReference: {fileID: 880275677}
+      objectReference: {fileID: 1476892065}
     - target: {fileID: 7156860747629901774, guid: 15b00071650b64bc69e0f10571c27203, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -7218,7 +7222,7 @@ PrefabInstance:
     - target: {fileID: 6364723490835342022, guid: 469afcb86677d324f8446f20d7284c53, type: 3}
       propertyPath: _paradigms.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: e535d40efa86c7b44a4904974984bbdc, type: 2}
+      objectReference: {fileID: 11400000, guid: 863c73b5551ed0d44967485f10bcb0b7, type: 2}
     - target: {fileID: 6364723490835342022, guid: 469afcb86677d324f8446f20d7284c53, type: 3}
       propertyPath: _paradigms.Array.data[4]
       value: 
@@ -8723,6 +8727,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Helmet (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+      propertyPath: helmetPlace
+      value: 
+      objectReference: {fileID: 1469243438}
     - target: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
       propertyPath: helmetPlace
       value: 
@@ -8734,17 +8742,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6757176771823539345, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
   m_PrefabInstance: {fileID: 841420471}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &841420473 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
-  m_PrefabInstance: {fileID: 841420471}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &854074827 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8248338218217248191, guid: e3a1fb2f3e1cf4f07a449f74dedffe01, type: 3}
@@ -9170,6 +9167,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Helmet (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+      propertyPath: helmetPlace
+      value: 
+      objectReference: {fileID: 1469243438}
     - target: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
       propertyPath: helmetPlace
       value: 
@@ -9181,17 +9182,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6757176771823539345, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
   m_PrefabInstance: {fileID: 880275675}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &880275677 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
-  m_PrefabInstance: {fileID: 880275675}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &901390726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11262,6 +11252,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5122551217940291243, guid: 97edec0e3ce095a41892ddbdef43a260, type: 3}
   m_PrefabInstance: {fileID: 2049550069}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1041397253 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+  m_PrefabInstance: {fileID: 1471072834}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1044352867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13123,6 +13124,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1180738851 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+  m_PrefabInstance: {fileID: 841420471}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1190218865
 Mesh:
   m_ObjectHideFlags: 0
@@ -15805,6 +15817,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Helmet (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+      propertyPath: helmetPlace
+      value: 
+      objectReference: {fileID: 1469243438}
     - target: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
       propertyPath: helmetPlace
       value: 
@@ -15816,17 +15832,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6757176771823539345, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
   m_PrefabInstance: {fileID: 1471072834}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1471072836 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8488632981646126148, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
-  m_PrefabInstance: {fileID: 1471072834}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1476766204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15893,6 +15898,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5015014423011969182, guid: 3b2587a1bf74348c58595cee19a28c20, type: 3}
   m_PrefabInstance: {fileID: 1476766204}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1476892065 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7530784473966786682, guid: 727ccb1ee197c354a9072a69175f6093, type: 3}
+  m_PrefabInstance: {fileID: 880275675}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd16f05b15f6444348fdd5207e3ef52e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1480123601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 410556233249606949, guid: 5ff8e5a9cedfe994b9ff4f38c6271827, type: 3}

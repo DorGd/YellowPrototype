@@ -17,7 +17,7 @@ public class Controller : MonoBehaviour
     private Coroutine disableButtonsCoroutine = null;
 
     public Canvas rightClickCanvas;
-    public CharacterAnimationManager animationManager;
+    // public CharacterAnimationManager animationManager;
     public Animator goToCircleAnimator;
 
     private void Awake()
@@ -195,17 +195,17 @@ public class Controller : MonoBehaviour
             btn.gameObject.SetActive(false);
         }
 
-        AnimatePlayer();
+        // AnimatePlayer();
     }
 
     private void AnimatePlayer()
     {
         if (_ai.IsNavigating())
         {
-            animationManager.PlayAnimation(AnimationType.Walk);
+            // animationManager.PlayAnimation(AnimationType.Walk);
         } else
         {
-            animationManager.PlayAnimation(AnimationType.Idle);
+            // animationManager.PlayAnimation(AnimationType.Idle);
         }
     }
 
