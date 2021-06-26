@@ -67,5 +67,9 @@ public class DoorController : Interactable
         {
             OpenDoor();
         }
+        else
+        {
+            AudioManager.Instance.PlayOneShot(AudioManager.SFX_failedInteraction, 0.5f);
+        }
     }
 }

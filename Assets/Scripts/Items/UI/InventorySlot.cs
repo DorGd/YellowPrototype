@@ -31,7 +31,6 @@ public class InventorySlot : MonoBehaviour
      */
     public void RemoveItem()
     {
-        GetComponent<Animator>().SetTrigger("Updated");
         _curItem = null;
         transform.GetChild(1).GetComponent<Image>().sprite = empty_sprite;
     }
