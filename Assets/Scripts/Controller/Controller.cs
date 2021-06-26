@@ -114,8 +114,11 @@ public class Controller : MonoBehaviour
                             {
                                 // Move player to object
                                 goToCircleAnimator.SetTrigger("CircleTrigger");
-                                goToCircleAnimator.gameObject.transform.position = new Vector3(item.transform.position.x, 0.1f, item.transform.position.z);
-                                _ai.MoveToPoint(item.transform.position);
+                                Vector3 itemPos = new Vector3(item.transform.position.x, 0.1f, item.transform.position.z);
+                                Vector3 dirVector = (GameManager.Instance.PlayerAI.transform.position - itemPos);
+                                Vector3 targetPos = itemPos + (dirVector / dirVector.magnitude);
+                                goToCircleAnimator.gameObject.transform.position = targetPos;
+                                _ai.MoveToPoint(targetPos);
                                 targetItem = item;
                                 return;
                             }

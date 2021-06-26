@@ -169,6 +169,8 @@ public class AudioManager : Singleton<AudioManager>
     public static string SFX_interactionMenuPopup = "Short - Ploppy Plop";
     public static string SFX_failedInteraction = "Short - Stutter 303";
     public static string SFX_swishAndPop = "Short - Swish";
+    public static string SFX_conveyor = "79573__razzvio__rolling-metal-conveyor-belt";
+    public static string SFX_liftoff = "520557__aj-heels__wehaveliftoff";
 
 
     ////////////////////////////////////////////////////AUDIO STRINGS END////////////////////////////////////////////////////////////////////////////////
@@ -270,7 +272,7 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void PlayOneShot(string clipName, float volumeScale)
+    public void PlayOneShot(string clipName, float volumeScale = 1.0f)
     {
         AudioClip clip = GetClipByName(clipName);
         if (clip == null)
@@ -278,7 +280,7 @@ public class AudioManager : Singleton<AudioManager>
         oneShotSource.PlayOneShot(clip, volumeScale * globalVolume);
     }
 
-    public void PlayOneShot(AudioClip clip, float volumeScale)
+    public void PlayOneShot(AudioClip clip, float volumeScale = 1.0f)
     {
         oneShotSource.PlayOneShot(clip, volumeScale * globalVolume);
     }

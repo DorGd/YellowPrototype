@@ -21,6 +21,7 @@ public class ConveyerBelt : Interactable
     private void Place()
     {
         GetComponent<Animator>().SetTrigger("Start");
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_conveyor);
         for (int i = 0; i < boxes.Length; i++)
         {
             if (boxes[i] == null)

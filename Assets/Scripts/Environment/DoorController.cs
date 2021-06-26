@@ -5,8 +5,11 @@ public class DoorController : Interactable
 {
 
     public ItemType keyType;
+    public AudioClip openSFX;
+    public AudioClip closeSFX;
     private Animator _animator;
     private int originalLayer;
+    private float soundRadius = 20f;
 
     public override Action[] CalcInteractions()
     {
@@ -41,8 +44,11 @@ public class DoorController : Interactable
 
     public void OpenDoor()
     {
-        if (_animator != null)
+        if (_animator != null && !_animator.GetBool("Open"))
         {
+            float distance = Vector3.Distance(GameManager.Instance.PlayerAI.transform.position, transform.position);
+            if (distance < soundRadius)
+                AudioManager.Instance.PlayOneShot(openSFX, 1 - (distance / soundRadius));
             gameObject.layer = LayerMask.NameToLayer("Default");
             _animator.SetBool("Open", true);
         }
@@ -50,8 +56,11 @@ public class DoorController : Interactable
 
     public void CloseDoor()
     {
-        if (_animator != null)
+        if (_animator != null && _animator.GetBool("Open"))
         {
+            float distance = Vector3.Distance(GameManager.Instance.PlayerAI.transform.position, transform.position);
+            if (distance < soundRadius)
+                AudioManager.Instance.PlayOneShot(closeSFX, 1 - (distance / soundRadius));
             gameObject.layer = originalLayer;
             _animator.SetBool("Open", false);
         }

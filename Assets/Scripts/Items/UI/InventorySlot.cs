@@ -14,6 +14,7 @@ public class InventorySlot : MonoBehaviour
      */
     public void AddItem(Interactable newItem)
     {
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup);
         if (!gameObject.activeInHierarchy)
         {
             GameObject inventoryBtn = GameObject.Find("Inventory Button ");
@@ -30,6 +31,7 @@ public class InventorySlot : MonoBehaviour
      */
     public void RemoveItem()
     {
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup);
         GetComponent<Animator>().SetTrigger("Updated");
         _curItem = null;
         transform.GetChild(1).GetComponent<Image>().sprite = empty_sprite;
@@ -64,6 +66,7 @@ public class InventorySlot : MonoBehaviour
         // there is an item in this slot and theres place in the other inventory
         if (_curItem == null || !GameManager.Instance.inventory.CanAdd() || (_curItem is IHideable.IWearable && GameManager.Instance.inventory.IsInInventory(_curItem.GetItemType())))
         {
+            AudioManager.Instance.PlayOneShot(AudioManager.SFX_failedInteraction);
             return;
         }
         
@@ -86,6 +89,7 @@ public class InventorySlot : MonoBehaviour
         // there is an item in this slot and theres place in the other inventory
         if (_curItem == null || !(_curItem is IHideable) || !FindObjectOfType<HPInventoryUI>().CanAdd())
         {
+            AudioManager.Instance.PlayOneShot(AudioManager.SFX_failedInteraction, 0.5f);
             return;
         }
 
