@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33be3a7859a4154abdc23e1a81b9809, type: 3}
-  m_Name: New Patrol
+  m_Script: {fileID: 11500000, guid: 5debbae2d11194a43935d3ba54f767e7, type: 3}
+  m_Name: No Chest Warning
   m_EditorClassIdentifier: 
+  sentences:
+  - 'Hey there pal! This is the way to the Loading Docks! '
+  - If you're not carrying a Box, you probably shouldn't be here!

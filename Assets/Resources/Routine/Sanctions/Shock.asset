@@ -9,14 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: Paradigm
+  m_Script: {fileID: 11500000, guid: 1ca20ede43e69a74a88fde219e29509f, type: 3}
+  m_Name: Warning
   m_EditorClassIdentifier: 
-  action: {fileID: 0}
-  startTime: 0
-  endTime: 0
-  patrolPath: {fileID: 0}
-  text: {fileID: 0}
-  goToPosition: {x: 0, y: 0, z: 0}
-  watchSector: {x: 0, y: 0}
-  regulations: []
