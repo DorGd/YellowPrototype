@@ -161,7 +161,7 @@ public class EnemyManager : MonoBehaviour
             {
                 if (CurrentCoroutine != null) StopCoroutine(CurrentCoroutine);
                 if (nextParadigm.action == null)  Debug.LogWarning($"No ActionSO provided for {nextParadigm.name}!");
-                CurrentCoroutine =  nextParadigm.action.Act(this);
+                CurrentCoroutine =  nextParadigm?.action.Act(this);
             } 
         }
         else
@@ -198,7 +198,7 @@ public class EnemyManager : MonoBehaviour
         if (_curr < 0) return;
         foreach (var reg in _paradigms[_curr].regulations)
         {
-            if(!reg.CheckRegulation()) reg.sanction.Apply();
+            if(!reg.CheckRegulation()) reg?.sanction.Apply(this);
         }
     }
 }

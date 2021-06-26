@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class ConfiscateSanction : SanctionSO
 {
-    // TODO Change to collectable or items enum type
     [SerializeField]
     private Interactable[] _forbiddenEquipment;
-    public override void Apply()
+    public override void Apply(EnemyManager enemy)
     {
         for (int i = 0; i < GameManager.Instance.inventory.Count; ++i)
         {
