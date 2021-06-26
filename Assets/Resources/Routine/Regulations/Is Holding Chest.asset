@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a51aa053cb978408b384a5ac8713ba, type: 3}
   m_Name: Is Holding Chest
   m_EditorClassIdentifier: 
-  sanction: {fileID: 0}
+  sanction: {fileID: 11400000, guid: edfff8f18c8fa724ab2e50e2e5b429bf, type: 2}
   _requiredEquipment:
-  - {fileID: 0}
+  - {fileID: 8734234579916913806, guid: 3b2587a1bf74348c58595cee19a28c20, type: 3}
   _forbiddenEquipment: []

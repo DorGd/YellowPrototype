@@ -5,10 +5,15 @@ using UnityEngine.UI;
 public class Item : ScriptableObject
 {
     public ItemType _type;
-    public Sprite sprite;
+    public Sprite[] sprites;
 
     public ItemType GETItemType()
     {
         return _type;
+    }
+
+    public Sprite GetSprite(int spriteIndex)
+    {
+        return sprites[spriteIndex];
     }
 }
