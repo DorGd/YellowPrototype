@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototype.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
+  - enabled: 1
+    path: Assets/Scenes/Shock.unity
+    guid: ff10e6d9a45b20146b6392a5fbfbbd19
   m_configObjects: {}

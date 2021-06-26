@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 307aa07eab8155745bb8e4fc527bd849, type: 3}
-  m_Name: Shock
+  m_Script: {fileID: 11500000, guid: a43e40d6df95ff4438616b754c877975, type: 3}
+  m_Name: Empty Regulation
   m_EditorClassIdentifier: 
+  sanction: {fileID: 11400000, guid: e41c667a9a7b033498bc46e18a0b77b6, type: 2}
+  isTrue: 0

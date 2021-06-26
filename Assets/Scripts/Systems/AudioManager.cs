@@ -196,7 +196,7 @@ public class AudioManager : Singleton<AudioManager>
     void Awake()
     {
         clips = Resources.LoadAll<AudioClip>("Audio");
-        oneShotSource = Camera.main.gameObject.AddComponent<AudioSource>();
+        oneShotSource = Camera.main.gameObject.GetComponent<AudioSource>();
     }
 
     public AudioClip GetClipByName(string clipName)
@@ -277,11 +277,15 @@ public class AudioManager : Singleton<AudioManager>
         AudioClip clip = GetClipByName(clipName);
         if (clip == null)
             return;
+        if (oneShotSource == null) 
+            oneShotSource = Camera.main.gameObject.GetComponent<AudioSource>();
         oneShotSource.PlayOneShot(clip, volumeScale * globalVolume);
     }
 
     public void PlayOneShot(AudioClip clip, float volumeScale = 1.0f)
     {
+        if (oneShotSource == null) 
+            oneShotSource = Camera.main.gameObject.GetComponent<AudioSource>();
         oneShotSource.PlayOneShot(clip, volumeScale * globalVolume);
     }
 
