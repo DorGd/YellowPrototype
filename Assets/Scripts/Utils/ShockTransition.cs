@@ -27,19 +27,19 @@ public class ShockTransition : MonoBehaviour
         Color colorToAdd = new Color(0f, 0f, 0f, 0f);
         while (elapsedTime < _blackOutDuration)
         {
+            elapsedTime += Time.deltaTime;
             colorToAdd.a = Mathf.Lerp(0f, 1f, elapsedTime / _blackOutDuration) - _bg.color.a;
             _bg.color += colorToAdd;
-            elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        
         colorToAdd.a = 0f;
         elapsedTime = 0f;
         while (elapsedTime < _textDuration)
         {
+            elapsedTime += Time.deltaTime;
             colorToAdd.a =  Mathf.Lerp(0f, 1f, elapsedTime / _blackOutDuration) - _text.color.a;
             _text.color += colorToAdd;
-            elapsedTime += Time.deltaTime;
             yield return null;
         }
 

@@ -14,7 +14,7 @@ public class ShockSanction : SanctionSO
     public IEnumerator ShockRoutine(EnemyManager enemy)
     {
          // Navigate to a go-to position if exist in the wraping ParadigmSO
-        enemy.Ai.MoveToPoint(enemy.transform.position + (GameManager.Instance.PlayerTransform.position - enemy.transform.position) / 2);
+        enemy.Ai.MoveToPoint(GameManager.Instance.PlayerTransform.position);
         
         yield return null;
         while (enemy.Ai.IsNavigating())
