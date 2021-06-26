@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8b4b496e7ec84c4886b4d46774b326c, type: 3}
-  m_Name: WalkAnimation
+  m_Name: PlayerWalk
   m_EditorClassIdentifier: 
   animationType: 1
   animations:
