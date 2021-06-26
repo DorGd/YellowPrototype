@@ -1,12 +1,16 @@
 using System;
 using UnityEngine;
 
-public class Helmet : Interactable
+public class Helmet : Interactable, IHideable, IHideable.IWearable
 {
-    
+    public HelmetPlace helmetPlace;
     public override Action[] CalcInteractions()
     {
-        return new Action[] {Wear};
+        if (!GameManager.Instance.inventory.IsInInventory(ItemType.Helmet) && GameManager.Instance.inventory.CanAdd())
+        {
+            return new Action[] { Wear };
+        }
+        return new Action[] {};
     }
     
     /**
@@ -16,6 +20,11 @@ public class Helmet : Interactable
     public void Wear()
     {
         Debug.Log("Wear");
-        GameManager.Instance.inventory.AddItem(this, false);
+        PickUp();
+    }
+
+    public void PickUp()
+    {
+        GameManager.Instance.inventory.AddItem(this);
     }
 }

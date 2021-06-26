@@ -6,11 +6,15 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Outline))]
 public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Item item; 
+    public Item item;
+    [SerializeField]
+    public bool isHandItem;
     // protected ItemType CurrItemType;
     protected Outline _outline;
 
-    public void Start()
+    protected int spriteIndex = 0;
+
+    protected virtual void Start()
     {
         _outline = GetComponent<Outline>();
         _outline.OutlineMode = Outline.Mode.OutlineVisible;
@@ -49,6 +53,11 @@ public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPoint
     public void Disable()
     {
         _outline.enabled = false;    
+    }
+
+    public Sprite GetSprite()
+    {
+        return item.GetSprite(spriteIndex);
     }
 
 }
