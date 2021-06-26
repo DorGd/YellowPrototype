@@ -22,5 +22,4 @@ MonoBehaviour:
   sendToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0
   watchSector: {x: 15, y: 75}
-  regulations:
-  - {fileID: 11400000, guid: 27febd9c29ddc61478ae66d1b34b8eca, type: 2}
+  regulations: []
