@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: 0800 Warehouse-Docks  Watch
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
-  startTime: 8
+  startTime: 6
   endTime: 18.5
   patrolPath: {fileID: 0}
   text: {fileID: 11400000, guid: 47e23c139880e1943a376803d366d363, type: 2}
   goToPosition: {x: -28.62, y: 0, z: 4.9}
+  sendToPosition: {x: -32, y: 0, z: 6}
   lookAtAngle: 0
-  watchSector: {x: 295, y: 400}
+  watchSector: {x: 0, y: 0}
   regulations:
   - {fileID: 11400000, guid: 69a595c2e48f9d7439712b7be1aedfe6, type: 2}

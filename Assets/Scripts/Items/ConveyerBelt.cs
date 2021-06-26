@@ -6,6 +6,10 @@ using UnityEngine;
 public class ConveyerBelt : Interactable
 {
     public Transform[] boxPositions;
+    public EnemyManager docksGuard;
+
+    ParadigmSO closeBoxWarning;
+    ParadigmSO closedBoxParadigm;
     private Chest[] boxes;
     private void Awake()
     {
@@ -15,6 +19,7 @@ public class ConveyerBelt : Interactable
     {
         if (GameManager.Instance.inventory.IsInInventory(ItemType.Chest) && !(GameManager.Instance.inventory.GetHandItem() as Chest).open)
             return new Action[] { Place };
+        //docksGuard.LoadEventParadigms()
         return new Action[] { };
     }
 

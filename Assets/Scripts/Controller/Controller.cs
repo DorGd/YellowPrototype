@@ -181,6 +181,7 @@ public class Controller : MonoBehaviour
 
     public void Drop()
     {
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
         Interactable handItem = GameManager.Instance.inventory.GetHandItem();
         GameManager.Instance.inventory.DeleteItem(handItem.GetItemType());
         handItem.transform.position = GameManager.Instance.PlayerTransform.position;

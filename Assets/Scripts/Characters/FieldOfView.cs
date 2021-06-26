@@ -10,6 +10,7 @@ public class FieldOfView : MonoBehaviour
     public float viewAngle = 45f;
     public float viewDistance = 10f;
 	public Vector3 fieldOrigin;
+	private float proximityRadius = 2f;
 
 	public float fieldResolution = 0.5f;
 	public float edgeDstThreshold = 0.5f;
@@ -25,16 +26,16 @@ public class FieldOfView : MonoBehaviour
 
 	public UnityEvent onEnterField;
 	public UnityEvent onExitField;
-	
 
-	/*
+
+    /*
 	 * Contains information about a raycast. 
 	 * public bool hit: did it hit an obstacle.
 	 * public Vector3 point: a vector of its' length and direction.
 	 * public float len: the length of the ray.
 	 * public float angle: the angle of the ray from start of field.
 	 */
-	public struct ViewCastInfo
+    public struct ViewCastInfo
 	{
 		public bool hit;
 		public Vector3 point;
@@ -109,18 +110,22 @@ public class FieldOfView : MonoBehaviour
 	/*
 	 * Returns information about a ray from given angle.
 	 */
-	ViewCastInfo ViewCast(float globalAngle)
+	ViewCastInfo ViewCast(float globalAngle, float newViewDistance = 0f)
 	{
+		if (newViewDistance == 0f)
+        {
+			newViewDistance = viewDistance;
+        }
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		RaycastHit hit;
 
-		if (Physics.Raycast(transform.position, dir, out hit, viewDistance, blockMask))
+		if (Physics.Raycast(transform.position, dir, out hit, newViewDistance, blockMask))
 		{
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
 		}
 		else
 		{
-			return new ViewCastInfo(false, transform.position + dir * viewDistance, viewDistance, globalAngle);
+			return new ViewCastInfo(false, transform.position + dir * newViewDistance, newViewDistance, globalAngle);
 		}
 	}
 
@@ -137,6 +142,35 @@ public class FieldOfView : MonoBehaviour
 		{
 			float angle = transform.eulerAngles.y - viewAngle / 2 + stepSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle);
+
+			if (i > 0)
+			{
+				bool edgeIsFar = Mathf.Abs(oldViewCast.len - newViewCast.len) > edgeDstThreshold;
+				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeIsFar))
+				{
+					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+					if (edge.pointA != Vector3.zero)
+					{
+						viewPoints.Add(edge.pointA);
+					}
+					if (edge.pointB != Vector3.zero)
+					{
+						viewPoints.Add(edge.pointB);
+					}
+				}
+
+			}
+
+
+			viewPoints.Add(newViewCast.point);
+			oldViewCast = newViewCast;
+		}
+
+		stepSize = 360 / stepCount;
+		for (int i = 0; i <= stepCount; i++)
+		{
+			float angle = transform.eulerAngles.y - 360 / 2 + stepSize * i;
+			ViewCastInfo newViewCast = ViewCast(angle, proximityRadius);
 
 			if (i > 0)
 			{
@@ -227,7 +261,11 @@ public class FieldOfView : MonoBehaviour
             {
                 return !Physics.Linecast(transform.position, targetPos, blockMask); // isn't blocked
             }
-        }
+			else if (Vector3.Distance(transform.position, targetPos) < proximityRadius)
+			{
+				return !Physics.Linecast(transform.position, targetPos, blockMask); // isn't blocked
+			}
+		}
         return false;
     }
 }
