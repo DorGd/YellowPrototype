@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: 1830 Night Patrol 2
+  m_Name: 1900 Night Patrol 2
   m_EditorClassIdentifier: 
-  action: {fileID: 11400000, guid: 9c180b8506a66d046adbb4bc4371068f, type: 2}
-  startTime: 18.5
+  action: {fileID: 11400000, guid: 6bef0c1803351f14e952f9f764e5dd66, type: 2}
+  startTime: 19
   endTime: 8
-  patrolPath: {fileID: 1733204905545129902, guid: dcdf1f11fc1105b42b7eb8b166034c8f, type: 3}
+  patrolPath: {fileID: 7852156840778749257, guid: 5f842a563ad2da245baf94c6bc1b17cc, type: 3}
   text: {fileID: 0}
   goToPosition: {x: 0, y: 0, z: 0}
+  sendPlayer: 0
+  sendToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0
   watchSector: {x: 0, y: 0}
-  regulations: []
+  regulations:
+  - {fileID: 11400000, guid: 9059b9b6f6d0b574dbc4919093aff0fc, type: 2}

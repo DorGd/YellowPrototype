@@ -15,13 +15,9 @@ public class CharacterAnimationSO : ScriptableObject
         return animations[AngleIndex(angle)].name;
     }
 
-    private int Mod(int x, int m)
-    {
-        return (x % m + m) % m;
-    }
-
     private int AngleIndex(float angle)
     {
-        return Mathf.FloorToInt(Mod((int)((angle * animations.Length - 180) / 360), animations.Length));
+        float shiftedAngle = (angle - (360 / (animations.Length * 2)) + 360) % 360;
+        return (int)((animations.Length * shiftedAngle) / 360);
     }
 }

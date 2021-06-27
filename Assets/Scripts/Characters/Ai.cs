@@ -11,6 +11,7 @@ public class Ai : MonoBehaviour
     public Transform[] WayPoints;
     private bool _patroling = false;
     private Controller _controller;
+    private CharacterAnimationManager _animationManager;
 
     public bool Patroling
     {
@@ -26,7 +27,11 @@ public class Ai : MonoBehaviour
     private IEnumerator ForceMoveCoroutine(Vector3 sendToPosition)
     {
         yield return new WaitForEndOfFrame();
-        gameObject.layer = LayerMask.NameToLayer("Obstruction");
+        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        foreach (Transform child in transform)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        }
         _controller.FreezeController();
         MoveToPoint(sendToPosition);
         yield return new WaitUntil(IsNavigating);
@@ -36,16 +41,35 @@ public class Ai : MonoBehaviour
         }
         StopAgent();
         gameObject.layer = LayerMask.NameToLayer("Default");
+        foreach (Transform child in transform)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
         _controller.UnFreezeController();
     }
 
     // Start is called before the first frame update
     void Awake()
     {
+        _animationManager = GetComponentInChildren<CharacterAnimationManager>();
         _agent = GetComponent<NavMeshAgent>();
         _controller = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Controller>();
     }
-    
+
+    private void Update()
+    {
+        if (_animationManager == null || !_animationManager.enabled || !_agent.enabled)
+            return;
+        if (IsNavigating())
+        {
+            _animationManager.PlayAnimation(AnimationType.Walk);
+        }
+        else
+        {
+            _animationManager.PlayAnimation(AnimationType.Idle);
+        }
+    }
+
     public void MoveToPoint(Vector3 point)
     {
         _agent.isStopped = false;

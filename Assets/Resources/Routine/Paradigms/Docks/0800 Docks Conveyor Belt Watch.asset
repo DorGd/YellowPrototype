@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
   startTime: 8
-  endTime: 18.5
+  endTime: 19
   patrolPath: {fileID: 0}
-  text: {fileID: 0}
-  goToPosition: {x: 0.89, y: 0, z: 8.84}
-  sendPlayer: 0
-  sendToPosition: {x: 0, y: 0, z: 0}
+  text: {fileID: 11400000, guid: 927807882e97b7148afe84957a32a0cf, type: 2}
+  goToPosition: {x: 0.89, y: 0, z: 13.3}
+  sendPlayer: 1
+  sendToPosition: {x: -3.8, y: 0, z: 9.8}
   lookAtAngle: 0
-  watchSector: {x: 255, y: 315}
+  watchSector: {x: 180, y: 180}
   regulations:
   - {fileID: 11400000, guid: 5516b0f3bb7d9cb42a2ec05946fdc3c3, type: 2}
-  - {fileID: 11400000, guid: 33f9d3dc2a06e1c419425d6685c551bd, type: 2}
+  - {fileID: 11400000, guid: f43c6d08b88b6f14286cc793368b5440, type: 2}
+  - {fileID: 11400000, guid: 0dbc2e7445ee3f84ab127bd3e05d26ab, type: 2}

@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 619c367751e75a044b1b7e64141a0078, type: 3}
-  m_Name: 0800 Equipment Room Watch
+  m_Name: 0630 Equipment Room Watch
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
-  startTime: 8
-  endTime: 18.5
-  patrolPath: {fileID: 0}
+  startTime: 6.5
+  endTime: 6
+  patrolPath: {fileID: 220520322661483690, guid: 10dc98110bda0ca46a78bb5bda1267e4, type: 3}
   text: {fileID: 0}
-  goToPosition: {x: -44.34, y: 0, z: -12.14}
+  goToPosition: {x: -47.3, y: 0, z: -8.6}
+  sendPlayer: 0
+  sendToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0
-  watchSector: {x: 295, y: 255}
-  regulations: []
+  watchSector: {x: 210, y: 210}
+  regulations:
+  - {fileID: 11400000, guid: 9059b9b6f6d0b574dbc4919093aff0fc, type: 2}

@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: SleepParadigm
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: a67fcfe4401517a4eb0684da04eec769, type: 2}
-  startTime: 20.5
+  startTime: 20
   endTime: 6
   patrolPath: {fileID: 0}
   text: {fileID: 0}
   goToPosition: {x: -14, y: 0, z: -24}
+  sendPlayer: 0
+  sendToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 0
   watchSector: {x: 0, y: 0}
   regulations: []

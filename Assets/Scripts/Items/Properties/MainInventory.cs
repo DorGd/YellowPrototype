@@ -57,6 +57,10 @@ public class MainInventory : Inventory
         {
             if (InventoryItems[i] == null)
             {
+                if (newItem.GetItemType() == ItemType.Helmet)
+                {
+                    GameManager.Instance.PlayerAI.transform.GetComponentInChildren<HeadHelmet>().Enable();
+                }
                 // add to the free space
                 InventoryItems[i] = newItem;
                 InventoryCount += 1;
@@ -87,6 +91,10 @@ public class MainInventory : Inventory
             {
                 if (InventoryItems[slot] != null && InventoryItems[slot].GetItemType() == item)
                 {
+                    if (item == ItemType.Helmet)
+                    {
+                        GameManager.Instance.PlayerAI.transform.GetComponentInChildren<HeadHelmet>().Disable();
+                    }
                     InventoryItems[slot] = null;
                     InventoryCount--;
                     _inventoryUI.RemoveItem(item, false, slot); // Remove the item from UI
@@ -97,6 +105,10 @@ public class MainInventory : Inventory
             {
                 if (InventoryItems[i] != null && InventoryItems[i].GetItemType() == item)
                 {
+                    if (item == ItemType.Helmet)
+                    {
+                        GameManager.Instance.PlayerAI.transform.GetComponentInChildren<HeadHelmet>().Disable();
+                    }
                     InventoryItems[i] = null;
                     InventoryCount--; 
                     _inventoryUI.RemoveItem(item, false, slot); // Remove the item from UI

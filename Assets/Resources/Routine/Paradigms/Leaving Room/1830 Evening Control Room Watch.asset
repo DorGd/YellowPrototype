@@ -16,12 +16,13 @@ MonoBehaviour:
   startTime: 18.5
   endTime: 20.5
   patrolPath: {fileID: 0}
-  text: {fileID: 0}
+  text: {fileID: 11400000, guid: e14879951654b1a4cac0eea9f7b53879, type: 2}
   goToPosition: {x: -42.81, y: 0, z: -34.04}
   sendPlayer: 0
-  sendToPosition: {x: 0, y: 0, z: 0}
+  sendToPosition: {x: -38.9, y: 0, z: -38}
   lookAtAngle: 180
   watchSector: {x: 180, y: 180}
   regulations:
   - {fileID: 11400000, guid: 5516b0f3bb7d9cb42a2ec05946fdc3c3, type: 2}
   - {fileID: 11400000, guid: 33f9d3dc2a06e1c419425d6685c551bd, type: 2}
+  - {fileID: 11400000, guid: 73d6769e727ccf544a25238a2e8febae, type: 2}

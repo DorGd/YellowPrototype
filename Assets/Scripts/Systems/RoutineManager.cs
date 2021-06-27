@@ -6,6 +6,7 @@ public class RoutineManager : MonoBehaviour
     private Dictionary<string, EnemyManager> _enemies;
     private Dictionary<string, DoorController> _doors;
     private Controller _controller;
+    private bool _goodNight = false;
     //public string playerCurrRoom;
     void Start()
     {
@@ -41,8 +42,13 @@ public class RoutineManager : MonoBehaviour
         EnemyManager[] enemies = GetAgentsByName(names);
 
         /** 0600 **/
-        if (time == 6f) cellDoor.StayOpen = true;
-        if (time == 6f) cellDoor2.StayOpen = true;
+        if (time == 6f)
+        {
+            cellDoor.OpenDoor();
+            cellDoor2.OpenDoor();
+            cellDoor.StayOpen = true;
+            cellDoor2.StayOpen = true;
+        }
 
         /** 0800 **/
         if (time == 8f) 
@@ -52,29 +58,24 @@ public class RoutineManager : MonoBehaviour
             StartCoroutine(LaunchConvoy(new Vector3(-38.4f ,0f ,-36.2f), new Vector3(-41.5f, 0f, 28.5f) , new Vector3(1f, 0f, 0f), enemies));
         }
 
-        if (time == 10f)
-        {
-            factoryDoor.StayOpen = false;
-            factoryDoor.CloseDoor();
-        }
+        //if (time == 10f)
+        //{
+        //    factoryDoor.StayOpen = false;
+        //    factoryDoor.CloseDoor();
+        //}
 
         /** 1830 **/
         if (time == 18.5f) 
         {
-            factoryDoor.OpenDoor();
-            factoryDoor.StayOpen = true;
-            StartCoroutine(LaunchConvoy(new Vector3(-41.5f, 0f, 9f), new Vector3(-38.4f ,0f ,-36.2f) , new Vector3(0f, 0f, 1f), enemies));
-
+            StartCoroutine(LaunchConvoy(new Vector3(-41.5f, 0f, 9f), new Vector3(-20.4f ,0f ,-36.2f) , new Vector3(0f, 0f, 1f), enemies));
         }
-        /** 2100 **/
-        if (time == 21f)
+
+        if (time == 20.5f)
         {
-            cellDoor.CloseDoor();
-            cellDoor.StayClose = true;
-            cellDoor2.CloseDoor();
-            cellDoor2.StayClose = true;
             factoryDoor.StayOpen = false;
             factoryDoor.CloseDoor();
+            cellDoor2.StayOpen = false;
+            cellDoor2.CloseDoor();
         }
     }
 
@@ -106,6 +107,26 @@ public class RoutineManager : MonoBehaviour
         enemy.LoadEventParadigms(eventParadigms);
         enemy.InvokeEventParadigm();
     }
+
+    public void GoodNight()
+    {
+        if (_goodNight)
+            return;
+        DoorController cellDoor = GetDoorsByName(new string[]{ "PlayerRoomDoor" })[0];
+        float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        if (time >= 20.5f)
+        {
+            _goodNight = true;
+            cellDoor.CloseDoor();
+            cellDoor.StayClose = true;
+        }
+    }
+
+    public void FactoryClosed()
+    {
+
+    }
+
     IEnumerator LaunchConvoy(Vector3 startPos, Vector3 endPos, Vector3 tailStartDirection , EnemyManager[] enemies )
     {
         if (enemies.Length == 0) 
@@ -118,6 +139,12 @@ public class RoutineManager : MonoBehaviour
         Ai player = GameManager.Instance.PlayerAI;
         EnemyManager leadGuard = enemies[0];
         EnemyManager backGuard = enemies[enemies.Length - 1];
+
+        player.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        foreach (Transform child in player.transform)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        }
 
         _controller.FreezeController();
         foreach (EnemyManager enemy in enemies)
@@ -173,12 +200,20 @@ public class RoutineManager : MonoBehaviour
             enemy.Ai.StopAgent();
         }
         player.StopAgent();
-
         // Activate the regular routine at each agent
         foreach (EnemyManager enemy in enemies)
         {
             enemy.ResumeCurrentParadigm();
         }
+
+        yield return new WaitForSeconds(1.5f);
+
+        player.gameObject.layer = LayerMask.NameToLayer("Default");
+        foreach (Transform child in player.transform)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+
         _controller.UnFreezeController();
     }
 

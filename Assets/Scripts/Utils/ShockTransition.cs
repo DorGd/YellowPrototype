@@ -44,6 +44,7 @@ public class ShockTransition : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2f);
+        AudioManager.numDay += 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

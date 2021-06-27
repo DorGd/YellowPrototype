@@ -7,12 +7,7 @@ public class Helmet : Interactable, IHideable, IHideable.IWearable
     public SpeechTextSO cantWearText;
     public override Action[] CalcInteractions()
     {
-        if (!GameManager.Instance.inventory.IsInInventory(ItemType.Helmet) && GameManager.Instance.inventory.CanAdd())
-        {
-            return new Action[] { Wear };
-        }
-        GameManager.Instance.SpeechManager.StartSpeech(transform.position, cantWearText);
-        return new Action[] {};
+        return new Action[] { Wear };
     }
     
     /**
@@ -21,8 +16,12 @@ public class Helmet : Interactable, IHideable, IHideable.IWearable
      */
     public void Wear()
     {
-        Debug.Log("Wear");
-        PickUp();
+        if (!GameManager.Instance.inventory.IsInInventory(ItemType.Helmet) && GameManager.Instance.inventory.CanAdd())
+        {
+            PickUp();
+            return;
+        }
+        GameManager.Instance.SpeechManager.StartSpeech(transform.position, cantWearText);
     }
 
     public void PickUp()

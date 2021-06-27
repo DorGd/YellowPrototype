@@ -234,17 +234,30 @@ public class FieldOfView : MonoBehaviour
 		Vector3 targetPos = GameManager.Instance.PlayerTransform.position;
         if (Vector3.Distance(transform.position, targetPos) < viewDistance) // in distance
         {
+			LayerMask playerBlockMask = blockMask | (1 << LayerMask.NameToLayer("Ignore Raycast")); 
             Vector3 targetDir = (targetPos - transform.position).normalized;
             float angleToTarget = Vector3.Angle(transform.forward, targetDir);
             if (angleToTarget < viewAngle / 2f) // in angle 
             {
-                return !Physics.Linecast(transform.position, targetPos, blockMask); // isn't blocked
+                return !Physics.Linecast(transform.position, targetPos, playerBlockMask); // isn't blocked
             }
 			else if (Vector3.Distance(transform.position, targetPos) < proximityRadius)
 			{
-				return !Physics.Linecast(transform.position, targetPos, blockMask); // isn't blocked
+				return !Physics.Linecast(transform.position, targetPos, playerBlockMask); // isn't blocked
 			}
 		}
         return false;
     }
+
+	public void HighAlertField()
+    {
+		MeshRenderer renderer = fieldMeshFilter.GetComponent<MeshRenderer>();
+		renderer.material.SetColor(Shader.PropertyToID("_BaseColor"), new Color(1.0f, 0.0f, 0.0f, 66.0f/255.0f));
+	}
+
+	public void LowAlertField()
+	{
+		MeshRenderer renderer = fieldMeshFilter.GetComponent<MeshRenderer>();
+		renderer.material.SetColor(Shader.PropertyToID("_BaseColor"), new Color(1.0f, 1.0f, 1.0f, 16.0f / 255.0f));
+	}
 }
