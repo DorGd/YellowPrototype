@@ -138,8 +138,8 @@ public class EnemyManager : MonoBehaviour
 
         // Regular routine logic
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
-        _curr = (_curr + 1) % _paradigms.Length;
-        ParadigmSO nextParadigm = _paradigms[_curr];
+        int nextIndex = (_curr + 1) % _paradigms.Length;
+        ParadigmSO nextParadigm = _paradigms[nextIndex];
         _currParadigm = nextParadigm;
 
         // day factor is added to handle day shift cases
@@ -149,7 +149,8 @@ public class EnemyManager : MonoBehaviour
         
         // next paradigm time slot contain current time
         if (nextParadigm.startTime <= time && nextParadigm.endTime + nextDayFactor >= time)
-        {    
+        {
+            _curr = nextIndex;
             // Stop patroling / watch Action if activated
             _ai.Patroling = false;                                          
             // Takes paradigm new path if not null
@@ -195,10 +196,29 @@ public class EnemyManager : MonoBehaviour
 
     void RegulationsValidation()
     {
+        if (_isRoutinePaused)
+            return;
         if (_curr < 0) return;
         foreach (var reg in _paradigms[_curr].regulations)
         {
-            if(!reg.CheckRegulation()) reg?.sanction.Apply(this);
+            if (!reg.CheckRegulation())
+            {
+                reg?.sanction.Apply(this);
+            }
         }
+    }
+
+    public void Alert()
+    {
+        if (_field == null)
+            return;
+        _field.HighAlertField();
+    }
+
+    public void CancelAlert()
+    {
+        if (_field == null)
+            return;
+        _field.LowAlertField();
     }
 }

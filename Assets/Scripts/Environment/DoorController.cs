@@ -25,13 +25,13 @@ public class DoorController : Interactable
         _animator = GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("NPC") && !StayClose)
-        {
-            OpenDoor();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("NPC") && !StayClose)
+    //    {
+    //        OpenDoor();
+    //    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {

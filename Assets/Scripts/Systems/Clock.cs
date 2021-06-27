@@ -36,7 +36,7 @@ public class Clock : MonoBehaviour
 
     void CheckForTick()
     {
-        if (timeText.text.EndsWith("00") || timeText.text.EndsWith("30"))
+        if (timeText.text.EndsWith("0"))
         {
             if (firstTickInFrame)
             {

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: d7bc7b5a702a813478dbced8cd3dccc8, type: 2}
   startTime: 8
-  endTime: 18.5
+  endTime: 19
   patrolPath: {fileID: 0}
   text: {fileID: 11400000, guid: 9c68336d9f73bb84383be7f71f834901, type: 2}
-  goToPosition: {x: 0.89, y: 0, z: 8.84}
+  goToPosition: {x: 0.89, y: 0, z: 13.3}
   sendPlayer: 1
   sendToPosition: {x: -32, y: 0, z: 6}
   lookAtAngle: 0

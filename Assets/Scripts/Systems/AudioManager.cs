@@ -176,6 +176,7 @@ public class AudioManager : Singleton<AudioManager>
     ////////////////////////////////////////////////////AUDIO STRINGS END////////////////////////////////////////////////////////////////////////////////
 
     public float globalVolume = 1.0f;
+    public static int numDay = 1;
 
     private bool isAudioPaused = false;
 
@@ -187,7 +188,7 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    private AudioSourceHandle[] audioSourceHandlesPool = new AudioSourceHandle[MAX_SOURCES];
+    private AudioSourceHandle[] audioSourceHandlesPool;
 
     private AudioClip[] clips;
     private AudioSource oneShotSource;
@@ -195,8 +196,15 @@ public class AudioManager : Singleton<AudioManager>
     // Start is called before the first frame update
     void Awake()
     {
+        audioSourceHandlesPool = new AudioSourceHandle[MAX_SOURCES];
         clips = Resources.LoadAll<AudioClip>("Audio");
         oneShotSource = Camera.main.gameObject.GetComponent<AudioSource>();
+    }
+
+    // Dummy call to initialize class
+    public void JustInitialize()
+    {
+        Awake();
     }
 
     public AudioClip GetClipByName(string clipName)

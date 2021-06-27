@@ -7,6 +7,7 @@ public class Patrol : ActionSO
 {
     public override Coroutine Act(EnemyManager enemy)
     {
+        enemy.Alert();
         return enemy.StartCoroutine(PatrolRoutine(enemy));
     }
     
@@ -41,6 +42,7 @@ public class Patrol : ActionSO
 
             yield return null;
         }
+        enemy.CancelAlert();
         yield break;
     }
 

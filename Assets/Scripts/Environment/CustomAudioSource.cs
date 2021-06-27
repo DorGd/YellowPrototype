@@ -26,9 +26,10 @@ public class CustomAudioSource : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, maxRadius);
     }
 
-    void Awake()
+    void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        sourceHandler = null;
     }
 
     float CalcVolume(float distance)

@@ -14,4 +14,13 @@ public class ColliderBasedEvent : MonoBehaviour
             if (isOneTimeEvent) gameObject.SetActive(false);
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            collisionEvent?.Invoke();
+            if (isOneTimeEvent) gameObject.SetActive(false);
+        }
+    }
 }
