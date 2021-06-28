@@ -11,6 +11,10 @@ public class CustomAudioSource : MonoBehaviour
     float maxRadius = 5.0f;
 
     [SerializeField]
+    [Range(0, 10)]
+    float volumeModifier = 1.0f;
+
+    [SerializeField]
     AudioClip clip;
 
     [SerializeField]
@@ -49,11 +53,11 @@ public class CustomAudioSource : MonoBehaviour
                 if (clip == null)
                     return;
                 sourceHandler.SetClip(clip);
-                sourceHandler.Play(CalcVolume(distance), loop);
+                sourceHandler.Play(volumeModifier * CalcVolume(distance), loop);
             }
             else
             {
-                sourceHandler.SetVolume(CalcVolume(distance));
+                sourceHandler.SetVolume(volumeModifier * CalcVolume(distance));
             }
         }
         else if (sourceHandler != null)

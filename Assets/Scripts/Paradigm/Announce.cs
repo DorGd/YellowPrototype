@@ -19,7 +19,7 @@ public class Announce : ActionSO
         }
         while (enemy.Ai.IsNavigating())
         {
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForEndOfFrame();
         }
 
         // Look at the right direction and start the announce
@@ -29,7 +29,6 @@ public class Announce : ActionSO
 
         GameManager.Instance.SpeechManager.StartSpeech(enemy.transform.position,enemy.CurrentParadigm.text);
 
-        yield return new WaitForSeconds(Time.deltaTime);
         if (enemy.CurrentParadigm.sendPlayer)
         {
             GameManager.Instance.PlayerAI.ForceMoveToPoint(enemy.CurrentParadigm.sendToPosition);

@@ -8,6 +8,9 @@ public class BringHelmetSanction : SanctionSO
 
     [SerializeField]
     private SpeechTextSO text;
+
+    [SerializeField]
+    private Vector3 sendPos;
     public override void Apply(EnemyManager enemy)
     {
         if (text != null)
@@ -23,6 +26,6 @@ public class BringHelmetSanction : SanctionSO
             }
         }
         if (enemy.CurrentParadigm.sendPlayer)
-            GameManager.Instance.PlayerAI.ForceMoveToPoint(enemy.CurrentParadigm.sendToPosition);
+            GameManager.Instance.PlayerAI.ForceMoveToPoint(sendPos);
     }
 }

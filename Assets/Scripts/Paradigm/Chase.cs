@@ -16,10 +16,10 @@ public class Chase : ActionSO
         {
             dist = Vector3.Distance(GameManager.Instance.PlayerTransform.position, enemy.transform.position);
             enemy.Ai.MoveToPoint(GameManager.Instance.PlayerTransform.position);
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForEndOfFrame();
         }
         enemy.Ai.MoveToPoint(enemy.transform.position + (GameManager.Instance.PlayerTransform.position - enemy.transform.position) / 2);
-        while (enemy.Ai.IsNavigating()) yield return new WaitForSeconds(Time.deltaTime);
+        while (enemy.Ai.IsNavigating()) yield return new WaitForEndOfFrame();
         enemy.ActivateNextParadigm();
     }
 }

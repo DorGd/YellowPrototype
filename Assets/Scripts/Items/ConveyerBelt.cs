@@ -16,21 +16,25 @@ public class ConveyerBelt : Interactable
     }
     public override Action[] CalcInteractions()
     {
-        if (GameManager.Instance.inventory.IsInInventory(ItemType.Chest) && !(GameManager.Instance.inventory.GetHandItem() as Chest).open)
+        if (GameManager.Instance.inventory.IsInInventory(ItemType.Chest))
         {
             return new Action[] { Place };
-        }
-        if (GameManager.Instance.Clock.GetHour() >= closeBoxWarningParadigm.startTime && GameManager.Instance.Clock.GetHour() < closeBoxWarningParadigm.endTime)
-        {
-            EnemyManager docksGuard = GameObject.Find("Docks Guard 1").GetComponent<EnemyManager>();
-            docksGuard.LoadEventParadigms(new ParadigmSO[] { closeBoxWarningParadigm });
-            docksGuard.InvokeEventParadigm();
         }
         return new Action[] { };
     }
 
     private void Place()
     {
+        if ((GameManager.Instance.inventory.GetHandItem() as Chest).open)
+        {
+            if (GameManager.Instance.Clock.GetHour() >= closeBoxWarningParadigm.startTime && GameManager.Instance.Clock.GetHour() < closeBoxWarningParadigm.endTime)
+            {
+                EnemyManager docksGuard = GameObject.Find("Docks Guard 1").GetComponent<EnemyManager>();
+                docksGuard.LoadEventParadigms(new ParadigmSO[] { closeBoxWarningParadigm });
+                docksGuard.InvokeEventParadigm();
+                return;
+            }
+        }
         GetComponent<Animator>().SetTrigger("Start");
         AudioManager.Instance.PlayOneShotCalcDist(AudioManager.SFX_conveyor, transform.position);
         for (int i = 0; i < boxes.Length; i++)
@@ -46,7 +50,7 @@ public class ConveyerBelt : Interactable
             }
         }
         Destroy(boxes[0].gameObject);
-        for (int i = 1; i <boxPositions.Length; i++)
+        for (int i = 1; i < boxPositions.Length; i++)
         {
             boxes[i - 1] = boxes[i];
             boxes[i] = null;

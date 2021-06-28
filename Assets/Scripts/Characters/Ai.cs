@@ -12,6 +12,7 @@ public class Ai : MonoBehaviour
     private bool _patroling = false;
     private Controller _controller;
     private CharacterAnimationManager _animationManager;
+    private Coroutine forceMoveCoroutine = null;
 
     public bool Patroling
     {
@@ -21,7 +22,9 @@ public class Ai : MonoBehaviour
 
     internal void ForceMoveToPoint(Vector3 sendToPosition)
     {
-        StartCoroutine(ForceMoveCoroutine(sendToPosition));
+        if (forceMoveCoroutine != null)
+            return;
+        forceMoveCoroutine = StartCoroutine(ForceMoveCoroutine(sendToPosition));
     }
 
     private IEnumerator ForceMoveCoroutine(Vector3 sendToPosition)
@@ -33,19 +36,23 @@ public class Ai : MonoBehaviour
             child.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
         _controller.FreezeController();
+        while (IsNavigating())
+        {
+            yield return new WaitForEndOfFrame();
+        }
         MoveToPoint(sendToPosition);
         yield return new WaitUntil(IsNavigating);
         while (IsNavigating())
         {
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForEndOfFrame();
         }
-        StopAgent();
         gameObject.layer = LayerMask.NameToLayer("Default");
         foreach (Transform child in transform)
         {
             child.gameObject.layer = LayerMask.NameToLayer("Default");
         }
         _controller.UnFreezeController();
+        forceMoveCoroutine = null;
     }
 
     // Start is called before the first frame update
@@ -86,6 +93,15 @@ public class Ai : MonoBehaviour
         _patroling = false;
         _agent.isStopped = true;
         _agent.ResetPath();
+    }
+
+    public void OverrideForceMoveCoroutine()
+    {
+        if (forceMoveCoroutine != null)
+        {
+            StopCoroutine(forceMoveCoroutine);
+            forceMoveCoroutine = null;
+        }
     }
 
     // public bool HasPath()

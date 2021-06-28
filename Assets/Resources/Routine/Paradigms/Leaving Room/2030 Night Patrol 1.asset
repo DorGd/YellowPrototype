@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2030 Night Patrol 1
   m_EditorClassIdentifier: 
   action: {fileID: 11400000, guid: 6bef0c1803351f14e952f9f764e5dd66, type: 2}
-  startTime: 20.5
+  startTime: 20.75
   endTime: 6
   patrolPath: {fileID: 7745093928499639166, guid: 5ff8e5a9cedfe994b9ff4f38c6271827, type: 3}
   text: {fileID: 0}

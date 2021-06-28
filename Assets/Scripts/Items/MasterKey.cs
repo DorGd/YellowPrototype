@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MasterKey : Interactable, IHideable
@@ -16,6 +17,7 @@ public class MasterKey : Interactable, IHideable
         Debug.Log("Pickup");
         
         GameManager.Instance.inventory.AddItem(this);
+        AudioManager.Instance.PlayMusicForTime(AudioManager.Atmosphere_salvation, 10f);
         gameObject.SetActive(false); // remove item from the scene        
     }
 }
