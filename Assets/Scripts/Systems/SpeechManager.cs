@@ -28,7 +28,8 @@ public class SpeechManager : MonoBehaviour
     private string[] currentSentences;
     private int sentenceIndex;
     private float scaleDelay = 0.5f;
-
+    private bool midSentence = false;
+    private Coroutine typeCoroutine = null;
 
     void Start()
     {
@@ -81,20 +82,29 @@ public class SpeechManager : MonoBehaviour
             sentenceIndex = 0;
             speechTextBox.text = "";
             advanceButton.SetActive(false);
-            Time.timeScale = 0f;
+            GameManager.Instance.StopTime();
             StartCoroutine(openSpeech());
         }
     }
 
     public void AdvanceSpeech()
     {
-        if (sentenceIndex < currentSentences.Length)
+        if (midSentence)
+        {
+            midSentence = false;
+            if (typeCoroutine != null)
+                StopCoroutine(typeCoroutine);
+            speechTextBox.text = currentSentences[sentenceIndex];
+            sentenceIndex++;
+        }
+        else if (sentenceIndex < currentSentences.Length)
         {
             speechTextBox.text = "";
-            StartCoroutine(typeText());
+            typeCoroutine = StartCoroutine(typeText());
         }
         else
         {
+            typeCoroutine = null;
             StartCoroutine(closeSpeech());
         }
     }
@@ -104,21 +114,22 @@ public class SpeechManager : MonoBehaviour
         AudioManager.Instance.PlayOneShot(AudioManager.SFX_textPopup);
         bubbleAnimator.SetTrigger("Open");
         yield return new WaitForSecondsRealtime(scaleDelay);
-        StartCoroutine(typeText());
+        advanceButton.SetActive(true);
+        typeCoroutine = StartCoroutine(typeText());
     }
 
     private IEnumerator typeText()
     {
         if (sentenceIndex < currentSentences.Length) {
-            advanceButton.SetActive(false);
+            midSentence = true;
             foreach (char letter in currentSentences[sentenceIndex].ToCharArray())
             {
                 speechTextBox.text += letter;
                 yield return new WaitForSecondsRealtime(typingDelay);
             }
+            midSentence = false;
             sentenceIndex++;
             buttonText.text = (sentenceIndex < currentSentences.Length) ? "Next" : "End";
-            advanceButton.SetActive(true);
         }
     }
 
@@ -126,7 +137,7 @@ public class SpeechManager : MonoBehaviour
     {
         bubbleAnimator.SetTrigger("Close");
         yield return new WaitForSecondsRealtime(scaleDelay);
-        Time.timeScale = 1f;
+        GameManager.Instance.ContinueTime();
         isAvailable = true;
         speechSource = Vector3.zero;
         currentSentences = null;

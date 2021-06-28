@@ -42,6 +42,8 @@ public class TransitionManager : MonoBehaviour
     public IEnumerator StartDayTransition(string text)
     {
         _text.text = text;
+        _bg.color += new Color(0f, 0f, 0f, 1f);
+        _text.color += new Color(0f, 0f, 0f, 1f);
         float elapsedTime = 0f;
         Color colorToAdd = new Color(0f, 0f, 0f, 0f);
         yield return new WaitForSeconds(_textDuration);

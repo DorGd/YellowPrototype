@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 public class RoutineManager : MonoBehaviour
 {
     private Dictionary<string, EnemyManager> _enemies;
@@ -8,6 +10,7 @@ public class RoutineManager : MonoBehaviour
     private Controller _controller;
     private bool _goodNight = false;
     private bool _goodMorning = false;
+    private GameObject _skipBtn = null;
     //public string playerCurrRoom;
     void Start()
     {
@@ -15,6 +18,7 @@ public class RoutineManager : MonoBehaviour
         _doors = new Dictionary<string, DoorController>();
         GameManager.Instance.Clock.TickEvent += UpdateRoutine;
         _controller = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Controller>();
+        _skipBtn = GameObject.Find("Skip Button");
         DoorController[] doors = FindObjectsOfType<DoorController>();
         EnemyManager[] enemies = FindObjectsOfType<EnemyManager>();
         foreach(var enemy in enemies) _enemies.Add(enemy.name, enemy);
@@ -108,6 +112,7 @@ public class RoutineManager : MonoBehaviour
 
     public void WellcomeTheConvoy()
     {
+        _skipBtn.SetActive(true);
         ParadigmSO[] eventParadigms = new ParadigmSO[1];
         eventParadigms[0] = Resources.Load<ParadigmSO>("Routine/Paradigms/Storage Warehouse/0830 Storage Facility Wellcome Announce");
         EnemyManager enemy = GameObject.Find("Storage Warehouse Guard 1").GetComponent<EnemyManager>();

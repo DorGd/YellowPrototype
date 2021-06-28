@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private MainInventory _inventory;
     private Clock _clock;
     private SpeechManager _speechManager;
+    private bool paused = false;
     private TransitionManager _transitionManager;
     public MainInventory inventory
     {
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     public void EndDayTransition(string text)
     {
+        StopSkip();
         StartCoroutine(_transitionManager.EndDayTransition(text));
     }
 
@@ -80,4 +82,36 @@ public class GameManager : MonoBehaviour
         onShockTransition?.Invoke();
     }
 
+    public void Skip()
+    {
+        //float time = Instance.Clock.GetHour() + Instance.Clock.GetMinutes();
+        //if ((time > 6f && time < 7.5f) || (time > 8.5f && time < 18.5f))
+        //{
+        //    _clock.REAL_SECONDS_PER_INGAME_DAY = 100f;
+        //}
+        if (paused)
+            StopTime();
+        else
+            Time.timeScale = 8f;
+    }
+
+    public void StopSkip()
+    {
+        if (paused)
+            StopTime();
+        else
+            Time.timeScale = 1f;
+    }
+
+    public void StopTime()
+    {
+        paused = true;
+        Time.timeScale = 0f;
+    }
+
+    public void ContinueTime()
+    {
+        Time.timeScale = 1f;
+        paused = false;
+    }
 }
