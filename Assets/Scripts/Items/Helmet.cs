@@ -9,7 +9,7 @@ public class Helmet : Interactable, IHideable, IHideable.IWearable
     {
         return new Action[] { Wear };
     }
-    
+
     /**
      * Wear the helmet
      * TODO need to add a visual (maybe not add to inventory? or create some kind of visual inventory)

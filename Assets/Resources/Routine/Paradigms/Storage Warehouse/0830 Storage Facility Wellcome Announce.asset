@@ -17,7 +17,7 @@ MonoBehaviour:
   endTime: 10
   patrolPath: {fileID: 0}
   text: {fileID: 11400000, guid: b850b4a2c44744f4384cfa81de3b6a55, type: 2}
-  goToPosition: {x: -44.5, y: 0, z: 21.7}
+  goToPosition: {x: -45.9, y: 0, z: 19.9}
   sendPlayer: 0
   sendToPosition: {x: 0, y: 0, z: 0}
   lookAtAngle: 180

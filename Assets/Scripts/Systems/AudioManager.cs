@@ -17,7 +17,30 @@ public class AudioManager : Singleton<AudioManager>
         public void Pause();
         public void UnPause();
         public void Stop();
+        public void Fade();
         public void ReleaseHandler();
+    }
+
+    internal void PlayMusicForTime(string clip, float time)
+    {
+        StartCoroutine(PlayMusicForTimeCoroutine(clip, time));
+    }
+
+    private IEnumerator PlayMusicForTimeCoroutine(string clip, float time)
+    {
+        IAudioSourceHandler ash = Instance.GetAvailableAudioSourceHandle();
+        ash.SetClip(clip);
+        ash.SetVolume(7.0f);
+        ash.Play();
+        float start = Time.time;
+        float cur = start;
+        while (cur - start < time)
+        {
+            yield return new WaitForEndOfFrame();
+            cur += Time.deltaTime;
+        }
+        ash.Fade();
+        ash.ReleaseHandler();
     }
 
     private class AudioSourceHandle : IAudioSourceHandler
@@ -67,6 +90,16 @@ public class AudioManager : Singleton<AudioManager>
             if (Instance.IsAudioPaused)
                 return;
             source.PlayOneShot(Instance.GetClipByName(clipName), volumeScale * Instance.globalVolume);
+        }
+
+        public void Fade()
+        {
+            AudioManager.Instance.FadeOut(this);
+        }
+
+        private IEnumerator FadeOutCoroutine()
+        {
+            throw new NotImplementedException();
         }
 
         public void Stop()
@@ -125,6 +158,25 @@ public class AudioManager : Singleton<AudioManager>
         {
             isAllocated = true;
         }
+    }
+
+    private void FadeOut(AudioSourceHandle audioSourceHandle)
+    {
+        StartCoroutine(FadeOutCorourine(audioSourceHandle));
+    }
+
+    private IEnumerator FadeOutCorourine(AudioSourceHandle audioSourceHandle)
+    {
+        float startVolume = audioSourceHandle.source.volume;
+        float time = 2f;
+        float curTime = 0;
+        while (curTime < time)
+        {
+            audioSourceHandle.source.volume = ((time - curTime) / time) * startVolume * globalVolume;
+            yield return new WaitForEndOfFrame();
+            curTime += Time.deltaTime;
+        }
+        audioSourceHandle.source.volume = 0;
     }
 
     protected AudioManager()

@@ -205,6 +205,7 @@ public class Controller : MonoBehaviour
     public void FreezeController()
     {
         _playerControls.Disable();
+        _ai.StopAgent();
         rightClickCanvas.enabled = false; 
     }
 

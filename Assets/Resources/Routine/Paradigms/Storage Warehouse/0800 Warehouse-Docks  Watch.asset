@@ -23,5 +23,6 @@ MonoBehaviour:
   lookAtAngle: 0
   watchSector: {x: 0, y: 0}
   regulations:
+  - {fileID: 11400000, guid: 1929c519404c0924ab18cb03d672fdd6, type: 2}
   - {fileID: 11400000, guid: 5516b0f3bb7d9cb42a2ec05946fdc3c3, type: 2}
   - {fileID: 11400000, guid: 69a595c2e48f9d7439712b7be1aedfe6, type: 2}

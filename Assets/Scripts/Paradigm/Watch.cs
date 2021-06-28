@@ -22,7 +22,7 @@ public class Watch : ActionSO
             yield return null;
         }
         
-        while (enemy.Ai.IsNavigating()) {yield return new WaitForSeconds(Time.deltaTime);}
+        while (enemy.Ai.IsNavigating()) {yield return new WaitForEndOfFrame(); }
 
         if (enemy.CurrentParadigm.watchSector == null)
         {
@@ -44,7 +44,7 @@ public class Watch : ActionSO
                 currentRotation = enemy.transform.rotation;
                 if (wantedRotation[i] == currentRotation) i = (i + 1) % 2;
                 enemy.transform.rotation = Quaternion.RotateTowards(currentRotation, wantedRotation[i] , Time.deltaTime * rotateSpeed);
-                yield return new WaitForSeconds(Time.deltaTime);
+                yield return new WaitForEndOfFrame();
             }
             yield return null;
         }

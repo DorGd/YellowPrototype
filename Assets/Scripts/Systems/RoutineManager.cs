@@ -7,6 +7,7 @@ public class RoutineManager : MonoBehaviour
     private Dictionary<string, DoorController> _doors;
     private Controller _controller;
     private bool _goodNight = false;
+    private bool _goodMorning = false;
     //public string playerCurrRoom;
     void Start()
     {
@@ -42,8 +43,9 @@ public class RoutineManager : MonoBehaviour
         EnemyManager[] enemies = GetAgentsByName(names);
 
         /** 0600 **/
-        if (time == 6f)
+        if (time == 6f && !_goodMorning)
         {
+            _goodMorning = true;
             cellDoor.OpenDoor();
             cellDoor2.OpenDoor();
             cellDoor.StayOpen = true;
@@ -51,7 +53,7 @@ public class RoutineManager : MonoBehaviour
         }
 
         /** 0800 **/
-        if (time == 8f) 
+        else if (time == 8f) 
         {
             factoryDoor.OpenDoor();
             factoryDoor.StayOpen = true;
@@ -65,17 +67,22 @@ public class RoutineManager : MonoBehaviour
         //}
 
         /** 1830 **/
-        if (time == 18.5f) 
+        else if (time == 18.5f) 
         {
             StartCoroutine(LaunchConvoy(new Vector3(-41.5f, 0f, 9f), new Vector3(-20.4f ,0f ,-36.2f) , new Vector3(0f, 0f, 1f), enemies));
         }
 
-        if (time == 20.5f)
+        else if (time == 20.5f)
         {
             factoryDoor.StayOpen = false;
             factoryDoor.CloseDoor();
             cellDoor2.StayOpen = false;
             cellDoor2.CloseDoor();
+        }
+
+        else if (time == 5.5f && _goodMorning)
+        {
+            GameManager.Instance.EndDayTransition("Morning came but you weren't sleeping in your room! No worries, your trusted collar gave you a nice shock and you were brought back to bed");
         }
     }
 
@@ -119,6 +126,7 @@ public class RoutineManager : MonoBehaviour
             _goodNight = true;
             cellDoor.CloseDoor();
             cellDoor.StayClose = true;
+            AudioManager.Instance.PlayOneShot(AudioManager.Atmosphere_nightSky);
         }
     }
 
@@ -140,40 +148,78 @@ public class RoutineManager : MonoBehaviour
         EnemyManager leadGuard = enemies[0];
         EnemyManager backGuard = enemies[enemies.Length - 1];
 
+        // Remove Player's Hand Item
+        Interactable item = GameManager.Instance.inventory.GetHandItem();
+        if (item != null)
+        {
+            GameManager.Instance.inventory.DeleteItem(item.GetItemType());
+            item.ResetPos();
+        }
+
+        // Make player undetected by guards
         player.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         foreach (Transform child in player.transform)
         {
             child.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
 
-        _controller.FreezeController();
+        // Stop all guards and workers
         foreach (EnemyManager enemy in enemies)
         {
             enemy.PauseAgentRoutine();
         }
-        yield return new WaitForSeconds(0.1f);
 
+        // Stop player and freeze controller
+        player.OverrideForceMoveCoroutine();
+        yield return new WaitForEndOfFrame();
+        _controller.FreezeController();
+
+        // wait for all enemies and player to stop
+        bool everybodyStopped = false;
+        while (!everybodyStopped)
+        {
+            yield return new WaitForEndOfFrame();
+            everybodyStopped = true && !player.IsNavigating();
+            foreach (EnemyManager enemy in enemies)
+            {
+                everybodyStopped = everybodyStopped && !enemy.Ai.IsNavigating();
+                if (!everybodyStopped) break;
+            }
+        }
+
+        // Send all guards and workers to position
         foreach (EnemyManager enemy in enemies)
         {
             enemy.Ai.MoveToPoint(startPos + tailStartDirection.normalized * offset * i);
             i++;
         }
         backGuard.Ai.MoveToPoint(startPos + tailStartDirection.normalized * offset * i); // back guard makeing space for player
-        player.MoveToPoint(startPos + tailStartDirection.normalized * offset * (i - 1)); // player move to the end - 1 place in the convoy 
-        yield return null;
 
-        // wait until lead guard goes into navigation mode
-        yield return new WaitUntil(leadGuard.Ai.IsNavigating);
+        // Send player to position
+        player.MoveToPoint(startPos + tailStartDirection.normalized * offset * (i - 1)); // player move to the end - 1 place in the convoy 
+
+        // wait until everyone started walking
+        bool everybodyGoToPositions = false;
+        while (!everybodyStopped)
+        {
+            yield return new WaitForEndOfFrame();
+            everybodyGoToPositions = true && !player.IsNavigating();
+            foreach (EnemyManager enemy in enemies)
+            {
+                everybodyGoToPositions = everybodyGoToPositions && !enemy.Ai.IsNavigating();
+                if (!everybodyGoToPositions) break;
+            }
+        }
 
         // wait for all enemies and player to be in convoy formation
         bool convoyInFormation = false;
         while (!convoyInFormation)
         {
-            yield return new WaitForSeconds(Time.deltaTime);
-            convoyInFormation = true & !player.IsNavigating();
+            yield return new WaitForEndOfFrame();
+            convoyInFormation = true && !player.IsNavigating();
             foreach (EnemyManager enemy in enemies)
             {
-                convoyInFormation &= !enemy.Ai.IsNavigating();
+                convoyInFormation = convoyInFormation && !enemy.Ai.IsNavigating();
                 if (!convoyInFormation) break;
             }
         }
@@ -186,12 +232,12 @@ public class RoutineManager : MonoBehaviour
         player.MoveToPoint(endPos);
         yield return null;
 
-        // wait until back guard goes into navigation mode   
-        yield return new WaitUntil(backGuard.Ai.IsNavigating);
+        // wait until lead guard goes into navigation mode   
+        yield return new WaitUntil(leadGuard.Ai.IsNavigating);
         // wait for convoy to arrive its destination
         while (leadGuard.Ai.IsNavigating())
         {
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForEndOfFrame();
         }
  
         // convoy stoping
@@ -206,7 +252,8 @@ public class RoutineManager : MonoBehaviour
             enemy.ResumeCurrentParadigm();
         }
 
-        yield return new WaitForSeconds(1.5f);
+        // Wait before restoring player's control
+        yield return new WaitForSeconds(3f);
 
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         foreach (Transform child in player.transform)

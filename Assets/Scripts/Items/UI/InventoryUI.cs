@@ -45,7 +45,9 @@ public class InventoryUI : MonoBehaviour
     {
         if (fromHand && !handItemSlot.IsEmpty() && handItemSlot.GetItemType() == item)
         {
+            AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
             handItemSlot.RemoveItem();
+            handItemSlot.GetComponent<Animator>().SetTrigger("Updated");
             return;
         }
 

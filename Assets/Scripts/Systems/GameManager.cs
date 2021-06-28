@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private MainInventory _inventory;
     private Clock _clock;
     private SpeechManager _speechManager;
+    private TransitionManager _transitionManager;
     public MainInventory inventory
     {
         get { return _inventory; }
@@ -31,6 +32,16 @@ public class GameManager : MonoBehaviour
     public SpeechManager SpeechManager
     {
         get { return _speechManager; }
+    }
+
+    public void EndDayTransition(string text)
+    {
+        StartCoroutine(_transitionManager.EndDayTransition(text));
+    }
+
+    public void StartDayTransition(string text)
+    {
+        StartCoroutine(_transitionManager.StartDayTransition(text));
     }
 
     public event Action onShockTransition;
@@ -61,6 +72,7 @@ public class GameManager : MonoBehaviour
         _speechManager = GetComponent<SpeechManager>();
         _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
         _playerAi = _playerTransform.GetComponent<Ai>();
+        _transitionManager = GetComponent<TransitionManager>();
     }
 
     public void InvokeShock()
