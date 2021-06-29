@@ -7,6 +7,8 @@ public class MainInventory : Inventory
 {
     
     public InventoryUI _inventoryUI;
+    public event Action onFirstTimeUse;
+    public event Action onFirstTimeHandItemUse;
 
     /**
      * Set as main inventory
@@ -23,6 +25,8 @@ public class MainInventory : Inventory
     public override void AddItem(Interactable newItem, InventorySlot fromSlot = null)
     {
         Interactable previousHandItem = null;
+
+        onFirstTimeUse?.Invoke();
         
         // this is the main inventory and we want to add to the hand of the player. 
         if (newItem.isHandItem)
