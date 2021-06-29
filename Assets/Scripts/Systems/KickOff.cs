@@ -7,7 +7,14 @@ public class KickOff : MonoBehaviour
     // Start is called before the first frame update
     private void Awake() {
         AudioManager.Instance.JustInitialize();
-        GameManager.Instance.StartDayTransition($"Day {AudioManager.numDay}");
+        if (AudioManager.numDay == 1)
+        {
+            GameManager.Instance.StartDayTransition("Day One");
+        }
+        else
+        {
+           GameManager.Instance.StartDayTransition($"Day One #{ AudioManager.numDay}"); 
+        }
         gameObject.SetActive(false);
     }
 }

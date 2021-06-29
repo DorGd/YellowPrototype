@@ -21,7 +21,7 @@ public class Helmet : Interactable, IHideable, IHideable.IWearable
             PickUp();
             return;
         }
-        GameManager.Instance.SpeechManager.StartSpeech(transform.position, cantWearText);
+        GameManager.Instance.SpeechManager.StartSpeech(transform.position, cantWearText, true);
     }
 
     public void PickUp()

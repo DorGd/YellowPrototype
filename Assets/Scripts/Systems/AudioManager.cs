@@ -28,9 +28,9 @@ public class AudioManager : Singleton<AudioManager>
 
     private IEnumerator PlayMusicForTimeCoroutine(string clip, float time)
     {
-        IAudioSourceHandler ash = Instance.GetAvailableAudioSourceHandle();
+        AudioSourceHandle ash = Instance.GetAvailableAudioSourceHandle() as AudioSourceHandle;
         ash.SetClip(clip);
-        ash.SetVolume(7.0f);
+        ash.source.volume = 5.0f * globalVolume;
         ash.Play();
         float start = Time.time;
         float cur = start;
@@ -196,6 +196,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public static string Music_action = "Ariza Action";
     public static string Music_boss = "Ariza Boss";
+    public static string Music_stealth = "Ariza Stealth";
     public static string Music_chase = "Chase";
     public static string Music_motive = "Motive";
     public static string Music_motiveReprise = "Motive Reprise";
@@ -223,6 +224,7 @@ public class AudioManager : Singleton<AudioManager>
     public static string SFX_swishAndPop = "Short - Swish";
     public static string SFX_conveyor = "79573__razzvio__rolling-metal-conveyor-belt";
     public static string SFX_liftoff = "520557__aj-heels__wehaveliftoff";
+    public static string SFX_metalClank = "160045__jorickhoofd__metal-hit-with-metal-bar-resonance";
 
 
     ////////////////////////////////////////////////////AUDIO STRINGS END////////////////////////////////////////////////////////////////////////////////

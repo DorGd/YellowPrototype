@@ -9,15 +9,7 @@ public class Vent : Interactable
 
     public override Action[] CalcInteractions()
     {
-        if (!open && GameManager.Instance.inventory.IsInInventory(ItemType.Wrench))
-        {
-            Debug.Log("found wrench");
-
-            return new Action[] {Open};
-        }
-        
-        Debug.Log("No wrench");
-        return new Action[] {};
+        return new Action[] {Open};
     }
     
     /**
@@ -25,8 +17,18 @@ public class Vent : Interactable
      */
     public void Open()
     {
-        Debug.Log("Open");
-        open = true;
-        gameObject.SetActive(false);
+        if (!open && GameManager.Instance.inventory.IsInInventory(ItemType.Wrench))
+        {
+            Debug.Log("Open");
+            open = true;
+            gameObject.SetActive(false);
+            AudioManager.Instance.PlayOneShot(AudioManager.SFX_metalClank);
+        }
+        else
+        {
+            AudioManager.Instance.PlayOneShot(AudioManager.SFX_failedInteraction, 0.5f);
+            GameManager.Instance.SpeechManager.StartSpeech(transform.position, new string[] { "The vent is bolted shut" });
+        }
+
     }
 }

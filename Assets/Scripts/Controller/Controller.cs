@@ -32,6 +32,8 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         _playerControls.Enable();
+        _playerControls.Player.HighlightInteractables.started += delegate { GameManager.Instance.HighlightInteractables(true); };
+        _playerControls.Player.HighlightInteractables.canceled += delegate { GameManager.Instance.HighlightInteractables(false); };
     }
 
     private void OnDisable()
@@ -49,6 +51,10 @@ public class Controller : MonoBehaviour
     
     void Update()
     {
+        if(_playerControls.Player.Pause.triggered)
+        {
+            GameManager.Instance.PauseMenu();
+        }
         // Read Left Muse value
         bool goInput = _playerControls.Player.Go.triggered;
 

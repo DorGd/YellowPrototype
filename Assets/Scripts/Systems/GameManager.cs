@@ -1,5 +1,7 @@
-using UnityEngine;
 using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,7 +10,10 @@ public class GameManager : MonoBehaviour
     private Clock _clock;
     private SpeechManager _speechManager;
     private bool paused = false;
+    private bool _isHighlightInteractables = false;
     private TransitionManager _transitionManager;
+    private GameObject _pauseMenu;
+
     public MainInventory inventory
     {
         get { return _inventory; }
@@ -35,10 +40,23 @@ public class GameManager : MonoBehaviour
         get { return _speechManager; }
     }
 
+    public bool IsHighlightInteractables { get { return _isHighlightInteractables; }  }
+
     public void EndDayTransition(string text)
     {
         StopSkip();
         StartCoroutine(_transitionManager.EndDayTransition(text));
+    }
+
+    internal void EndLevel()
+    {
+        StartCoroutine(EndLevelCoroutine());
+    }
+
+    private IEnumerator EndLevelCoroutine()
+    {
+        yield return new WaitForSeconds(20f);
+        SceneManager.LoadScene("Fake Ending Scene");
     }
 
     public void StartDayTransition(string text)
@@ -75,6 +93,8 @@ public class GameManager : MonoBehaviour
         _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
         _playerAi = _playerTransform.GetComponent<Ai>();
         _transitionManager = GetComponent<TransitionManager>();
+        _pauseMenu = GameObject.Find("PauseMenuCanvas");
+        _pauseMenu.SetActive(false);
     }
 
     public void InvokeShock()
@@ -92,7 +112,7 @@ public class GameManager : MonoBehaviour
         if (paused)
             StopTime();
         else
-            Time.timeScale = 8f;
+            Time.timeScale = 4f;
     }
 
     public void StopSkip()
@@ -106,12 +126,55 @@ public class GameManager : MonoBehaviour
     public void StopTime()
     {
         paused = true;
+        Ai[] ais = GameObject.FindObjectsOfType<Ai>();
+        foreach (Ai ai in ais)
+        {
+            ai.PauseFootsteps();
+        }
         Time.timeScale = 0f;
     }
 
     public void ContinueTime()
     {
+        Ai[] ais = GameObject.FindObjectsOfType<Ai>();
+        foreach (Ai ai in ais)
+        {
+            ai.UnPauseFootsteps();
+        }
         Time.timeScale = 1f;
         paused = false;
+    }
+
+    public void HighlightInteractables(bool enabled)
+    {
+        _isHighlightInteractables = enabled;
+        foreach (Interactable interactable in GameObject.FindObjectsOfType<Interactable>())
+        {
+            if (interactable.MouseOver)
+                continue;
+            interactable.GetComponent<Outline>().enabled = enabled;
+        }
+    }
+
+    public void PauseMenu()
+    {
+        if (_pauseMenu.activeInHierarchy)
+        {
+            Resume();
+            return;
+        }
+        StopTime();
+        _pauseMenu.SetActive(true);
+    }
+
+    public void Resume()
+    {
+        _pauseMenu.SetActive(false);
+        ContinueTime();
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

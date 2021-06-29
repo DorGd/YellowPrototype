@@ -25,12 +25,11 @@ public class MainInventory : Inventory
     public override void AddItem(Interactable newItem, InventorySlot fromSlot = null)
     {
         Interactable previousHandItem = null;
-
-        onFirstTimeUse?.Invoke();
         
         // this is the main inventory and we want to add to the hand of the player. 
         if (newItem.isHandItem)
         {
+            onFirstTimeHandItemUse?.Invoke();
             if (HandItem != null)
             {
                 previousHandItem = GetItem(HandItem.GetItemType());
@@ -56,6 +55,8 @@ public class MainInventory : Inventory
             }
             return;
         }
+
+        onFirstTimeUse?.Invoke();
 
         for (int i = 0; i < InventoryItems.Length; i++)
         {

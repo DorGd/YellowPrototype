@@ -28,5 +28,6 @@ public class Spaceship : Interactable
         GameObject.Find("HangarBayDoors").GetComponent<Animator>().SetTrigger("Open");
         AudioManager.Instance.PlayOneShot(AudioManager.SFX_liftoff);
         GetComponent<Animator>()?.SetTrigger("Escape");
+        GameManager.Instance.EndLevel();
     }
 }

@@ -35,7 +35,7 @@ public class DoorController : Interactable
 
     private void OnTriggerExit(Collider other)
     {
-        if (!StayOpen)
+        if (!StayOpen && other.CompareTag("Player"))
         {
             CloseDoor();
         }
@@ -69,6 +69,7 @@ public class DoorController : Interactable
         }
         else
         {
+            GameManager.Instance.SpeechManager.StartSpeech(transform.position, new string[] { (keyType == ItemType.MasterKey? "Room key" : "Security badge") + " required" }, true);
             AudioManager.Instance.PlayOneShot(AudioManager.SFX_failedInteraction, 0.5f);
         }
     }
