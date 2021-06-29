@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,8 +27,20 @@ public class Spaceship : Interactable
             child.gameObject.SetActive(false);
         }
         GameObject.Find("HangarBayDoors").GetComponent<Animator>().SetTrigger("Open");
-        AudioManager.Instance.PlayOneShot(AudioManager.SFX_liftoff);
+        StartCoroutine(EscapeCoroutine());
+    }
+
+    private IEnumerator EscapeCoroutine()
+    {
         GetComponent<Animator>()?.SetTrigger("Escape");
+        yield return new WaitForSeconds(1f);
+        AudioManager.IAudioSourceHandler ash = AudioManager.Instance.GetAvailableAudioSourceHandle();
+        ash.SetClip(AudioManager.SFX_liftoff);
+        ash.Play();
+        yield return new WaitForSeconds(10f);
+        ash.Fade();
+        ash.ReleaseHandler();
+        yield return new WaitForSeconds(2.5f);
         GameManager.Instance.EndLevel();
     }
 }

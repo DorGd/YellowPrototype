@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainSceneMenu : MonoBehaviour
 {
     
-    public GameObject settingPanel;
-
-
+    public Slider volumeSlider;
+    
     public void OpenSettings()
     {
-        settingPanel.SetActive(true);
+        volumeSlider.value = AudioManager.Instance.GlobalVolume;
     }
-    
     public void CloseSettings()
     {
-        Time.timeScale = 1f;
-        settingPanel.SetActive(false);
+        GameManager.Instance.Resume();
     }
     
     public void Exit()
     {
-        Application.Quit ();
+        GameManager.Instance.Exit();
+    }
+
+    public void SetVolume()
+    {
+        AudioManager.Instance.SetGlobalVolume(volumeSlider.value);
     }
 }

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private bool paused = false;
     private bool _isHighlightInteractables = false;
     private TransitionManager _transitionManager;
-    private GameObject _pauseMenu;
+    private MainSceneMenu _pauseMenu;
 
     public MainInventory inventory
     {
@@ -50,13 +50,7 @@ public class GameManager : MonoBehaviour
 
     internal void EndLevel()
     {
-        StartCoroutine(EndLevelCoroutine());
-    }
-
-    private IEnumerator EndLevelCoroutine()
-    {
-        yield return new WaitForSeconds(20f);
-        SceneManager.LoadScene("Fake Ending Scene");
+        StartCoroutine(_transitionManager.EndGameTransition());
     }
 
     public void StartDayTransition(string text)
@@ -93,8 +87,8 @@ public class GameManager : MonoBehaviour
         _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
         _playerAi = _playerTransform.GetComponent<Ai>();
         _transitionManager = GetComponent<TransitionManager>();
-        _pauseMenu = GameObject.Find("PauseMenuCanvas");
-        _pauseMenu.SetActive(false);
+        _pauseMenu = GameObject.Find("PauseMenuCanvas").GetComponent<MainSceneMenu>();
+        _pauseMenu.gameObject.SetActive(false);
     }
 
     public void InvokeShock()
@@ -158,18 +152,19 @@ public class GameManager : MonoBehaviour
 
     public void PauseMenu()
     {
-        if (_pauseMenu.activeInHierarchy)
+        if (_pauseMenu.gameObject.activeInHierarchy)
         {
             Resume();
             return;
         }
+        _pauseMenu.OpenSettings();
+        _pauseMenu.gameObject.SetActive(true);
         StopTime();
-        _pauseMenu.SetActive(true);
     }
 
     public void Resume()
     {
-        _pauseMenu.SetActive(false);
+        _pauseMenu.gameObject.SetActive(false);
         ContinueTime();
     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AudioManager : Singleton<AudioManager>
 {
@@ -47,6 +48,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         public AudioSource source;
         private bool isPaused = false;
+        private float volume;
         public bool IsPaused
         {
             get
@@ -69,6 +71,7 @@ public class AudioManager : Singleton<AudioManager>
 
         public void Play(float startVolume = 1.0f, bool loop = false)
         {
+            volume = startVolume;
             source.volume = startVolume * Instance.globalVolume;
             source.loop = loop;
             source.Play();
@@ -143,6 +146,7 @@ public class AudioManager : Singleton<AudioManager>
 
         public void SetVolume(float volume)
         {
+            this.volume = volume;
             if (source.isPlaying || isPaused)
             {
                 source.volume = Mathf.Clamp(volume * Instance.globalVolume, 0.0f, 1.0f);
@@ -157,6 +161,11 @@ public class AudioManager : Singleton<AudioManager>
         public void AllocateHandle()
         {
             isAllocated = true;
+        }
+
+        public void UpdateVolume()
+        {
+            SetVolume(volume);
         }
     }
 
@@ -229,7 +238,7 @@ public class AudioManager : Singleton<AudioManager>
 
     ////////////////////////////////////////////////////AUDIO STRINGS END////////////////////////////////////////////////////////////////////////////////
 
-    public float globalVolume = 1.0f;
+    private float globalVolume = 1.0f;
     public static int numDay = 1;
 
     private bool isAudioPaused = false;
@@ -242,6 +251,8 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
+    public float GlobalVolume { get { return globalVolume; } }
+
     private AudioSourceHandle[] audioSourceHandlesPool;
 
     private AudioClip[] clips;
@@ -250,9 +261,29 @@ public class AudioManager : Singleton<AudioManager>
     // Start is called before the first frame update
     void Awake()
     {
+        AudioManager[] objs = GameObject.FindObjectsOfType<AudioManager>();
+
+        if (objs.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+        DontDestroyOnLoad(this);
+
         audioSourceHandlesPool = new AudioSourceHandle[MAX_SOURCES];
         clips = Resources.LoadAll<AudioClip>("Audio");
         oneShotSource = Camera.main.gameObject.GetComponent<AudioSource>();
+    }
+
+    public void SetGlobalVolume(float value)
+    {
+        globalVolume = value;
+        foreach(AudioSourceHandle ash in audioSourceHandlesPool)
+        {
+            if (ash != null)
+            {
+                ash.UpdateVolume();
+            }
+        }    
     }
 
     // Dummy call to initialize class
