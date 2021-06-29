@@ -34,12 +34,12 @@ public class Chest : HidingPlace
             if (GameManager.Instance.inventory.IsInInventory(ItemType.Wrench))
             {
                 if (open)
-                    return new Action[] {PickUp, Close, Exchange};
+                    return new Action[] {PickUp, Close, Browse};
                 return new Action[] { PickUp, Open };
             }
             
             if (open)
-                return new Action[] { PickUp, Exchange };
+                return new Action[] { PickUp, Browse };
         }
 
         // either player already carries a non-hidable item or the chest is closed
@@ -96,7 +96,7 @@ public class Chest : HidingPlace
     /**
      * Show the items in the inventory
      */
-    public override void Exchange()
+    public override void Browse()
     {
         Debug.Log("Show the items in the chest");
 

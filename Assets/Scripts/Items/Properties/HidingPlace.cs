@@ -18,6 +18,6 @@ public abstract class HidingPlace : Interactable
     public abstract void Hide();
     public abstract void Close();
     public abstract void Open();
-    public abstract void Exchange();
+    public abstract void Browse();
     
 }

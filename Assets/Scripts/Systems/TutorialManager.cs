@@ -5,7 +5,7 @@ public class TutorialManager : MonoBehaviour
 {
     private readonly string[] intro = {
         "Welcome to DAY ONE at Cosmos X",
-        "Left mouse click -> Walk\nRight mouse click -> Interact",
+        "Left mouse click -> Walk\nRight mouse click -> Interact\nSpace -> Highlight Interactable Items",
         "Got it?"
     };
     
@@ -16,13 +16,16 @@ public class TutorialManager : MonoBehaviour
     };
     
     private readonly string[] handItem = {
-        "Some items are carried by hand.",
-        "You can view your hand item at the top left corner.",
+        "Some items are carried by hand.\nYou can view your hand item at the top left corner.",
+        "You can only carry one item in your hands.",
+        "To drop it, simply Right Click anywhere and choose \"Drop\"",
+        "Be careful! Guards can see what item you're holding!"
     };
     
     private readonly string[] exchange = {
-        "Some items can hide other items in them.",
-        "hide an item from your inventory by clicking in it."
+        "Some items have their own inventory",
+        "Hide an item from your inventory or from your hand by clicking on it.",
+        "Bring an item back into your inventory by clicking on it"
     };
     
     
@@ -46,25 +49,25 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator IntroduceControls()
     {
         yield return new WaitForSeconds(7f);
-        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, intro);
+        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, intro, true);
     }
     
     private void IntroduceInventory()
     {
         GameManager.Instance.inventory.onFirstTimeUse -= IntroduceInventory;
-        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, inventory);
+        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, inventory, true);
 
     }
     
     private void IntroduceHandObject()
     {
         GameManager.Instance.inventory.onFirstTimeHandItemUse -= IntroduceHandObject;
-        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, handItem);
+        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, handItem, true);
     }
     
     private void IntroduceExchange()
     {
         GameManager.Instance.inventory.GetInventoryUI().onFirstExchange -= IntroduceExchange;
-        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, exchange);
+        GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, exchange, true);
     }
 }

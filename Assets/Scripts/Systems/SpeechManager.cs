@@ -10,6 +10,7 @@ public class SpeechManager : MonoBehaviour
     [Header("GUI")]
     public Canvas speechCanvas;
     public Image bubbleImage;
+    public Image infoSign;
     public TextMeshProUGUI speechTextBox;
     public Animator bubbleAnimator;
     
@@ -70,17 +71,18 @@ public class SpeechManager : MonoBehaviour
         bubbleImage.transform.position = new Vector3(xPos, yPos, 0);
     }
 
-    public void StartSpeech(Vector3 speakerLocation, string[] text)
+    public void StartSpeech(Vector3 speakerLocation, string[] text, bool info=false)
     {
         SpeechTextSO speech = ScriptableObject.CreateInstance<SpeechTextSO>();
         speech.sentences = text;
-        StartSpeech(speakerLocation, speech);
+        StartSpeech(speakerLocation, speech, info);
     }
     
-    public void StartSpeech(Vector3 speakerLocation, SpeechTextSO text)
+    public void StartSpeech(Vector3 speakerLocation, SpeechTextSO text, bool info = false)
     {
         if (isAvailable)
         {
+            infoSign.gameObject.SetActive(info);
             isAvailable = false;
             speechCanvas.gameObject.SetActive(true);
             speechSource = Camera.main.WorldToScreenPoint(speakerLocation);
@@ -128,6 +130,7 @@ public class SpeechManager : MonoBehaviour
     private IEnumerator typeText()
     {
         if (sentenceIndex < currentSentences.Length) {
+            buttonText.text = (sentenceIndex < currentSentences.Length) ? "Next" : "End";
             midSentence = true;
             foreach (char letter in currentSentences[sentenceIndex].ToCharArray())
             {

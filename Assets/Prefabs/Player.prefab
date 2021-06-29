@@ -107,8 +107,6 @@ GameObject:
   - component: {fileID: 5122551217940291242}
   - component: {fileID: 5122551217940291240}
   - component: {fileID: 5122551217940291247}
-  - component: {fileID: 5122551218496140041}
-  - component: {fileID: 5108508614207960121}
   - component: {fileID: 2923851436535363998}
   m_Layer: 0
   m_Name: Player
@@ -143,7 +141,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 7
+  m_Speed: 4
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 1200
@@ -199,38 +197,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightClickCanvas: {fileID: 0}
   goToCircleAnimator: {fileID: 0}
---- !u!114 &5122551218496140041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5122551217940291236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615d8a72a18f18f40a5fda86aa896f45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 0}
-  isHandItem: 0
---- !u!114 &5108508614207960121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5122551217940291236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!114 &2923851436535363998
 MonoBehaviour:
   m_ObjectHideFlags: 0

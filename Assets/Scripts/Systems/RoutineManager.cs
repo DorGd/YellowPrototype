@@ -10,7 +10,11 @@ public class RoutineManager : MonoBehaviour
     private Controller _controller;
     private bool _goodNight = false;
     private bool _goodMorning = false;
+    private bool _insideControlRoom = false;
     private GameObject _skipBtn = null;
+    private AudioManager.IAudioSourceHandler ash;
+    private ColliderBasedEvent _docksEntranceCollider;
+    private ColliderBasedEvent _docksExitCollider;
     //public string playerCurrRoom;
     void Start()
     {
@@ -23,6 +27,9 @@ public class RoutineManager : MonoBehaviour
         EnemyManager[] enemies = FindObjectsOfType<EnemyManager>();
         foreach(var enemy in enemies) _enemies.Add(enemy.name, enemy);
         foreach(var door in doors) _doors.Add(door.name, door);
+        _docksEntranceCollider = GameObject.Find("Docks Entrance Collider").GetComponent<ColliderBasedEvent>();
+        _docksExitCollider = GameObject.Find("Docks Exit Collider").GetComponent<ColliderBasedEvent>();
+        _docksExitCollider.gameObject.SetActive(false);
     }
 
     void UpdateRoutine()
@@ -40,7 +47,7 @@ public class RoutineManager : MonoBehaviour
 
         float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
         string[] names = {"Leaving Room Guard 1", "Worker (1)", "Worker (2)", "Worker (3)", "Leaving Room Guard 2"}; 
-        string[] doors = {"PlayerRoomDoor", "WorkersRoomDoor", "MiningFacilityDoor"};
+        string[] doors = {"PlayerRoomDoor", "WorkersRoomDoor", "MiningFacilityDoor", "ControlRoomDoor" };
         DoorController cellDoor = GetDoorsByName(doors)[0];
         DoorController cellDoor2 = GetDoorsByName(doors)[1];
         DoorController factoryDoor = GetDoorsByName(doors)[2];
@@ -110,6 +117,14 @@ public class RoutineManager : MonoBehaviour
         yield return null;
     }
 
+    public void InsideControlRoom()
+    {
+        _insideControlRoom = true;
+    }
+    public void OutsideControlRoom()
+    {
+        _insideControlRoom = false;
+    }
     public void WellcomeTheConvoy()
     {
         _skipBtn.SetActive(true);
@@ -131,17 +146,42 @@ public class RoutineManager : MonoBehaviour
             _goodNight = true;
             cellDoor.CloseDoor();
             cellDoor.StayClose = true;
-            AudioManager.Instance.PlayOneShot(AudioManager.Atmosphere_nightSky);
+            ash = AudioManager.Instance.GetAvailableAudioSourceHandle();
+            ash.SetClip(AudioManager.Atmosphere_nightSky);
+            ash.SetVolume(1.0f);
+            ash.Play();
         }
     }
 
-    public void FactoryClosed()
+    public void Salvation()
     {
+        if (ash != null)
+        {
+            ash.Fade();
+            ash.ReleaseHandler();
+            _docksExitCollider.gameObject.SetActive(true);
+        }
+    }
 
+    public void RefuseSalvation()
+    {
+        float time = GameManager.Instance.Clock.GetHour() + GameManager.Instance.Clock.GetMinutes();
+        if (time >= 20.5f)
+        {
+            GoodNight();
+            _docksEntranceCollider.gameObject.SetActive(true);
+        }
     }
 
     IEnumerator LaunchConvoy(Vector3 startPos, Vector3 endPos, Vector3 tailStartDirection , EnemyManager[] enemies )
     {
+        if (_insideControlRoom)
+        {
+            DoorController controlRoomDoor = GetDoorsByName(new string[] { "ControlRoomDoor" })[0];
+            controlRoomDoor.OpenDoor();
+            yield return new WaitForSeconds(2f);
+        }
+
         if (enemies.Length == 0) 
         {
             Debug.Log("Convoy aborted - has 0 enemies");
@@ -152,14 +192,6 @@ public class RoutineManager : MonoBehaviour
         Ai player = GameManager.Instance.PlayerAI;
         EnemyManager leadGuard = enemies[0];
         EnemyManager backGuard = enemies[enemies.Length - 1];
-
-        // Remove Player's Hand Item
-        Interactable item = GameManager.Instance.inventory.GetHandItem();
-        if (item != null)
-        {
-            GameManager.Instance.inventory.DeleteItem(item.GetItemType());
-            item.ResetPos();
-        }
 
         // Make player undetected by guards
         player.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
@@ -229,6 +261,16 @@ public class RoutineManager : MonoBehaviour
             }
         }
 
+        // Remove Player's Hand Item
+        Interactable item = GameManager.Instance.inventory.GetHandItem();
+        if (item != null)
+        {
+            GameManager.Instance.SpeechManager.StartSpeech(GameManager.Instance.PlayerTransform.position, new string[] { "You're not supposed to be carrying that, friend!" });
+            GameManager.Instance.inventory.DeleteItem(item.GetItemType());
+            item.ResetPos();
+            yield return new WaitForSeconds(1f);
+        }
+
         // convoy launching
         foreach (EnemyManager enemy in enemies)
         {
@@ -258,7 +300,7 @@ public class RoutineManager : MonoBehaviour
         }
 
         // Wait before restoring player's control
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         player.gameObject.layer = LayerMask.NameToLayer("Default");
         foreach (Transform child in player.transform)

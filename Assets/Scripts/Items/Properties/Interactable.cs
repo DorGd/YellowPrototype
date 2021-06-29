@@ -14,6 +14,9 @@ public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPoint
 
     protected int spriteIndex = 0;
     private Vector3 initialPos;
+    private bool mouseOver = false;
+
+    public bool MouseOver { get { return mouseOver; } }
 
     protected virtual void Start()
     {
@@ -49,12 +52,15 @@ public abstract class Interactable : MonoBehaviour, IPointerEnterHandler, IPoint
     }
     public void Enable()
     {
+        mouseOver = true;
         _outline.enabled = true;    
     }
     
     public void Disable()
     {
-        _outline.enabled = false;    
+        mouseOver = false;
+        if (!GameManager.Instance.IsHighlightInteractables)
+            _outline.enabled = false;
     }
 
     public Sprite GetSprite()

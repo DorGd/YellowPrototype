@@ -41,6 +41,7 @@ public class TransitionManager : MonoBehaviour
 
     public IEnumerator StartDayTransition(string text)
     {
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_newDayCello);
         _text.text = text;
         _bg.color += new Color(0f, 0f, 0f, 1f);
         _text.color += new Color(0f, 0f, 0f, 1f);

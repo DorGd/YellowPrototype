@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MasterKey : Interactable, IHideable
 {
+    private bool firstHold = false;
     public override Action[] CalcInteractions()
     {
         return new Action[] {PickUp};
@@ -17,7 +18,11 @@ public class MasterKey : Interactable, IHideable
         Debug.Log("Pickup");
         
         GameManager.Instance.inventory.AddItem(this);
-        AudioManager.Instance.PlayMusicForTime(AudioManager.Atmosphere_salvation, 10f);
+        if (!firstHold)
+        {
+            AudioManager.Instance.PlayMusicForTime(AudioManager.Music_stealth, 10f);
+            firstHold = true;
+        }
         gameObject.SetActive(false); // remove item from the scene        
     }
 }

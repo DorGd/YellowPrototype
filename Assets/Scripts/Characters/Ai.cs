@@ -12,7 +12,9 @@ public class Ai : MonoBehaviour
     private bool _patroling = false;
     private Controller _controller;
     private CharacterAnimationManager _animationManager;
+    private CustomAudioSource _customAudioSource;
     private Coroutine forceMoveCoroutine = null;
+    private bool forcePauseFootsteps = false;
 
     public bool Patroling
     {
@@ -61,6 +63,7 @@ public class Ai : MonoBehaviour
         _animationManager = GetComponentInChildren<CharacterAnimationManager>();
         _agent = GetComponent<NavMeshAgent>();
         _controller = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Controller>();
+        _customAudioSource = GetComponent<CustomAudioSource>();
     }
 
     private void Update()
@@ -69,11 +72,28 @@ public class Ai : MonoBehaviour
             return;
         if (IsNavigating())
         {
+            if (!forcePauseFootsteps) _customAudioSource?.Continue();
             _animationManager.PlayAnimation(AnimationType.Walk);
         }
         else
         {
+            _customAudioSource?.Pause();
             _animationManager.PlayAnimation(AnimationType.Idle);
+        }
+    }
+
+    public void PauseFootsteps()
+    {
+        forcePauseFootsteps = true;
+        _customAudioSource?.Pause();
+    }
+
+    public void UnPauseFootsteps()
+    {
+        forcePauseFootsteps = false;
+        if (IsNavigating())
+        {
+            _customAudioSource?.Continue();
         }
     }
 

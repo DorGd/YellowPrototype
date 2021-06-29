@@ -14,6 +14,7 @@ public class ShockSanction : SanctionSO
 
     public IEnumerator ShockRoutine(EnemyManager enemy)
     {
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_gotCaughtBass);
         AudioManager.IAudioSourceHandler ash = AudioManager.Instance.GetAvailableAudioSourceHandle();
         ash.SetClip(AudioManager.Music_chase);
         ash.SetLoop(true);
@@ -40,6 +41,7 @@ public class ShockSanction : SanctionSO
         GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Controller>().FreezeController();
         ash.Fade();
         ash.ReleaseHandler();
+        AudioManager.Instance.PlayOneShot(AudioManager.SFX_hitGasp);
         // Initiate transition and reset the scene
         GameManager.Instance.EndDayTransition("Oopsie, guess you must have fell out of bed and bumped your head! No worries, you were brought back to bed to rest");
     }

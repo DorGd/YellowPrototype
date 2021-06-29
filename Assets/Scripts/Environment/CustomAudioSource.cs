@@ -22,6 +22,8 @@ public class CustomAudioSource : MonoBehaviour
 
     private Transform player;
     private AudioManager.IAudioSourceHandler sourceHandler;
+    private bool paused;
+    public bool Paused { get; }
 
     void OnDrawGizmosSelected()
     {
@@ -44,6 +46,8 @@ public class CustomAudioSource : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (paused)
+            return;
         float distance = Vector3.Distance(player.position, transform.position);
         if (distance <= maxRadius)
         {
@@ -65,5 +69,23 @@ public class CustomAudioSource : MonoBehaviour
             sourceHandler.ReleaseHandler();
             sourceHandler = null;
         }
+    }
+
+    public void Pause()
+    {
+        if (sourceHandler != null && !paused)
+        {
+            sourceHandler.Pause();
+        }
+        paused = true;
+    }
+
+    public void Continue()
+    {
+        if (sourceHandler != null && paused)
+        {
+            sourceHandler.UnPause();
+        }
+        paused = false;
     }
 }
