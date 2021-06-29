@@ -15,6 +15,8 @@ public class InventoryUI : MonoBehaviour
     public GameObject closeButtonMain;
     public GameObject closeButtonHP;
     public GameObject stopExchange;
+    
+    public event Action onFirstExchange;
 
     /**
      * Add an item to the inventory slot
@@ -136,6 +138,7 @@ public class InventoryUI : MonoBehaviour
      */
     public void StartExchange()
     {
+        onFirstExchange?.Invoke();
         closeButtonMain.SetActive(false);
         closeButtonHP.SetActive(false);
         stopExchange.SetActive(true);
