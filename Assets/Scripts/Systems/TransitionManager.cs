@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -37,6 +38,21 @@ public class TransitionManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         AudioManager.numDay += 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public IEnumerator EndGameTransition()
+    {
+        _text.text = "";
+        float elapsedTime = 0f;
+        Color colorToAdd = new Color(0f, 0f, 0f, 0f);
+        while (elapsedTime < _blackOutDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            colorToAdd.a = Mathf.Lerp(0f, 1f, elapsedTime / _blackOutDuration) - _bg.color.a;
+            _bg.color += colorToAdd;
+            yield return null;
+        }
+        SceneManager.LoadScene("Fake Ending Scene");
     }
 
     public IEnumerator StartDayTransition(string text)

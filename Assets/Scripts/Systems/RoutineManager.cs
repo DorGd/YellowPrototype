@@ -30,6 +30,14 @@ public class RoutineManager : MonoBehaviour
         _docksEntranceCollider = GameObject.Find("Docks Entrance Collider").GetComponent<ColliderBasedEvent>();
         _docksExitCollider = GameObject.Find("Docks Exit Collider").GetComponent<ColliderBasedEvent>();
         _docksExitCollider.gameObject.SetActive(false);
+        if (AudioManager.numDay == 1)
+        {
+            GameManager.Instance.StartDayTransition("Day One");
+        }
+        else
+        {
+            GameManager.Instance.StartDayTransition($"Day One #{ AudioManager.numDay}");
+        }
     }
 
     void UpdateRoutine()
