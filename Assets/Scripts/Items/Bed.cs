@@ -22,6 +22,13 @@ public class Bed : Interactable
             GameManager.Instance.SpeechManager.StartSpeech(transform.position, cantSleepText);
             return;
         }
-        GameManager.Instance.EndDayTransition("");
+        if (AudioManager.numDay == 1)
+        {
+            GameManager.Instance.EndDayTransition($"End of Day One");
+        }
+        else
+        {
+            GameManager.Instance.EndDayTransition($"End of Day One #{AudioManager.numDay}");
+        }
     }
 }

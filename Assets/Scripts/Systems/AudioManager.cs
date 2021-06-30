@@ -210,6 +210,7 @@ public class AudioManager : Singleton<AudioManager>
     public static string Music_motive = "Motive";
     public static string Music_motiveReprise = "Motive Reprise";
     public static string Music_threeStages = "Three Stages";
+    public static string Music_liftoff = "Liftoff";
 
     public static string SFX_footstepsMetallic = "50723__rutgermuller__footsteps-metallic-muffled";
     public static string SFX_doorOpen = "431117__inspectorj__door-front-opening-a";
@@ -261,13 +262,14 @@ public class AudioManager : Singleton<AudioManager>
     // Start is called before the first frame update
     void Awake()
     {
-        AudioManager[] objs = GameObject.FindObjectsOfType<AudioManager>();
+        //AudioManager[] objs = GameObject.FindObjectsOfType<AudioManager>();
 
-        if (objs.Length > 1)
-        {
-            Destroy(this.gameObject);
-        }
-        DontDestroyOnLoad(this);
+        //if (objs.Length > 1)
+        //{
+        //    Destroy(this.gameObject);
+        //    return;
+        //}
+        //DontDestroyOnLoad(this);
 
         audioSourceHandlesPool = new AudioSourceHandle[MAX_SOURCES];
         clips = Resources.LoadAll<AudioClip>("Audio");

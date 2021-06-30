@@ -22,6 +22,18 @@ public class MainSceneMenu : MonoBehaviour
         GameManager.Instance.Exit();
     }
 
+    public void MainMenu()
+    {
+        CloseSettings();
+        GameManager.Instance.MainMenu();
+    }
+
+    public void RestartDay()
+    {
+        CloseSettings();
+        GameManager.Instance.RestartDay();
+    }
+
     public void SetVolume()
     {
         AudioManager.Instance.SetGlobalVolume(volumeSlider.value);

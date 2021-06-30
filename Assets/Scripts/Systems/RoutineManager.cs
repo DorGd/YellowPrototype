@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class RoutineManager : MonoBehaviour
 {
@@ -235,12 +236,14 @@ public class RoutineManager : MonoBehaviour
         // Send all guards and workers to position
         foreach (EnemyManager enemy in enemies)
         {
+            enemy.GetComponent<NavMeshAgent>().speed *= 1.3f;
             enemy.Ai.MoveToPoint(startPos + tailStartDirection.normalized * offset * i);
             i++;
         }
         backGuard.Ai.MoveToPoint(startPos + tailStartDirection.normalized * offset * i); // back guard makeing space for player
 
         // Send player to position
+        player.GetComponent<NavMeshAgent>().speed *= 1.3f;
         player.MoveToPoint(startPos + tailStartDirection.normalized * offset * (i - 1)); // player move to the end - 1 place in the convoy 
 
         // wait until everyone started walking
@@ -298,8 +301,10 @@ public class RoutineManager : MonoBehaviour
         // convoy stoping
         foreach (EnemyManager enemy in enemies)
         {
+            enemy.GetComponent<NavMeshAgent>().speed /= 1.3f;
             enemy.Ai.StopAgent();
         }
+        player.GetComponent<NavMeshAgent>().speed /= 1.3f;
         player.StopAgent();
         // Activate the regular routine at each agent
         foreach (EnemyManager enemy in enemies)

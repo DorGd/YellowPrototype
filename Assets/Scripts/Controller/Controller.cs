@@ -8,6 +8,7 @@ using System.Collections;
 public class Controller : MonoBehaviour
 {
     private PlayerControls _playerControls;
+    private PlayerControls _pauseMenuControls;
     private Camera _cam;
     private Ai _ai;
     private LayerMask _leftMouseMask;
@@ -22,6 +23,7 @@ public class Controller : MonoBehaviour
     private void Awake()
     {
         _playerControls = new PlayerControls();
+        _pauseMenuControls = new PlayerControls();
         _ai = GetComponent<Ai>();
         _cam = Camera.main;
         _leftMouseMask = LayerMask.GetMask("Ground", "Obstruction");
@@ -34,6 +36,7 @@ public class Controller : MonoBehaviour
         _playerControls.Enable();
         _playerControls.Player.HighlightInteractables.started += delegate { GameManager.Instance.HighlightInteractables(true); };
         _playerControls.Player.HighlightInteractables.canceled += delegate { GameManager.Instance.HighlightInteractables(false); };
+        _pauseMenuControls.Enable();
     }
 
     private void OnDisable()
@@ -51,7 +54,7 @@ public class Controller : MonoBehaviour
     
     void Update()
     {
-        if(_playerControls.Player.Pause.triggered)
+        if(_pauseMenuControls.Player.Pause.triggered)
         {
             GameManager.Instance.PauseMenu();
         }

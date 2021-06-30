@@ -33,14 +33,8 @@ public class Spaceship : Interactable
     private IEnumerator EscapeCoroutine()
     {
         GetComponent<Animator>()?.SetTrigger("Escape");
-        yield return new WaitForSeconds(1f);
-        AudioManager.IAudioSourceHandler ash = AudioManager.Instance.GetAvailableAudioSourceHandle();
-        ash.SetClip(AudioManager.SFX_liftoff);
-        ash.Play();
-        yield return new WaitForSeconds(10f);
-        ash.Fade();
-        ash.ReleaseHandler();
-        yield return new WaitForSeconds(2.5f);
+        AudioManager.Instance.PlayOneShot(AudioManager.Music_liftoff);
+        yield return new WaitForSeconds(25f);
         GameManager.Instance.EndLevel();
     }
 }
