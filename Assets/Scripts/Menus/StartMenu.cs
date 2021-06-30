@@ -10,9 +10,15 @@ using UnityEngine.UI;
 public class StartMenu : MonoBehaviour
 {
     public Image blackScreen;
+    public TMPro.TextMeshProUGUI startText;
     public Slider volumeSlider;
     private void Start()
     {
+        if (AudioManager.numDay > 1)
+        {
+            startText.text = "Continue";
+        }
+        volumeSlider.value = AudioManager.Instance.GlobalVolume;
         AudioManager.IAudioSourceHandler musicAS = AudioManager.Instance.GetAvailableAudioSourceHandle();
         musicAS.SetClip(AudioManager.Music_motive);
         musicAS.SetLoop(true);

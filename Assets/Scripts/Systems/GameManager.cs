@@ -19,6 +19,16 @@ public class GameManager : MonoBehaviour
         get { return _inventory; }
     }
 
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Start");
+    }
+
+    public void RestartDay()
+    {
+        SceneManager.LoadScene("Prototype");
+    }
+
     public  Clock Clock 
     { 
         get { return _clock; } 
