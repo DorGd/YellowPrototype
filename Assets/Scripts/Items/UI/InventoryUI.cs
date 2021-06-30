@@ -25,6 +25,7 @@ public class InventoryUI : MonoBehaviour
     {
         if (toHand)
         {
+            AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
             handItemSlot.AddItem(item);
             return;
         }
@@ -34,6 +35,7 @@ public class InventoryUI : MonoBehaviour
             // Can add this item to the inventory 
             if (slot.IsEmpty())
             {
+                AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
                 slot.AddItem(item);
                 break;
             }

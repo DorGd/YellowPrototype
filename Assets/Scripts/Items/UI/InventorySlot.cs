@@ -14,7 +14,6 @@ public class InventorySlot : MonoBehaviour
      */
     public void AddItem(Interactable newItem)
     {
-        AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
         if (!gameObject.activeInHierarchy)
         {
             GameObject inventoryBtn = GameObject.Find("Inventory Button ");

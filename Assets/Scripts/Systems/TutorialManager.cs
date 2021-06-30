@@ -5,7 +5,7 @@ public class TutorialManager : MonoBehaviour
 {
     private readonly string[] intro = {
         "Welcome to DAY ONE at Cosmos X",
-        "Left mouse click -> Walk\nRight mouse click -> Interact\nSpace -> Highlight Interactable Items",
+        "Left mouse click -> Walk\nRight mouse click -> Interact\nSpace -> Highlight Interactable Items\nEsc -> Pause",
         "Got it?"
     };
     

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     private MainInventory _inventory;
     private Clock _clock;
+    private Controller _controller;
     private SpeechManager _speechManager;
     private bool paused = false;
     private bool _isHighlightInteractables = false;
@@ -55,11 +56,15 @@ public class GameManager : MonoBehaviour
     public void EndDayTransition(string text)
     {
         StopSkip();
+        _controller.FreezePauseMenu();
+        _speechManager.Refuse();
         StartCoroutine(_transitionManager.EndDayTransition(text));
     }
 
     internal void EndLevel()
     {
+        _controller.FreezePauseMenu();
+        _speechManager.Refuse();
         StartCoroutine(_transitionManager.EndGameTransition());
     }
 
@@ -96,9 +101,11 @@ public class GameManager : MonoBehaviour
         _speechManager = GetComponent<SpeechManager>();
         _playerTransform = GameObject.FindGameObjectsWithTag("Player")[0].transform;
         _playerAi = _playerTransform.GetComponent<Ai>();
+        _controller = _playerTransform.GetComponent<Controller>();
         _transitionManager = GetComponent<TransitionManager>();
         _pauseMenu = GameObject.Find("PauseMenuCanvas").GetComponent<MainSceneMenu>();
         _pauseMenu.gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     public void InvokeShock()

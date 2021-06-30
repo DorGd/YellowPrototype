@@ -71,6 +71,11 @@ public class SpeechManager : MonoBehaviour
         bubbleImage.transform.position = new Vector3(xPos, yPos, 0);
     }
 
+    internal void Refuse()
+    {
+        isAvailable = false;
+    }
+
     public void StartSpeech(Vector3 speakerLocation, string[] text, bool info=false)
     {
         SpeechTextSO speech = ScriptableObject.CreateInstance<SpeechTextSO>();

@@ -15,6 +15,7 @@ public class FakeEndingManager : MonoBehaviour
     private void Start()
     {
         AudioManager.Instance.PlayOneShot(AudioManager.Music_motiveReprise);
+        AudioManager.numDay = 1;
         StartCoroutine(FadeAway());
         StartCoroutine(Scroll());
         StartCoroutine(FadeMainMenuButton());
@@ -25,7 +26,7 @@ public class FakeEndingManager : MonoBehaviour
         mainMenuButton.SetActive(false);
         float startTime = Time.time;
         float curTime = startTime;
-        yield return new WaitForSeconds(13f);
+        yield return new WaitForSeconds(14f);
         mainMenuButton.SetActive(true);
     }
 
@@ -36,7 +37,7 @@ public class FakeEndingManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         while (curTime - startTime < 15f)
         {
-            credits.anchoredPosition += (Time.deltaTime / 15f) * Vector2.up * 950f;
+            credits.anchoredPosition += (Time.deltaTime / 15f) * Vector2.up * 1280f;
             yield return new WaitForEndOfFrame();
             curTime += Time.deltaTime;
         }

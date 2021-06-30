@@ -17,9 +17,13 @@ public class Spaceship : Interactable
      */
     public void Escape()
     {
+        GameObject.Find("Skip Button").SetActive(false);
+        Time.timeScale = 1f;
         GameManager.Instance.PlayerAI.GetComponent<Controller>().FreezeController();
+        GameManager.Instance.PlayerAI.GetComponent<Controller>().FreezePauseMenu();
         GameManager.Instance.PlayerAI.GetComponent<NavMeshAgent>().enabled = false;
         GameManager.Instance.Clock.enabled = false;
+        GameManager.Instance.SpeechManager.Refuse();
         gameObject.layer = LayerMask.NameToLayer("Default");
         GameManager.Instance.PlayerAI.transform.parent = transform;
         foreach (Transform child in GameManager.Instance.PlayerAI.transform)
