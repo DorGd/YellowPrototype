@@ -190,7 +190,6 @@ public class Controller : MonoBehaviour
 
     public void Drop()
     {
-        AudioManager.Instance.PlayOneShot(AudioManager.SFX_interactionMenuPopup, 0.5f);
         Interactable handItem = GameManager.Instance.inventory.GetHandItem();
         GameManager.Instance.inventory.DeleteItem(handItem.GetItemType());
         handItem.transform.position = GameManager.Instance.PlayerTransform.position;
@@ -216,6 +215,11 @@ public class Controller : MonoBehaviour
         _playerControls.Disable();
         _ai.StopAgent();
         rightClickCanvas.enabled = false; 
+    }
+
+    public void FreezePauseMenu()
+    {
+        _pauseMenuControls.Disable();
     }
 
     public void UnFreezeController()

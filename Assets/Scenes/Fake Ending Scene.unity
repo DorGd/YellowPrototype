@@ -236,7 +236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -469.02228}
+  m_AnchoredPosition: {x: 0, y: -640}
   m_SizeDelta: {x: 422.2012, y: 203.4478}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &280409549
@@ -259,8 +259,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Day One was made by:\nDor Gidony\nKeren Schneider\nItai Valach\nYahel
-    Gamliel\nIdo Lazer\n\nMusic By\n Ben Lazer\n\nSpecial Thanks\nTomer Barkan\nMakeGamesJLM"
+  m_text: "Day One\n\nDesign:\nIdo Lazer\n\nProgramming:\nDor Gidony\nKeren Schneider\nItai
+    Valach\n\nArt:\nYahel Gamliel\n\nMusic:\n Ben Lazer\n\nSpecial Thanks:\nTomer
+    Barkan\nMakeGamesJLM\n\nThank You For Playing!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 289e3cb54da25bb42970072ea0e1defb, type: 2}
   m_sharedMaterial: {fileID: 4018427509602963434, guid: 289e3cb54da25bb42970072ea0e1defb, type: 2}

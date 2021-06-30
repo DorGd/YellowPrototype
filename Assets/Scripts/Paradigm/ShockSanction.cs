@@ -43,6 +43,6 @@ public class ShockSanction : SanctionSO
         ash.ReleaseHandler();
         AudioManager.Instance.PlayOneShot(AudioManager.SFX_hitGasp);
         // Initiate transition and reset the scene
-        GameManager.Instance.EndDayTransition("Oopsie, guess you must have fell out of bed and bumped your head! No worries, you were brought back to bed to rest");
+        GameManager.Instance.EndDayTransition("Oopsie, guess you fell and bumped your head!");
     }
 }
