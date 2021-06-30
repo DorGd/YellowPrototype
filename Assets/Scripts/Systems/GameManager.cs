@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
         if (paused)
             StopTime();
         else
-            Time.timeScale = 4f;
+            Time.timeScale = 5.5f;
     }
 
     public void StopSkip()

@@ -22,7 +22,7 @@ public class ShockSanction : SanctionSO
         enemy.PauseAgentRoutine();
          // Navigate to a go-to position if exist in the wraping ParadigmSO
         enemy.Ai.MoveToPoint(GameManager.Instance.PlayerTransform.position);
-        enemy.GetComponent<NavMeshAgent>().speed *= 1.2f;
+        enemy.GetComponent<NavMeshAgent>().speed *= (1.2f / 0.8f);
 
         float dist = Vector3.Distance(GameManager.Instance.PlayerTransform.position, enemy.transform.position);
         while (dist > 2f)

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -213,6 +214,8 @@ public class EnemyManager : MonoBehaviour
         if (_field == null)
             return;
         _field.HighAlertField();
+        _field.viewDistance *= 0.8f;
+        GetComponent<NavMeshAgent>().speed *= 0.8f;
     }
 
     public void CancelAlert()
@@ -220,5 +223,7 @@ public class EnemyManager : MonoBehaviour
         if (_field == null)
             return;
         _field.LowAlertField();
+        _field.viewDistance /= 0.8f;
+        GetComponent<NavMeshAgent>().speed /= 0.8f;
     }
 }
